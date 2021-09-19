@@ -1,6 +1,6 @@
-title: enqueue-dev
+title: Enqueue中文文档
 description: A Jekyll theme for documentation
-baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: "/enqueue-docs-cn" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
 permalink: pretty
