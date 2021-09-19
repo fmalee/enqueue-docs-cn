@@ -5,20 +5,20 @@ nav_order: 92
 ---
 {% include support.md %}
 
-## DSN Parser.
+## DSN 解析器
 
-The [enqueue/dsn](https://github.com/php-enqueue/dsn) tool helps to parse DSN\URI string.
-The tool is used by Enqueue transports to parse DSNs.
+[Enqueue/dsn](https://github.com/php-enqueue/dsn) 工具有助于解析 DSN\URI 字符串。
+Enqueue 传输就是使用该工具来解析 DSN的。
 
-## Installation
+## 安装
 
 ```bash
-composer req enqueue/dsn 0.9.x
+$ composer req enqueue/dsn 0.9.x
 ```
 
-### Examples
+### 示例
 
-Basic usage:
+基础示例：
 
 ```php
 <?php
@@ -41,7 +41,7 @@ $dsn->getString('connection_timeout'); // '123'
 $dsn->getDecimal('connection_timeout'); // 123
 ```
 
-Parse Cluster DSN:
+Parse Cluster DSN：
 
 ```php
 <?php
@@ -63,7 +63,7 @@ $dsns[1]->getHost(); // 'bar'
 $dsns[1]->getPort(); // 5678
 ```
 
-Some parts could be omitted:
+有些部分可以省略：
 
 ```php
 <?php
@@ -83,7 +83,7 @@ $dsn->getString('key'); // 'aKey'
 $dsn->getString('secret'); // 'aSecret'
 ```
 
-Get typed query params:
+获取输入的查询参数：
 
 ```php
 <?php
@@ -100,16 +100,16 @@ $dsn->getArray('array')->getDecimal(1); // 123
 $dsn->getArray('array')->toArray(); // [val]
 ```
 
-Throws exception if DSN not valid:
+如果 DSN 无效，则抛出异常：
 
 ```php
 <?php
 use Enqueue\Dsn\Dsn;
 
-$dsn = Dsn::parseFirst('foo'); // throws exception here
+$dsn = Dsn::parseFirst('foo'); // 在这里抛出异常
 ```
 
-Throws exception if cannot cast query parameter:
+如果无法转换查询参数，则抛出异常：
 
 ```php
 <?php
@@ -117,7 +117,7 @@ use Enqueue\Dsn\Dsn;
 
 $dsn = Dsn::parseFirst('mysql:?connection_timeout=notInt');
 
-$dsn->getDecimal('connection_timeout'); // throws exception here
+$dsn->getDecimal('connection_timeout'); // 在这里抛出异常
 ```
 
-[back to index](index.md)
+[返回目录](index.md)

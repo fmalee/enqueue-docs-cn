@@ -6,11 +6,11 @@ nav_order: 2
 ---
 {% include support.md %}
 
-## Job queue. Run sub job
+## 运行子作业
 
-It shows how you can create and run a sub job, which it is executed separately.
-You can create as many sub jobs as you like.
-They will be executed in parallel.
+这里展示了如何创建和运行单独执行的子作业。
+您可以根据需要创建任意数量的子作业。
+它们将并行执行。
 
 ```php
 <?php
@@ -36,7 +36,7 @@ class RootJobProcessor implements Processor
             $runner->createDelayed('aSubJobName1', function (JobRunner $runner, Job $childJob) {
                 $this->producer->sendEvent('aJobTopic', [
                     'jobId' => $childJob->getId(),
-                    // other data required by sub job
+                    // 子作业要求的其他数据
                 ]);
             });
 
@@ -57,7 +57,7 @@ class SubJobProcessor implements Processor
         $data = JSON::decode($message->getBody());
 
         $result = $this->jobRunner->runDelayed($data['jobId'], function () use ($data) {
-            // do your job
+            // 处理你的作业
 
             return true;
         });
@@ -67,4 +67,4 @@ class SubJobProcessor implements Processor
 }
 ```
 
-[back to index](../index.md)
+[返回目录](../index.md)

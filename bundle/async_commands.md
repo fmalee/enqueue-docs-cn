@@ -6,15 +6,15 @@ nav_order: 7
 ---
 {% include support.md %}
 
-# Async commands
+# 异步命令
 
-## Installation
+## 安装
 
 ```bash
 $ composer require enqueue/async-command:0.9.x-dev
 ```
 
-## Configuration
+## 配置
 
 ```yaml
 # config/packages/enqueue_async_commands.yaml
@@ -28,7 +28,7 @@ enqueue:
             queue_name: ~
 ```
 
-## Usage
+## 用例
 
 ```php
 <?php
@@ -47,7 +47,7 @@ $cmd = new RunCommand('debug:container', ['--tag=form.type']);
 $producer->sendCommand(Commands::RUN_COMMAND, $cmd);
 ```
 
-optionally you can get a command execution result:
+您也可以选择获得命令执行的结果：
 
 ```php
 <?php
@@ -65,7 +65,7 @@ $producer = $container->get(ProducerInterface::class);
 
 $promise = $producer->sendCommand(Commands::RUN_COMMAND, new RunCommand('debug:container'), true);
 
-// do other stuff.
+// 做其他事情。
 
 if ($replyMessage = $promise->receive(5000)) {
     $result = CommandResult::jsonUnserialize($replyMessage->getBody());
@@ -74,4 +74,4 @@ if ($replyMessage = $promise->receive(5000)) {
 }
 ```
 
-[back to index](index.md)
+[返回目录](index.md)

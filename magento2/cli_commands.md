@@ -6,11 +6,11 @@ nav_order: 2
 ---
 {% include support.md %}
 
-# Magento2. Cli commands
+# Cli命令
 
-The enqueue Magento extension provides several commands.
-The most useful one `enqueue:consume` connects to the broker and process the messages.
-Other commands could be useful during debugging (like `enqueue:topics`) or deployment (like `enqueue:setup-broker`).
+本enqueue Magento 扩展提供了几个命令。
+最有用的一个是连接到代理并处理消息的 `enqueue:consume`。
+其他命令在调试（如 `enqueue:topics`）或部署（如 `enqueue:setup-broker`）期间可能很有用。
 
 * [enqueue:consume](#enqueueconsume)
 * [enqueue:produce](#enqueueproduce)
@@ -149,5 +149,5 @@ Help:
   A command shows all available topics and some information about them.
 ```
 
-[back to index](../index.md#magento2)
+[返回目录](../index.md#magento2)
 

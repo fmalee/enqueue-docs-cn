@@ -6,9 +6,9 @@ nav_order: 3
 ---
 {% include support.md %}
 
-# Client Supported brokers
+# 客户端支持的代理
 
-Here's the list of transports supported by Enqueue Client:
+以下是 Enqueue Client 支持的传输列表：
 
 | Transport             | Package                                                    |  DSN                            |
 |:---------------------:|:----------------------------------------------------------:|:-------------------------------:|
@@ -28,26 +28,26 @@ Here's the list of transports supported by Enqueue Client:
 | STOMP, RabbitMQ       | [enqueue/stomp](../transport/stomp.md)                     | stomp:                          |
 | WAMP                  | [enqueue/wamp](../transport/wamp.md)                       | wamp:                           |
 
-## Transport Features
+## 传输特性
 
-| Protocol       | Priority | Delay    | Expiration | Setup broker | Message bus | Heartbeat |
-|:--------------:|:--------:|:--------:|:----------:|:------------:|:-----------:|:---------:|
-| AMQP           |   No     |    No    |    Yes     |     Yes      |     Yes     |    No     |
-| RabbitMQ AMQP  |   Yes    |    Yes   |    Yes     |     Yes      |     Yes     |    Yes    |
-| Doctrine DBAL  |   Yes    |    Yes   |    No      |     Yes      |     No      |    No     |
-| Filesystem     |   No     |    No    |    Yes     |     Yes      |     No      |    No     |
-| Gearman        |   No     |    No    |    No      |     No       |     No      |    No     |
-| Google PubSub  | Not impl | Not impl |  Not impl  |     Yes      |   Not impl  |    No     |
-| Kafka          |   No     |    No    |    No      |     Yes      |     No      |    No     |
-| MongoDB        |   Yes    |    Yes   |    Yes     |     Yes      |     No      |    No     |
-| Pheanstalk     |   Yes    |    Yes   |    Yes     |     No       |     No      |    No     |
-| Redis          |   No     |    Yes   |    Yes     |  Not needed  |     No      |    No     |
-| Amazon SQS     |   No     |    Yes   |    No      |     Yes      |   Not impl  |    No     |
-| STOMP          |   No     |    No    |    Yes     |     No       |     Yes**   |    No     |
-| RabbitMQ STOMP |   Yes    |    Yes   |    Yes     |     Yes***   |     Yes**   |    Yes    |
-| WAMP           |   No     |    No    |    No      |     No       |     No      |    No     |
+|      协议      |   权重   |   延迟   |   限期   |  设置代理  | 消息总线 | Heartbeat |
+| :------------: | :------: | :------: | :------: | :--------: | :------: | :-------: |
+|      AMQP      |    No    |    No    |   Yes    |    Yes     |   Yes    |    No     |
+| RabbitMQ AMQP  |   Yes    |   Yes    |   Yes    |    Yes     |   Yes    |    Yes    |
+| Doctrine DBAL  |   Yes    |   Yes    |    No    |    Yes     |    No    |    No     |
+|   Filesystem   |    No    |    No    |   Yes    |    Yes     |    No    |    No     |
+|    Gearman     |    No    |    No    |    No    |     No     |    No    |    No     |
+| Google PubSub  | Not impl | Not impl | Not impl |    Yes     | Not impl |    No     |
+|     Kafka      |    No    |    No    |    No    |    Yes     |    No    |    No     |
+|    MongoDB     |   Yes    |   Yes    |   Yes    |    Yes     |    No    |    No     |
+|   Pheanstalk   |   Yes    |   Yes    |   Yes    |     No     |    No    |    No     |
+|     Redis      |    No    |   Yes    |   Yes    | Not needed |    No    |    No     |
+|   Amazon SQS   |    No    |   Yes    |    No    |    Yes     | Not impl |    No     |
+|     STOMP      |    No    |    No    |   Yes    |     No     |  Yes**   |    No     |
+| RabbitMQ STOMP |   Yes    |   Yes    |   Yes    |   Yes***   |  Yes**   |    Yes    |
+|      WAMP      |    No    |    No    |    No    |     No     |    No    |    No     |
 
-* \*\* Possible if topics (exchanges) are configured on broker side manually.
-* \*\*\* Possible if RabbitMQ Management Plugin is installed.
+* \*\* 如果在代理端手动配置了主题（交换），则可能。
+* \*\*\* 如果安装了 RabbitMQ 管理插件，则可行。
 
-[back to index](../index.md)
+[返回目录](../index.md)

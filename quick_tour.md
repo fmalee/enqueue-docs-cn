@@ -5,27 +5,26 @@ nav_order: 2
 ---
 {% include support.md %}
 
-# Quick tour
+# 快速指南
 
-* [Transport](#transport)
-* [Consumption](#consumption)
+* [传输](#传输)
+* [消费](#消费)
 * [Remote Procedure Call (RPC)](#remote-procedure-call-rpc)
-* [Client](#client)
-* [Cli commands](#cli-commands)
-* [Monitoring](#monitoring)
+* [客户端](#客户端)
+* [Cli命令](#Cli命令)
+* [监控](#监控)
 * [Symfony bundle](#symfony)
 
-## Transport
+## 传输
 
-The transport layer or PSR (Enqueue message service) is a Message Oriented Middleware for sending messages between two or more clients.
-It is a messaging component that allows applications to create, send, receive, and read messages.
-It allows the communication between different components of a distributed application to be loosely coupled, reliable, and asynchronous.
+传输层或 PSR（Enqueue消息服务）是一个面向消息的中间件，用于在两个或多个客户端之间发送消息。
+它是一个消息组件，允许应用创建、发送、接收和读取消息。它允许分布式应用的不同组件之间的通信松散耦合、可靠和异步。
 
-PSR is inspired by JMS (Java Message Service). We tried to stay as close as possible to the [JSR 914](https://docs.oracle.com/javaee/7/api/javax/jms/package-summary.html) specification.
-For now it supports [AMQP](https://www.rabbitmq.com/tutorials/amqp-concepts.html) and [STOMP](https://stomp.github.io/) message queue protocols.
-You can connect to many modern brokers such as [RabbitMQ](https://www.rabbitmq.com/), [ActiveMQ](http://activemq.apache.org/) and others.
+PSR 的灵感来自 JMS（Java消息服务）。我们试图尽可能接近 [JSR 914](https://docs.oracle.com/javaee/7/api/javax/jms/package-summary.html) 规范。
+目前它支持 [AMQP](https://www.rabbitmq.com/tutorials/amqp-concepts.html) 和 [STOMP](https://stomp.github.io/) 消息队列协议。
+您可以连接到许多现代代理，例如 [RabbitMQ](https://www.rabbitmq.com/)、[ActiveMQ](http://activemq.apache.org/) 等。
 
-Produce a message:
+生产消息：
 
 ```php
 <?php
@@ -42,7 +41,7 @@ $message = $context->createMessage('Hello world!');
 $context->createProducer()->send($destination, $message);
 ```
 
-Consume a message:
+消费消息:
 
 ```php
 <?php
@@ -58,18 +57,18 @@ $consumer = $context->createConsumer($destination);
 
 $message = $consumer->receive();
 
-// process a message
+// 处理消息
 
 $consumer->acknowledge($message);
 // $consumer->reject($message);
 ```
 
-## Consumption
+## 消费
 
-Consumption is a layer built on top of a transport functionality.
-The goal of the component is to simply consume messages.
-The `QueueConsumer` is main piece of the component it allows binding of message processors (or callbacks) to queues.
-The `consume` method starts the consumption process which last as long as it is not interrupted.
+消费是建立在传输功能之上的层。
+该组件的目标是简单地消费消息。
+`QueueConsumer` 是组件的主要部分，它允许将消息处理器（或回调）绑定到队列。
+`consume` 方法则开启一个只要不被中断就持续消费的进程。
 
 ```php
 <?php
@@ -83,12 +82,12 @@ use Enqueue\Consumption\QueueConsumer;
 $queueConsumer = new QueueConsumer($context);
 
 $queueConsumer->bindCallback('foo_queue', function(Message $message) {
-    // process message
+    // 处理消息
 
     return Processor::ACK;
 });
 $queueConsumer->bindCallback('bar_queue', function(Message $message) {
-    // process message
+    // 处理消息
 
     return Processor::ACK;
 });
@@ -96,10 +95,10 @@ $queueConsumer->bindCallback('bar_queue', function(Message $message) {
 $queueConsumer->consume();
 ```
 
-There are bunch of [extensions](consumption/extensions.md) available.
-This is an example of how you can add them.
-The `SignalExtension` provides support of process signals, whenever you send SIGTERM for example it will correctly managed.
-The `LimitConsumptionTimeExtension` interrupts the consumption after given time.
+有很多[扩展](consumption/extensions.md)可用。
+这里是如何添加它们的示例。
+`SignalExtension`提供进程信号的支持，例如，无论何时发送 SIGTERM，它都将得到正确管理。
+`LimitConsumptionTimeExtension` 将在给定时间后中断消费。
 
 ```php
 <?php
@@ -118,8 +117,8 @@ $queueConsumer = new QueueConsumer($context, new ChainExtension([
 
 ## Remote Procedure Call (RPC)
 
-There is RPC component that allows you send RPC requests over MQ easily.
-You can do several calls asynchronously. This is how you can send a RPC message and wait for a reply message.
+这里有一个 RPC 组件可以让您轻松地通过 MQ 发送 RPC 请求。
+这是您发送 RPC 消息并等待回复消息的方法。
 
 ```php
 <?php
@@ -136,8 +135,8 @@ $promise = $rpcClient->callAsync($queue, $message, 1);
 $replyMessage = $promise->receive();
 ```
 
-There is also extensions for the consumption component.
-It simplifies a server side of RPC.
+消费组件也有扩展。
+它简化了 RPC 的服务器端。
 
 ```php
 <?php
@@ -163,16 +162,16 @@ $queueConsumer->bindCallback('foo', function(Message $message, Context $context)
 $queueConsumer->consume();
 ```
 
-## Client
+## 客户端
 
-It provides an easy to use high level abstraction.
-The goal of the component is to hide as much as possible low level details so you can concentrate on things that really matter.
-For example, it configures a broker for you by creating queues, exchanges and bind them.
-It provides easy to use services for producing and processing messages.
-It supports unified format for setting message expiration, delay, timestamp, correlation id.
-It supports [message bus](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessageBus.html) so different applications can talk to each other.
+它提供了一个易于使用的高级抽象。
+该组件的目标是隐藏尽可能多的底层细节，以便您可以专注于真正重要的事情。
+例如，它通过创建队列、交换和绑定来为您配置代理。
+它提供易于使用的服务来生成和处理消息。
+它支持使用统一格式来设置消息过期、延迟、时间戳、关联id。
+它支持[消息总线](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessageBus.html)，因此不同的应用可以相互通信。
 
-Here's an example of how you can send and consume **event messages**.
+下面是如何发送和使用**事件消息**的示例：
 
 ```php
 <?php
@@ -187,18 +186,18 @@ $client = new SimpleClient('file://foo/bar');
 $client->bindTopic('a_foo_topic', function(Message $message) {
     echo $message->getBody().PHP_EOL;
 
-    // your event processor logic here
+    // 您的事件处理器逻辑
 });
 
 $client->setupBroker();
 
 $client->sendEvent('a_foo_topic', 'message');
 
-// this is a blocking call, it'll consume message until it is interrupted
+// 这是一个阻塞调用，它将消费消息直到消息被中断
 $client->consume();
 ```
 
-and **command messages**:
+以及**命令消息**：
 
 ```php
 <?php
@@ -216,40 +215,40 @@ $client = new SimpleClient('amqp:');
 //$client = new SimpleClient('file://foo/bar');
 
 $client->bindCommand('bar_command', function(Message $message) {
-    // your bar command processor logic here
+    // 您的命令处理器逻辑
 });
 
 $client->bindCommand('baz_reply_command', function(Message $message, Context $context) {
-    // your baz reply command processor logic here
+    // 您的baz回复命令处理器逻辑
 
     return Result::reply($context->createMessage('theReplyBody'));
 });
 
 $client->setupBroker();
 
-// It is sent to one consumer.
+// 它被发送给一个消费者
 $client->sendCommand('bar_command', 'aMessageData');
 
-// It is possible to get reply
+// 有可能得到答复
 $promise = $client->sendCommand('bar_command', 'aMessageData', true);
 
-// you can send several commands and only after start getting replies.
+// 只有在开始收到回复后，才能发送多个命令。
 
-$replyMessage = $promise->receive(2000); // 2 sec
+$replyMessage = $promise->receive(2000); // 2秒
 
-// this is a blocking call, it'll consume message until it is interrupted
+// 这是一个阻塞调用，它将消费消息直到消息被中断
 $client->consume([new ReplyExtension()]);
 ```
 
-Read more about events and commands [here](client/quick_tour.md#produce-message).
+[在此处](client/quick_tour.md#produce-message)阅读有关事件和命令的更多信息。
 
-## Cli commands
+## Cli命令
 
-The library provides handy commands out of the box.
-They all build on top of [Symfony Console component](http://symfony.com/doc/current/components/console.html).
-The most useful is a consume command. There are two of them one from consumption component and the other from client one.
+该库提供了开箱即用的方便的命令。
+它建立在 [Symfony Console 组件](http://symfony.com/doc/current/components/console.html)之上。
+最有用的是一个消费命令。其中有两种，一种来自消费组件，另一种来自客户端。
 
-Let's see how you can use consumption one:
+让我们看看如何使用消费一：
 
 ```php
 #!/usr/bin/env php
@@ -264,7 +263,7 @@ use Enqueue\Symfony\Consumption\SimpleConsumeCommand;
 /** @var QueueConsumer $queueConsumer */
 
 $queueConsumer->bindCallback('a_queue', function(Message $message) {
-    // process message
+    // 处理消息
 });
 
 $consumeCommand = new SimpleConsumeCommand($queueConsumer);
@@ -275,18 +274,18 @@ $app->add($consumeCommand);
 $app->run();
 ```
 
-and starts the consumption from the console:
+并从控制台开始消费：
 
 ```bash
 $ app.php consume
 ```
 
-## Monitoring
+## 监控
 
-There is a tool that can track sent\consumed messages as well as consumer performance. Read more [here](monitoring.md)
+有一个工具可以跟踪已发送/已消费的消息以及消费器性能。[在这里](monitoring.md)阅读更多。
 
-[back to index](index.md)
+[返回目录](index.md)
 
 ## Symfony
 
-Read more [here](bundle/quick_tour.md) about using Enqueue as a Symfony Bundle.
+[在此处](bundle/quick_tour.md)阅读有关使用 Enqueue 作为 Symfony Bundle 的更多信息。

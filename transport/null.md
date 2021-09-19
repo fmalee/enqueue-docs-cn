@@ -6,22 +6,22 @@ nav_order: 3
 ---
 {% include support.md %}
 
-# NULL transport
+# NULL 传输
 
-This a special transport implementation, kind of stub.
-It does not send nor receive anything.
-Useful in tests for example.
+这是一种特殊的传输实现，一种存根。
+它不发送也不接收任何东西。
+例如在测试中就很有用。
 
-* [Installation](#installation)
-* [Create context](#create-context)
+* [安装](#安装)
+* [创建上下文](#创建上下文)
 
-## Installation
+## 安装
 
 ```bash
 $ composer require enqueue/null
 ```
 
-## Create context
+## 创建上下文
 
 ```php
 <?php
@@ -32,4 +32,4 @@ $connectionFactory = new NullConnectionFactory();
 $context = $connectionFactory->createContext();
 ```
 
-[back to index](../index.md)
+[返回目录](../index.md)

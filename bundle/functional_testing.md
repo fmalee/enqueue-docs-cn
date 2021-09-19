@@ -6,21 +6,21 @@ nav_order: 12
 ---
 {% include support.md %}
 
-# Functional testing
+# 功能测试
 
-In this chapter we give some advices on how to test message queue related logic.
+本章我们就如何测试消息队列相关的逻辑给出一些建议。
 
-* [NULL transport](#null-transport)
-* [Traceable message producer](#traceable-message-producer)
+* [NULL传输](#NULL传输)
+* [可追溯的消息生产者](#可追溯的消息生产者)
 
-## NULL transport
+## NULL传输
 
-While testing the application you don't usually need to send real message to real broker.
-Or even have a dependency on a MQ broker.
-Here's the purpose of the NULL transport.
-It simple do nothing when you ask it to send a message.
-Pretty useful in tests.
-Here's how you can configure it.
+在测试应用时，您通常不需要向真正的代理发送真实的消息。
+或者甚至依赖于 MQ 代理。
+这正是 NULL 传输的目的。
+当您要求它发送消息时，它很简单的什么都不做。
+这在测试中非常有用。
+这是您可以配置它的方法。
 
 ```yaml
 # app/config/config_test.yml
@@ -31,10 +31,10 @@ enqueue:
         client: ~
 ```
 
-## Traceable message producer
+## 可追溯的消息生产者
 
-Imagine you have a service `my_service` with a method `someMethod()` that internally sends a message and you have to find out was the message sent or not.
-There is a solution for that. You have to enable traceable message producer in test environment.
+想象一下，您有一个具有在内部发送消息的 `someMethod()` 方法的 `my_service` 服务，然后您必须确认消息是否已发送。
+有一个解决方案。您必须在测试环境中启用可追溯的消息生产者。
 
 ```yaml
 # app/config/config_test.yml
@@ -45,7 +45,7 @@ enqueue:
             traceable_producer: true
 ```
 
-If you did so, you can use its methods `getTraces`, `getTopicTraces` or `clearTraces`. Here's an example:
+如果你这样做了，你可以使用它的 `getTraces`、`getTopicTraces` 或者 `clearTraces` 方法。下面是一个例子：
 
 ```php
 <?php
@@ -64,10 +64,10 @@ class FooTest extends WebTestCase
 
     public function testMessageSentToFooTopic()
     {
-        // Use your own business logic here:
+        // 在此处使用您自己的业务逻辑：
         $service = $this->client->getContainer()->get('my_service');
 
-        // someMethod() is part of your business logic and is calling somewhere $producer->send('fooTopic', 'messageBody');
+        // someMethod() 是您业务逻辑的一部分，并且它正在某处调用 $producer->send('fooTopic', 'messageBody');
         $service->someMethod();
 
         $traces = $this->getProducer()->getTopicTraces('fooTopic');
@@ -86,4 +86,4 @@ class FooTest extends WebTestCase
 }
 ```
 
-[back to index](index.md)
+[返回目录](index.md)

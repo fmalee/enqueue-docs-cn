@@ -6,10 +6,10 @@ nav_order: 6
 ---
 {% include support.md %}
 
-# Client extensions.
+# 客户端扩展
 
-There is an ability to hook into sending process. You have to create an extension class that implements `Enqueue\Client\ExtensionInterface` interface.
-For example, `TimestampMessageExtension` extension adds timestamps every message before sending it to MQ.
+您可以添加钩子到发送进程中。您必须创建一个实现 `Enqueue\Client\ExtensionInterface` 接口的扩展类。
+例如，`TimestampMessageExtension` 扩展在将每条消息发送到 MQ 之前为其添加时间戳。
 
 ```php
 <?php
@@ -36,7 +36,7 @@ class TimestampMessageExtension implements ExtensionInterface
 
 ## Symfony
 
-To use the extension in Symfony, you have to register it as a container service with a special tag.
+Symfony 中使用该扩展，您必须将其注册为具有特殊标签的容器服务。
 
 ```yaml
 # config/services.yaml
@@ -48,6 +48,6 @@ services:
       - { name: 'enqueue.client.extension' }
 ```
 
-You can add `priority` attribute with a number. The higher value you set the earlier the extension is called.
+您可以使用数字来添加 `priority` 属性。设置的值越高，调用扩展的时间就越早。
 
-[back to index](../index.md)
+[返回目录](../index.md)

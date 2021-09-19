@@ -4,25 +4,25 @@ nav_exclude: true
 ---
 {% include support.md %}
 
-# Async event dispatcher (Symfony)
+# 异步事件调度器 (Symfony)
 
-The doc shows how you can setup async event dispatching in plain PHP.
-If you are looking for the ways to use it in Symfony application [read this post instead](../bundle/async_events.md)
+该文档展示了如何在原生 PHP 中设置异步事件调度。
+如果您正在寻找在 Symfony 应用中使用它的方法，[请阅读这篇文章](./bundle/async_events.md)
 
-* [Installation](#installation)
-* [Configuration](#configuration)
-* [Dispatch event](#dispatch-event)
-* [Process async events](#process-async-events)
+* [安装](#安装)
+* [配置](#配置)
+* [调度事件](#调度事件)
+* [处理异步事件](#处理异步事件)
 
-## Installation
+## 安装
 
-You need the async dispatcher library and a one of [the supported transports](../transport)
+您需要请求异步调度器库和[受支持的传输之一](../transport)
 
 ```bash
 $ composer require enqueue/async-event-dispatcher enqueue/fs
 ```
 
-## Configuration
+## 配置
 
 ```php
 <?php
@@ -39,7 +39,7 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 
 require_once __DIR__.'/vendor/autoload.php';
 
-// it could be any other queue-interop/queue-interop compatible context.
+// 它可以是任何 queue-interop/queue-interop 兼容其它的上下文。
 $context = (new FsConnectionFactory('file://'.__DIR__.'/queues'))->createContext();
 $eventQueue = $context->createQueue('symfony_events');
 
@@ -52,19 +52,19 @@ $asyncListener = new AsyncListener($context, $registry, $eventQueue);
 
 $dispatcher = new EventDispatcher();
 
-// the listener sends even as a message through MQ
+// 监听器甚至通过MQ作为消息发送
 $dispatcher->addListener('the_event', $asyncListener);
 
 $asyncDispatcher = new AsyncEventDispatcher($dispatcher, $asyncListener);
 
-// the listener is executed on consumer side.
+// 监听器在消费端执行
 $asyncDispatcher->addListener('the_event', function() {
 });
 
 $asyncProcessor = new AsyncProcessor($registry, $asyncDispatcher);
 ```
 
-## Dispatch event
+## 调度事件
 
 ```php
 <?php
@@ -80,7 +80,7 @@ include __DIR__.'/config.php';
 $dispatcher->dispatch('the_event', new GenericEvent('theSubject'));
 ```
 
-## Process async events
+## 处理异步事件
 
 ```php
 <?php
@@ -115,4 +115,4 @@ while (true) {
 }
 ```
 
-[back to index](../index.md)
+[返回目录](../index.md)

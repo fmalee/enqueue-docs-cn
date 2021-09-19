@@ -6,58 +6,58 @@ nav_order: 3
 ---
 {% include support.md %}
 
-# STOMP transport
+# STOMP 传输
 
-* [Installation](#installation)
-* [Create context](#create-context)
-* [Send message to topic](#send-message-to-topic)
-* [Send message to queue](#send-message-to-queue)
-* [Consume message](#consume-message)
+* [安装](#安装)
+* [创建上下文](#创建上下文)
+* [发送消息到主题](#发送消息到主题)
+* [发送消息到队列](#发送消息到队列)
+* [消费消息](#消费消息)
 
-## Installation
+## 安装
 
 ```bash
 $ composer require enqueue/stomp
 ```
 
-## Create context
+## 创建上下文
 
 ```php
 <?php
 use Enqueue\Stomp\StompConnectionFactory;
 
-// connects to localhost
+// 连接到localhost
 $factory = new StompConnectionFactory();
 
-// same as above
+// 同上
 $factory = new StompConnectionFactory('stomp:');
 
-// same as above
+// 同上
 $factory = new StompConnectionFactory([]);
 
-// connect via stomp to RabbitMQ (default) - the topic names are prefixed with /exchange
+// 通过stomp连接到RabbitMQ（默认）- 主题名称的前缀为/exchange
 $factory = new StompConnectionFactory('stomp+rabbitmq:');
 
-// connect via stomp to ActiveMQ - the topic names are prefixed with /topic
+// 通过stomp连接到ActiveMQ - 主题名称的前缀为/topic
 $factory = new StompConnectionFactory('stomp+activemq:');
 
-// connect to stomp broker at example.com port 1000 using
+// 连接到端口为100的example.com上的 stomp 代理
 $factory = new StompConnectionFactory([
     'host' => 'example.com',
     'port' => 1000,
     'login' => 'theLogin',
 ]);
 
-// same as above but given as DSN string
+// 同上，但是使用了DSN字符串。
 $factory = new StompConnectionFactory('stomp://example.com:1000?login=theLogin');
 
 $context = $factory->createContext();
 
-// if you have enqueue/enqueue library installed you can use a factory to build context from DSN
+// 如果已安装了 enqueue/enqueue 库，则可以使用工厂从DSN构建上下文。
 $context = (new \Enqueue\ConnectionFactoryFactory())->create('stomp:')->createContext();
 ```
 
-## Send message to topic
+## 发送消息到主题
 
 ```php
 <?php
@@ -70,7 +70,7 @@ $fooTopic = $context->createTopic('foo');
 $context->createProducer()->send($fooTopic, $message);
 ```
 
-## Send message to queue
+## 发送消息到队列
 
 ```php
 <?php
@@ -83,7 +83,7 @@ $fooQueue = $context->createQueue('foo');
 $context->createProducer()->send($fooQueue, $message);
 ```
 
-## Consume message:
+## 消费消息
 
 ```php
 <?php
@@ -95,10 +95,10 @@ $consumer = $context->createConsumer($fooQueue);
 
 $message = $consumer->receive();
 
-// process a message
+// 处理消息
 
 $consumer->acknowledge($message);
 // $consumer->reject($message);
 ```
 
-[back to index](index.md)
+[返回目录](index.md)

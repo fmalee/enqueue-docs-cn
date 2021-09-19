@@ -6,39 +6,39 @@ nav_order: 3
 ---
 {% include support.md %}
 
-# Enqueue Mongodb message queue transport
+# Enqueue Mongodb 消息队列传输
 
-Allows to use [MongoDB](https://www.mongodb.com/) as a message queue broker.
+允许使用 [MongoDB](https://www.mongodb.com/) 作为消息队列代理。
 
-* [Installation](#installation)
-* [Create context](#create-context)
-* [Send message to topic](#send-message-to-topic)
-* [Send message to queue](#send-message-to-queue)
-* [Send priority message](#send-priority-message)
-* [Send expiration message](#send-expiration-message)
-* [Send delayed message](#send-delayed-message)
-* [Consume message](#consume-message)
-* [Subscription consumer](#subscription-consumer)
+* [安装](#安装)
+* [创建上下文](#创建上下文)
+* [发送消息到主题](#发送消息到主题)
+* [发送消息到队列](#发送消息到队列)
+* [发送权重消息](#发送权重消息)
+* [发送限期消息](#发送限期消息)
+* [发送延迟消息](#发送延迟消息)
+* [消费消息](#消费消息)
+* [订阅消费者](#订阅消费者)
 
-## Installation
+## 安装
 
 ```bash
 $ composer require enqueue/mongodb
 ```
 
-## Create context
+## 创建上下文
 
 ```php
 <?php
 use Enqueue\Mongodb\MongodbConnectionFactory;
 
-// connects to localhost
+// 连接到localhost
 $connectionFactory = new MongodbConnectionFactory();
 
-// same as above
+// 同上
 $factory = new MongodbConnectionFactory('mongodb:');
 
-// same as above
+// 同上
 $factory = new MongodbConnectionFactory([]);
 
 $factory = new MongodbConnectionFactory([
@@ -50,11 +50,11 @@ $factory = new MongodbConnectionFactory([
 
 $context = $factory->createContext();
 
-// if you have enqueue/enqueue library installed you can use a factory to build context from DSN
+// 如果已安装了 enqueue/enqueue 库，则可以使用工厂从DSN构建上下文。
 $context = (new \Enqueue\ConnectionFactoryFactory())->create('mongodb:')->createContext();
 ```
 
-## Send message to topic
+## 发送消息到主题
 
 ```php
 <?php
@@ -66,7 +66,7 @@ $message = $context->createMessage('Hello world!');
 $context->createProducer()->send($fooTopic, $message);
 ```
 
-## Send message to queue
+## 发送消息到队列
 
 ```php
 <?php
@@ -78,7 +78,7 @@ $message = $context->createMessage('Hello world!');
 $context->createProducer()->send($fooQueue, $message);
 ```
 
-## Send priority message
+## 发送权重消息
 
 ```php
 <?php
@@ -89,13 +89,13 @@ $fooQueue = $context->createQueue('foo');
 $message = $context->createMessage('Hello world!');
 
 $context->createProducer()
-    ->setPriority(5) // the higher priority the sooner a message gets to a consumer
+    ->setPriority(5) // 优先级越高，消息越快到达消费者。
     //
     ->send($fooQueue, $message)
 ;
 ```
 
-## Send expiration message
+## 发送限期消息
 
 ```php
 <?php
@@ -105,13 +105,13 @@ $context->createProducer()
 $message = $context->createMessage('Hello world!');
 
 $context->createProducer()
-    ->setTimeToLive(60000) // 60 sec
+    ->setTimeToLive(60000) // 60秒
     //
     ->send($fooQueue, $message)
 ;
 ```
 
-## Send delayed message
+## 发送延迟消息
 
 ```php
 <?php
@@ -120,18 +120,18 @@ use Enqueue\AmqpTools\RabbitMqDlxDelayStrategy;
 /** @var \Enqueue\Mongodb\MongodbContext $context */
 /** @var \Enqueue\Mongodb\MongodbDestination $fooQueue */
 
-// make sure you run "composer require enqueue/amqp-tools".
+// 确保运行了 "composer require enqueue/amqp-tools"
 
 $message = $context->createMessage('Hello world!');
 
 $context->createProducer()
-    ->setDeliveryDelay(5000) // 5 sec
+    ->setDeliveryDelay(5000) // 5秒
 
     ->send($fooQueue, $message)
 ;
 ````
 
-## Consume message:
+## 消费消息
 
 ```php
 <?php
@@ -142,13 +142,13 @@ $consumer = $context->createConsumer($fooQueue);
 
 $message = $consumer->receive();
 
-// process a message
+// 处理消息
 
 $consumer->acknowledge($message);
 // $consumer->reject($message);
 ```
 
-## Subscription consumer
+## 订阅消费者
 
 ```php
 <?php
@@ -164,21 +164,21 @@ $barConsumer = $context->createConsumer($barQueue);
 
 $subscriptionConsumer = $context->createSubscriptionConsumer();
 $subscriptionConsumer->subscribe($fooConsumer, function(Message $message, Consumer $consumer) {
-    // process message
+    // 处理消息
 
     $consumer->acknowledge($message);
 
     return true;
 });
 $subscriptionConsumer->subscribe($barConsumer, function(Message $message, Consumer $consumer) {
-    // process message
+    // 处理消息
 
     $consumer->acknowledge($message);
 
     return true;
 });
 
-$subscriptionConsumer->consume(2000); // 2 sec
+$subscriptionConsumer->consume(2000); // 2秒
 ```
 
-[back to index](../index.md)
+[返回目录](../index.md)

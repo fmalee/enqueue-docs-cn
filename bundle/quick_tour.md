@@ -6,24 +6,24 @@ nav_order: 1
 ---
 {% include support.md %}
 
-# EnqueueBundle. Quick tour.
+# 快速指南
 
-The [EnqueueBundle](https://github.com/php-enqueue/enqueue-bundle) integrates enqueue library.
-It adds easy to use [configuration layer](config_reference.md), register services, adds handy [cli commands](cli_commands.md).
+本 [EnqueueBundle](https://github.com/php-enqueue/enqueue-bundle) 集成了队列库。
+它添加了易于使用的[配置层](config_reference.md)、注册服务以及方便的[cli 命令](cli_commands.md)。
 
-## Install
+## 安装
 
 ```bash
 $ composer require enqueue/enqueue-bundle enqueue/fs
 ```
 
-_**Note**: You could various other [transports](https://github.com/php-enqueue/enqueue-dev/tree/master/docs/transport)._
+_**注意**: 您可以使用其他 [传输](../transport/index.md)。_
 
-_**Note**: If you are looking for a way to migrate from `php-amqplib/rabbitmq-bundle` read this [article](https://blog.forma-pro.com/the-how-and-why-of-the-migration-from-rabbitmqbundle-to-enqueuebundle-6c4054135e2b)._
+_**注意**: 如果您正在寻找一种从 `php-amqplib/rabbitmq-bundle` 迁移的方式，请阅读[本文](https://blog.forma-pro.com/the-how-and-why-of-the-migration-from-rabbitmqbundle-to-enqueuebundle-6c4054135e2b)。_
 
-## Enable the Bundle
+## 启用Bundle
 
-Then, enable the bundle by adding `new Enqueue\Bundle\EnqueueBundle()` to the bundles array of the registerBundles method in your project's `app/AppKernel.php` file:
+然后，将  `new Enqueue\Bundle\EnqueueBundle()` 添加到您项目的 `app/AppKernel.php` 文件的 `registerBundles` 方法中的bundle数组中：
 
 ```php
 <?php
@@ -49,16 +49,16 @@ class Kernel extends BaseKernel
 }
 ```
 
-## Usage
+## 用例
 
-First, you have to configure a transport layer.
-You can optionally configure multiple transports if you want to. One of them will automatically become the default,
-based on the following:
-1. If there is a transport named `default`, then it will become the default.
-2. First one specified otherwise.
+首先，您必须配置一个传输层。
+如果需要，您可以选择配置多个传输。
+基于以下内容，其中一个将自动成为默认传输：
 
-Default transport's services will be available to you in the usual Symfony container under their respective class
-interfaces (see below)
+1. 如果有一个名为 `default` 的传输，那么它将成为默认值。
+2. 未特别指定时的第一个传输。
+
+默认传输的服务将在它们各自的类接口下的常用 Symfony 容器中提供给您（见下文）
 
 ```yaml
 # app/config/config.yml
@@ -72,9 +72,8 @@ enqueue:
         client: ~
 ```
 
-Once you configured everything you can start producing messages.
-As stated previously, default transport services are available in container. Here we are using `ProducerInterface` to
-produce message to the `default` transport.
+配置完所有内容后，您就可以开始生产消息了。
+如前所述，默认传输服务已在容器中可用。在这里，我们使用 `ProducerInterface` 向 `default` 传输生产消息。
 
 ```php
 <?php
@@ -84,30 +83,28 @@ use Enqueue\Client\ProducerInterface;
 /** @var ProducerInterface $producer **/
 $producer = $container->get(ProducerInterface::class);
 
-// If you want a different producer than default (for example the other specified in sample above) then use
+// 如果您想要一个有别于默认的生产者（例如上面示例中指定的另一个生产者），则使用
 // $producer = $container->get('enqueue.client.some_other_transport.producer');
 
-// send event to many consumers
+// 给若干消费者发送事件
 $producer->sendEvent('aFooTopic', 'Something has happened');
-// You can also pass an instance of Enqueue\Client\Message as second argument if you need more flexibility.
+// 如果需要更大的灵活性，还可以给第二个参数传递一个Enqueue\Client\Message的实例。
 $properties = [];
 $headers = [];
 $message = new Message('Message body', $properties, $headers);
 $producer->sendEvent('aBarTopic', $message);
 
-// send command to ONE consumer
+// 给一个消费者发送命令
 $producer->sendCommand('aProcessorName', 'Something has happened');
 ```
 
-To consume messages you have to first create a message processor.
+要消费消息，您必须首先创建一个消息处理器。
 
-Example below shows how to create a Processor that will receive messages from `aFooTopic` topic (and only that one).
-It assumes that you're using default Symfony services configuration and this class is
-[autoconfigured](https://symfony.com/doc/current/service_container.html#the-autoconfigure-option). Otherwise you'll
-have to tag it manually. This is especially true if you're using multiple transports: if left autoconfigured, processor
-will be attached to the default transport only.
+下面的示例展示了如何创建一个处理器来接收来自 `aFooTopic` 主题（并且只有这个主题）的消息。
+它假定您使用默认的 Symfony 服务配置，并且此类已[自动装配](https://symfony.com/doc/current/service_container.html#the-autoconfigure-option)。否则，您将不得不手动标记它。
+如果您使用多种传输，则尤其如此：如果保持自动装配，处理器将仅连接到默认传输。
 
-Note: Topic in enqueue and topic on some transports (for example Kafka) are two different things.
+注意：Enqueue的主题和某些传输（例如 Kafka）上的主题是两件不同的事情。
 
 ```php
 <?php
@@ -123,8 +120,8 @@ class FooProcessor implements Processor, TopicSubscriberInterface
         echo $message->getBody();
 
         return self::ACK;
-        // return self::REJECT; // when the message is broken
-        // return self::REQUEUE; // the message is fine but you want to postpone processing
+        // return self::REJECT; // 当消息已近损坏时
+        // return self::REQUEUE; // 消息正常，但您希望推迟处理
     }
 
     public static function getSubscribedTopics()
@@ -134,32 +131,31 @@ class FooProcessor implements Processor, TopicSubscriberInterface
 }
 ```
 
-Register it as a container service. Subscribe it to the topic if you are not using autowiring.
+将其注册为容器服务。如果您不使用自动装配，请将其订阅到该主题。
 
 ```yaml
 foo_message_processor:
     class: 'FooProcessor'
     tags:
         - { name: 'enqueue.topic_subscriber' }
-        # Use the variant below to attach to a specific client
-        # Also note that if you don't disable autoconfigure, above tag will be applied automatically for default client
+        # 使用下面的变体连接到特定客户端
+        # 另外请注意，若不禁用自动配置，则上述标记将自动应用于默认客户端
         # - { name: 'enqueue.topic_subsciber', client: 'some_other_transport' }
 ```
 
-Now you can start consuming messages:
+现在你可以开始消费消息了：
 
 ```bash
 $ ./bin/console enqueue:consume --setup-broker -vvv
 ```
 
-You can select a specific client for consumption:
+您可以选择特定的客户端进行消费：
 
 ```bash
 $ ./bin/console enqueue:consume --setup-broker --client="some_other_transport" -vvv
 ```
 
 
-_**Note**: Add -vvv to find out what is going while you are consuming messages. There is a lot of valuable debug info there._
+_**注意**: 添加 `-vvv` 以了解在您消费消息时发生了什么，那里有很多有价值的调试信息。_
 
-
-[back to index](index.md)
+[返回目录](index.md)

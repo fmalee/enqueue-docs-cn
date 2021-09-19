@@ -6,40 +6,41 @@ nav_order: 95
 
 {% include support.md %}
 
-# Monitoring.
+# 监控
 
-Enqueue provides a tool for monitoring message queues.
-With it, you can control how many messages were sent, how many processed successfully or failed.
-How many consumers are working, their up time, processed messages stats, memory usage and system load.
-The tool could be integrated with virtually any analytics and monitoring platform.
-There are several integration:
+Enqueue 提供了一个监控消息队列的工具。
+有了它，您可以控制发送的消息数量、成功或失败的处理数量。
+有多少消费者正在工作、他们的正常运行时间、处理的消息统计信息、内存使用情况和系统负载。
+该工具几乎可以与任何分析和监控平台集成。
+有几种集成：
+
   * [Datadog StatsD](https://datadoghq.com)
-  * [InfluxDB](https://www.influxdata.com/) and [Grafana](https://grafana.com/)
+  * [InfluxDB](https://www.influxdata.com/) 和 [Grafana](https://grafana.com/)
   * [WAMP (Web Application Messaging Protocol)](https://wamp-proto.org/)
-We are working on a JS\WAMP based real-time UI tool, for more information please [contact us](opensource@forma-pro.com).
+我们正在开发基于 JS\WAMP 的实时 UI 工具，有关更多信息，请[联系我们](mailto:opensource@forma-pro.com)。
 
 ![Grafana Monitoring](images/grafana_monitoring.jpg)
 
-[contact us](mailto:opensource@forma-pro.com) if need a Grafana template such as on the picture.
+如果需要 Grafana 模板，例如图片上的，请[联系我们](mailto:opensource@forma-pro.com)。
 
-* [Installation](#installation)
-* [Track sent messages](#track-sent-messages)
-* [Track consumed message](#track-consumed-message)
-* [Track consumer metrics](#track-consumer-metrics)
-* [Consumption extension](#consumption-extension)
-* [Enqueue Client Extension](#enqueue-client-extension)
-* [InfluxDB Storage](#influxdb-storage)
-* [Datadog Storage](#datadog-storage)
-* [WAMP (Web Socket Messaging Protocol) Storage](#wamp-(web-socket-messaging-protocol)-storage)
-* [Symfony App](#symfony-app)
+* [安装](#安装)
+* [追踪发送的消息](#追踪发送的消息)
+* [追踪消费的消息](#追踪消费的消息)
+* [追踪消费者指标](#追踪消费者指标)
+* [消费扩展](#消费扩展)
+* [Enqueue队列扩展](#Enqueue队列扩展)
+* [InfluxDB存储](#InfluxDB存储)
+* [Datadog存储](#Datadog存储)
+* [WAMP (Web Socket Messaging Protocol) 存储](#wamp-(web-socket-messaging-protocol)-存储)
+* [Symfony应用](#Symfony应用)
 
-## Installation
+## 安装
 
 ```bash
-composer req enqueue/monitoring:0.9.x-dev
+$ composer req enqueue/monitoring:0.9.x-dev
 ```
 
-## Track sent messages
+## 追踪发送的消息
 
 ```php
 <?php
@@ -57,7 +58,7 @@ $statsStorage->pushSentMessageStats(new SentMessageStats(
 ));
 ```
 
-or, if you work with [Queue Interop](https://github.com/queue-interop/queue-interop) transport here's how you can track a message sent
+或者，如果您使用 [Queue Interop](https://github.com/queue-interop/queue-interop) 传输，这里是您如何跟踪发送的消息的示例：
 
 ```php
 <?php
@@ -83,7 +84,7 @@ $statsStorage->pushSentMessageStats(new SentMessageStats(
 ));
 ```
 
-## Track consumed message
+## 追踪消费的消息
 
 ```php
 <?php
@@ -109,7 +110,7 @@ $statsStorage->pushConsumedMessageStats(new ConsumedMessageStats(
 ));
 ```
 
-or, if you work with [Queue Interop](https://github.com/queue-interop/queue-interop) transport here's how you can track a message sent
+或者，如果您使用 [Queue Interop](https://github.com/queue-interop/queue-interop) 传输，这里是您如何跟踪发送的消息的示例：
 
 ```php
 <?php
@@ -147,11 +148,11 @@ if ($message = $consumer->receiveNoWait()) {
 }
 ```
 
-## Track consumer metrics
+## 追踪消费者指标
 
-Consumers are long running processes. It vital to know how many of them are running right now, how they perform, how much memory do they use and so.
-This example shows how you can send such metrics.
-Call this code from time to time between processing messages.
+消费者是长时间运行的进程。了解其中有多少正在运行、它们如何执行、它们使用了多少内存等至关重要。
+此示例显示了如何发送此类指标。
+在处理消息之间不时的调用此代码。
 
 ```php
 <?php
@@ -179,10 +180,10 @@ $statsStorage->pushConsumerStats(new ConsumerStats(
 ));
 ```
 
-## Consumption extension
+## 消费扩展
 
-There is an extension `ConsumerMonitoringExtension` for Enqueue [QueueConsumer](quick_tour.md#consumption).
-It could collect consumed messages and consumer stats for you.
+Enqueue [QueueConsumer](quick_tour.md#consumption) 有一个 `ConsumerMonitoringExtension` 扩展。
+它可以为您收集消费的消息和消费者统计信息。
 
 ```php
 <?php
@@ -205,16 +206,16 @@ $queueConsumer = new QueueConsumer($context, new ChainExtension([
 // consume
 ```
 
-## Enqueue Client Extension
+## Enqueue客户端扩展
 
-There is an extension ClientMonitoringExtension for Enqueue [Client](quick_tour.md#client) too. It could collect sent messages stats for you.
+Enqueue [客户端](quick_tour.md#client) 也有一个 ClientMonitoringExtension 扩展。它可以为您收集已发送的消息统计信息。
 
-## InfluxDB Storage
+## InfluxDB存储
 
-Install additional packages:
+安装额外的软件包：
 
-```
-composer req influxdb/influxdb-php:^1.14
+```bash
+$ composer req influxdb/influxdb-php:^1.14
 ```
 
 ```php
@@ -224,7 +225,7 @@ use Enqueue\Monitoring\GenericStatsStorageFactory;
 $statsStorage = (new GenericStatsStorageFactory())->create('influxdb://127.0.0.1:8086?db=foo');
 ```
 
-There are available options:
+一些可用的选项：
 
 ```
 *   'host' => '127.0.0.1',
@@ -239,18 +240,16 @@ There are available options:
 *   'retentionPolicy' => null,
 ```
 
-You can pass InfluxDB\Client instance in `client` option. Otherwise, it will be created on first use according to other
-options.
+您可以在 `client` 选项中传递 `InfluxDB\Client` 实例。否则，它将在第一次使用时根据其他选项创建。
 
-If your InfluxDB\Client uses driver that implements InfluxDB\Driver\QueryDriverInterface, then database will be
-automatically created for you if it doesn't exist. Default InfluxDB\Client will also do that.
+如果您的 `InfluxDB\Client` 使用实现了 `InfluxDB\Driver\QueryDriverInterface` 接口路的驱动，那么如果数据库不存在，则会自动为您创建它。默认的 `InfluxDB\Client` 也会这样做。
 
-## Datadog storage
+## Datadog存储
 
-Install additional packages:
+安装额外的软件包：
 
-```
-composer req datadog/php-datadogstatsd:^1.3
+```bash
+$ composer req datadog/php-datadogstatsd:^1.3
 ```
 
 ```php
@@ -260,14 +259,14 @@ use Enqueue\Monitoring\GenericStatsStorageFactory;
 $statsStorage = (new GenericStatsStorageFactory())->create('datadog://127.0.0.1:8125');
 ```
 
-For best experience please adjust units and types in metric summary.
+为获得最佳体验，请在公制摘要中调整单位和类型。
 
-Example dashboard:
+示例仪表板：
 
 ![Datadog monitoring](images/datadog_monitoring.png)
 
 
-There are available options (and all available metrics):
+一些可用的选项（以及所有可用的指标）：
 
 ```
 *   'host' => '127.0.0.1',
@@ -289,12 +288,12 @@ There are available options (and all available metrics):
 ```
 
 
-## WAMP (Web Socket Messaging Protocol) Storage
+## WAMP (Web Socket Messaging Protocol) 存储
 
-Install additional packages:
+安装额外的软件包：
 
-```
-composer req thruway/pawl-transport:^0.5.0 thruway/client:^0.5.0
+```bash
+$ composer req thruway/pawl-transport:^0.5.0 thruway/client:^0.5.0
 ```
 
 ```php
@@ -304,7 +303,7 @@ use Enqueue\Monitoring\GenericStatsStorageFactory;
 $statsStorage = (new GenericStatsStorageFactory())->create('wamp://127.0.0.1:9090?topic=stats');
 ```
 
-There are available options:
+一些可用的选项：
 
 ```
 *   'host'                => '127.0.0.1',
@@ -316,9 +315,9 @@ There are available options:
 *   'retry_delay_growth'  => 1.5,
 ```
 
-## Symfony App
+## Symfony应用
 
-You have to register some services in order to incorporate monitoring facilities into your Symfony application.
+您必须注册一些服务才能将监控工具合并到您的 Symfony 应用中。
 
 ```yaml
 # config/packages/enqueue.yaml
@@ -339,4 +338,4 @@ enqueue:
     client: ~
 ```
 
-[back to index](index.md)
+[返回目录](index.md)

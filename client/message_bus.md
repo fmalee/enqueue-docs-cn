@@ -6,19 +6,19 @@ nav_order: 4
 ---
 {% include support.md %}
 
-# Client. Message bus
+# 消息总线
 
-Here's a description of message bus from [Enterprise Integration Patterns](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessageBus.html)
+这是来自[Enterprise Integration Patterns](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessageBus.html)的关于消息总线的描述
 
-> A Message Bus is a combination of a common data model, a common command set, and a messaging infrastructure to allow different systems to communicate through a shared set of interfaces.
+> 消息总线是公共数据模型、公共命令集和消息传递基础设施的组合，允许不同的系统通过一组共享的接口进行通信。
 
-If all your applications built on top of Enqueue Client you have to only make sure they send message to a shared topic.
-The rest is done under the hood.
+如果您的所有应用都构建在 Enqueue Client 之上，您只需确保它们向共享的主题发送消息。
+其余的都是在暗处（hood）下完成的。
 
-If you'd like to connect another application (written on Python for example ) you have to follow these rules:
+如果您想连接另一个应用（例如 Python 应用），您必须遵循以下规则：
 
-* An application defines its own queue that is connected to the topic as fanout.
-* A message sent to message bus topic must have a header `enqueue.topic_name`.
-* Once a message is received it could be routed internally. `enqueue.topic_name` header could be used for that.
+* 应用将自己的连接到主题的队列定义为扇出（fanout）。
+* 发送到消息总线主题的消息必须有一个 `enqueue.topic_name` 标头。
+* 一旦收到消息，它就可以在内部进行路由。`enqueue.topic_name` 标头将会派上用场。
 
-[back to index](../index.md)
+[返回目录](../index.md)

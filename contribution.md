@@ -6,12 +6,12 @@ nav_order: 99
 
 {% include support.md %}
 
-# Contribution
+# 贡献
 
-To contribute you have to send a pull request to [enqueue-dev](https://github.com/php-enqueue/enqueue-dev) repository.
-The pull requests to read only subtree split [repositories](https://github.com/php-enqueue/enqueue-dev/blob/master/bin/subtree-split#L46) will be closed.
+要做出贡献，您必须向 [enqueue-dev](https://github.com/php-enqueue/enqueue-dev) 仓库发起拉取请求。
+只读子树拆分的[仓库](https://github.com/php-enqueue/enqueue-dev/blob/master/bin/subtree-split#L46)的拉取请求将被关闭。
 
-## Setup environment
+## 设置环境
 
 ```
 composer install
@@ -19,36 +19,35 @@ composer install
 ./bin/dev -b
 ```
 
-Once you did it you can work on a feature or bug fix.
+完成后，您可以处理功能或错误修复。
 
-If you need, you can also use composer scripts to run code linting and static analysis:
-* For code style linting, run `composer run cs-lint`. Optionally add file names: 
-`composer run cs-lint pkg/null/NullTopic.php` for example.
-* You can also fix your code style with `composer run cs-fix`.
-* Static code analysis can be run using `composer run phpstan`. As above, you can pass specific files.
+如果需要，您还可以使用 Composer 脚本来运行代码格式化和静态分析：
+* 对于代码格式化，运行 `composer run cs-lint`。（可选）添加文件名：例如 `composer run cs-lint pkg/null/NullTopic.php`。
+* 您还可以使用 `composer run cs-fix` 来修复代码格式。
+* 静态代码分析可以使用 `composer run phpstan`。如上所述，您可以传递特定文件。
 
-## Testing
+## 测试
 
-To run tests
+运行测试
 
 ```
 ./bin/test.sh
 ```
 
-or for a package only:
+或仅适用于包：
 
 
 ```
 ./bin/test.sh pkg/enqueue
 ```
 
-## Commit
+## 提交
 
-When you try to commit changes `php-cs-fixer` is run. It fixes all coding style issues. Don't forget to stage them and commit everything.
-Once everything is done open a pull request on official repository.
+当您尝试提交更改时，请允许`php-cs-fixer`。它修复了所有编码风格问题。不要忘记暂存它们并提交所有内容。
+一切完成后，在官方仓库上打开拉取请求。
 
-## WTF?!
+## 什么鬼？
 
-* If you get `rabbitmqssl: forward host lookup failed: Unknown host, wait for service rabbitmqssl:5671` do `docker-compose down`.
+* 如果你得到 `rabbitmqssl: forward host lookup failed: Unknown host, wait for service rabbitmqssl:5671`，请执行 `docker-compose down`。
 
-[back to index](index.md)
+[返回目录](index.md)

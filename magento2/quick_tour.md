@@ -8,34 +8,35 @@ nav_order: 1
 
 # Magento2 EnqueueModule
 
-The module integrates [Enqueue Client](../client/quick_tour.md) with Magento2. You can send and consume messages to different message queues such as RabbitMQ, AMQP, STOMP, Amazon SQS, Kafka, Redis, Google PubSub, Gearman, Beanstalk, Google PubSub and others. Or integrate Magento2 app with other applications or service via [Message Bus](../client/message_bus.md).
-There is [a module](../magento/quick_tour.md) for Magento1 too.
+本模块将 [Enqueue Client](../client/quick_tour.md) 与 Magento2 集成在一起。您可以向不同的消息队列发送和消费消息，例如 RabbitMQ、AMQP、STOMP、Amazon SQS、Kafka、Redis、Google PubSub、Gearman、Beanstalk、Google PubSub 等。或者通过 [Message Bus](../client/message_bus.md) 将 Magento2 应用与其他应用或服务集成。
+Magento1 也有[一个模块](../magento/quick_tour.md)。
 
-## Installation
+## 安装
 
-We recommend using [composer](https://getcomposer.org/) to install [magento2-enqueue](https://github.com/php-enqueue/magento-enqueue) module. To install libraries run the commands in the application root directory.
-
-```bash
-composer require "enqueue/magento2-enqueue:*@dev" "enqueue/amqp-ext"
-```
-
-Run setup:upgrade so Magento2 picks up the installed module.
+我们推荐使用 [composer](https://getcomposer.org/) 来安装 [magento2-enqueue](https://github.com/php-enqueue/magento-enqueue) 模块。
+要安装该库，请在应用根目录中运行命令：
 
 ```bash
-php bin/magento setup:upgrade
+$ composer require "enqueue/magento2-enqueue:*@dev" "enqueue/amqp-ext"
 ```
 
-## Configuration
+运行 `setup:upgrade`，以便 Magento2 选择已安装的模块。
 
-At this stage we have configure the Enqueue extension in Magento backend.
-The config is here: `Stores -> Configuration -> General -> Enqueue Message Queue`.
-Here's the example of Amqp transport that connects to RabbitMQ broker on localhost:
+```bash
+$ php bin/magento setup:upgrade
+```
+
+## 配置
+
+在这个阶段，我们已经在 Magento 后端配置了 Enqueue 扩展。
+配置在这里：`System -> Configuration -> Enqueue Message Queue`。
+这是连接到本地主机上的 RabbitMQ 代理的 Amqp 传输示例：
 
 ![Сonfiguration](../images/magento2_enqueue_configuration.png)
 
-## Publish Message
+## 发布消息
 
-To send a message you have to take enqueue helper and call `send` method.
+要发送消息，您必须采用 enqueue 辅助并调用 `send` 方法。
 
 ```php
 <?php
@@ -44,16 +45,16 @@ $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 $enqueueManager = $objectManager->create('Enqueue\Magento2\Model\EnqueueManager');
 $enqueueManager->sendEvent('a_topic', 'aMessage');
 
-// or a command with a possible reply
+// 或者一个可能有答复的命令
 $reply = $enqueueManager->sendCommand('a_topic', 'aMessage', true);
 
 $replyMessage = $reply->receive(5000); // wait for 5 sec
 ```
 
-## Message Consumption
+## 消息消费
 
-I assume you have `acme` Magento module properly created, configured and registered.
-To consume messages you have to define a processor class first:
+我假设您已正确创建、配置和注册了 `acme` Magento 模块。
+要消费消息，您必须首先定义一个处理器类：
 
 ```php
 <?php
@@ -79,7 +80,7 @@ class Foo implements Processor
 }
 ```
 
-than subscribe it to a topic or several topics:
+然后订阅一个主题或几个主题：
 
 
 ```xml
@@ -99,10 +100,10 @@ than subscribe it to a topic or several topics:
 </config>
 ```
 
-and run message consume command:
+并运行消息消费命令：
 
 ```bash
 $ php bin/magento enqueue:consume -vvv --setup-broker
 ```
 
-[back to index](../index.md#magento2)
+[返回目录](../index.md#magento2)

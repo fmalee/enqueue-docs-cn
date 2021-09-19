@@ -8,4 +8,4 @@ permalink: /symfony
 
 {:toc}
 
-[back to index](../index.md)
+[返回目录](../index.md)

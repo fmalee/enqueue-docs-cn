@@ -6,36 +6,36 @@ nav_order: 1
 ---
 {% include support.md %}
 
-# Magento Enqueue. Quick tour
+# 快速指南
 
-The module integrates [Enqueue Client](../client/quick_tour.md) with Magento1. You can send and consume messages to different message queues such as RabbitMQ, AMQP, STOMP, Amazon SQS, Kafka, Redis, Google PubSub, Gearman, Beanstalk, Google PubSub and others. Or integrate Magento2 app with other applications or service via [Message Bus](../client/message_bus.md).
-There is [a module](../magento2/quick_tour.md) for Magento2 too.
+.本模块将 [Enqueue Client](../client/quick_tour.md) 与 Magento1集成在一起。您可以向不同的消息队列发送和消费消息，例如 RabbitMQ、AMQP、STOMP、Amazon SQS、Kafka、Redis、Google PubSub、Gearman、Beanstalk、Google PubSub 等。或者通过 [Message Bus](../client/message_bus.md) 将 Magento2 应用与其他应用或服务集成。
+Magento2 也有[一个模块](../magento2/quick_tour.md)。
 
-## Installation
+## 安装
 
-We use [composer](https://getcomposer.org/) and [cotya/magento-composer-installer](https://github.com/Cotya/magento-composer-installer) plugin to install [magento-enqueue](https://github.com/php-enqueue/magento-enqueue) extension.
+我们使用 [composer](https://getcomposer.org/) 和 [cotya/magento-composer-installer](https://github.com/Cotya/magento-composer-installer) 插件来安装 [magento-enqueue](https://github.com/php-enqueue/magento-enqueue) 扩展。
 
-To install libraries run the commands in the application root directory.
+要安装该库，请在应用根目录中运行命令：
 
 ```bash
-composer require "magento-hackathon/magento-composer-installer:~3.0"
-composer require "enqueue/magento-enqueue:*@dev" "enqueue/amqp-ext"
+$ composer require "magento-hackathon/magento-composer-installer:~3.0"
+$ composer require "enqueue/magento-enqueue:*@dev" "enqueue/amqp-ext"
 ```
 
-_**Note**: You could use not only AMQP transport but any other [available](../transport)._
+_**注意**：您不仅仅可以使用 AMQP 传输，还可以使用任何其他可用的[传输](../transport)。_
 
-## Configuration
+## 配置
 
-At this stage we have configure the Enqueue extension in Magento backend.
-The config is here: `System -> Configuration -> Enqueue Message Queue`.
-Here's the example of Amqp transport that connects to RabbitMQ broker on localhost:
+在这个阶段，我们已经在 Magento 后端配置了 Enqueue 扩展。
+配置在这里：`System -> Configuration -> Enqueue Message Queue`。
+这是连接到本地主机上的 RabbitMQ 代理的 Amqp 传输示例：
 
 
 ![Сonfiguration](../images/magento_enqueue_configuration.jpeg)
 
-## Publish Message
+## 发布消息
 
-To send a message you have to take enqueue helper and call `send` method.
+要发送消息，您必须采用 enqueue 辅助并调用 `send` 方法。
 
 ```php
 <?php
@@ -43,10 +43,10 @@ To send a message you have to take enqueue helper and call `send` method.
 Mage::helper('enqueue')->send('a_topic', 'aMessage');
 ```
 
-## Message Consumption
+## 消息消费
 
-I assume you have `acme` Magento module properly created, configured and registered.
-To consume messages you have to define a processor class first:
+我假设您已正确创建、配置和注册了 `acme` Magento 模块。
+要消费消息，您必须首先定义一个处理器类：
 
 ```php
 <?php
@@ -70,7 +70,7 @@ class Acme_Module_Helper_Async_Foo implements Processor
 }
 ```
 
-than subscribe it to a topic or several topics:
+然后订阅一个主题或几个主题：
 
 
 ```xml
@@ -90,10 +90,10 @@ than subscribe it to a topic or several topics:
 </config>
 ```
 
-and run message consume command:
+并运行消息消费命令：
 
 ```bash
 $ php shell/enqueue.php enqueue:consume -vvv --setup-broker
 ```
 
-[back to index](../index.md)
+[返回目录](../index.md)

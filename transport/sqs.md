@@ -6,27 +6,27 @@ nav_order: 3
 ---
 {% include support.md %}
 
-# Amazon SQS transport
+# Amazon SQS 传输
 
-A transport for [Amazon SQS](https://aws.amazon.com/sqs/) broker.
-It uses internally official [aws sdk library](https://packagist.org/packages/aws/aws-sdk-php)
+[Amazon SQS](https://aws.amazon.com/sqs/)代理的传输。
+它在内部使用官方的aws sdk库。
 
-* [Installation](#installation)
-* [Create context](#create-context)
-* [Declare queue](#decalre-queue)
-* [Send message to queue](#send-message-to-queue)
-* [Send delay message](#send-delay-message)
-* [Consume message](#consume-message)
-* [Purge queue messages](#purge-queue-messages)
-* [Queue from another AWS account](#queue-from-another-aws-account)
+* [安装](#安装)
+* [创建上下文](#创建上下文)
+* [声明队列](#声明队列)
+* [发送消息到队列](#发送消息到队列)
+* [发送延迟消息](#发送延迟消息)
+* [消费消息](#消费消息)
+* [清除队列消息](#清除队列消息)
+* [来自另一个 AWS 账户的队列](#来自另一个-AWS-账户的队列)
 
-## Installation
+## 安装
 
 ```bash
 $ composer require enqueue/sqs
 ```
 
-## Create context
+## 创建上下文
 
 ```php
 <?php
@@ -38,22 +38,22 @@ $factory = new SqsConnectionFactory([
     'region' => 'aRegion',
 ]);
 
-// same as above but given as DSN string. You may need to url encode secret if it contains special char (like +)
+// 同上，但是使用了DSN字符串。。如果secret包含特殊字符（如+），则可能需要对其进行url编码。
 $factory = new SqsConnectionFactory('sqs:?key=aKey&secret=aSecret&region=aRegion');
 
 $context = $factory->createContext();
 
-// using a pre-configured client
+// 使用预配置的客户端
 $client = new Aws\Sqs\SqsClient([ /* ... */ ]);
 $factory = new SqsConnectionFactory($client);
 
-// if you have enqueue/enqueue library installed you can use a factory to build context from DSN
+// 如果已安装了 enqueue/enqueue 库，则可以使用工厂从DSN构建上下文。
 $context = (new \Enqueue\ConnectionFactoryFactory())->create('sqs:')->createContext();
 ```
 
-## Declare queue.
+## 声明队列
 
-Declare queue operation creates a queue on a broker side.
+声明队列操作在代理端创建一个队列。
 
 ```php
 <?php
@@ -62,11 +62,11 @@ Declare queue operation creates a queue on a broker side.
 $fooQueue = $context->createQueue('foo');
 $context->declareQueue($fooQueue);
 
-// to remove queue use deleteQueue method
+// 要删除队列，请使用 deleteQueue 方法
 //$context->deleteQueue($fooQueue);
 ```
 
-## Send message to queue
+## 发送消息到队列
 
 ```php
 <?php
@@ -78,7 +78,7 @@ $message = $context->createMessage('Hello world!');
 $context->createProducer()->send($fooQueue, $message);
 ```
 
-## Send delay message
+## 发送延迟消息
 
 ```php
 <?php
@@ -88,13 +88,13 @@ $fooQueue = $context->createQueue('foo');
 $message = $context->createMessage('Hello world!');
 
 $context->createProducer()
-    ->setDeliveryDelay(60000) // 60 sec
+    ->setDeliveryDelay(60000) // 60秒
 
     ->send($fooQueue, $message)
 ;
 ```
 
-## Consume message:
+## 消费消息
 
 ```php
 <?php
@@ -105,13 +105,13 @@ $consumer = $context->createConsumer($fooQueue);
 
 $message = $consumer->receive();
 
-// process a message
+// 处理消息
 
 $consumer->acknowledge($message);
 // $consumer->reject($message);
 ```
 
-## Purge queue messages:
+## 清除队列消息
 
 ```php
 <?php
@@ -122,30 +122,29 @@ $fooQueue = $context->createQueue('foo');
 $context->purgeQueue($fooQueue);
 ```
 
-## Queue from another AWS account
+## 来自另一个 AWS 账户的队列
 
-SQS allows to use queues from another account. You could set it globally for all queues via option `queue_owner_aws_account_id` or
-per queue using `SqsDestination::setQueueOwnerAWSAccountId` method.
+SQS 允许使用来自另一个帐户的队列。您可以通过 `queue_owner_aws_account_id` 选项或每个队列使用 `SqsDestination::setQueueOwnerAWSAccountId` 方法来为全局设置所有队列。
 
 ```php
 <?php
 use Enqueue\Sqs\SqsConnectionFactory;
 
-// globally for all queues
+// 全局配置所有队列
 $factory = new SqsConnectionFactory('sqs:?queue_owner_aws_account_id=awsAccountId');
 
 $context = (new SqsConnectionFactory('sqs:'))->createContext();
 
-// per queue.
+// 每个队列
 $queue = $context->createQueue('foo');
 $queue->setQueueOwnerAWSAccountId('awsAccountId');
 ```
 
-## Multi region examples
+## 多区域示例
 
-Enqueue SQS provides a generic multi-region support. This enables users to specify which AWS Region to send a command to by setting region on SqsDestination.
-You might need it to access SQS FIFO queue because they are not available for all regions.
-If not specified the default region is used.
+Enqueue SQS 提供通用的多区域支持。这使用户能够通过在 SqsDestination 上设置区域来指定将命令发送到哪个 AWS 区域。
+您可能需要它来访问 SQS FIFO 队列，因为它们不适用于所有区域。
+如果未指定，则使用默认区域。
 
 ```php
 <?php
@@ -156,8 +155,8 @@ $context = (new SqsConnectionFactory('sqs:?region=eu-west-2'))->createContext();
 $queue = $context->createQueue('foo');
 $queue->setRegion('us-west-2');
 
-// the request goes to US West (Oregon) Region
+// 请求发送到US West (Oregon)区域
 $context->declareQueue($queue);
 ```
 
-[back to index](../index.md)
+[返回目录](../index.md)

@@ -1,7 +1,7 @@
-<h2 align="center">Supporting Enqueue</h2>
+<h2 align="center">支持Enqueue</h2>
 
-Enqueue is an MIT-licensed open source project with its ongoing development made possible entirely by the support of community and our customers. If you'd like to join them, please consider:
+Enqueue 是一个 MIT 许可的开源项目，它的持续开发完全得益于社区和我们客户的支持。如果您想加入他们，请考虑：
 
-- [Become our client](http://forma-pro.com/)
+- [成为我们的客户](http://forma-pro.com/)
 
 ---

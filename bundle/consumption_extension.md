@@ -6,10 +6,10 @@ nav_order: 9
 ---
 {% include support.md %}
 
-# Consumption extension
+# 消费扩展
 
-Here, I show how you can create a custom extension and register it.
-Let's first create an extension itself:
+在这里，将展示如何创建自定义扩展并注册它。
+让我们首先创建一个扩展本身：
 
 ```php
 <?php
@@ -30,7 +30,7 @@ class CountProcessedMessagesExtension implements PostMessageReceivedExtensionInt
 }
 ```
 
-Now we have to register as a Symfony service with special tag:
+现在我们必须使用特殊标签将其注册为 Symfony 服务：
 
 ```yaml
 services:
@@ -40,10 +40,9 @@ services:
             - { name: 'enqueue.consumption.extension', priority: 10 }
 ```
 
-When using multiple enqueue instances, you can apply extension to 
-specific or all instances by providing an additional tag attribute:
+在使用多个enqueue实例时，您可以通过提供额外的标签属性来将扩展应用于特定或所有实例：
 
-```
+```yaml
 services:
     app.enqueue.count_processed_messages_extension:
         class: 'AppBundle\Enqueue\CountProcessedMessagesExtension'
@@ -51,4 +50,4 @@ services:
             - { name: 'enqueue.consumption.extension', priority: 10, client: 'all' }
 ```
 
-[back to index](index.md)
+[返回目录](index.md)

@@ -6,11 +6,10 @@ nav_order: 3
 ---
 {% include support.md %}
 
-# Cli commands
+# Cli命令
 
-The EnqueueBundle provides several commands.
-The most useful one `enqueue:consume` connects to the broker and process the messages.
-Other commands could be useful during debugging (like `enqueue:topics`) or deployment (like `enqueue:setup-broker`).
+EnqueueBundle 提供了几个命令。
+最有用的一个 `enqueue:consume` 连接到代理并处理消息。其他命令在调试（如`enqueue:topics`）或部署（如`enqueue:setup-broker`）期间可能很有用。
 
 * [enqueue:consume](#enqueueconsume)
 * [enqueue:produce](#enqueueproduce)
@@ -27,30 +26,30 @@ Usage:
   enq:c
 
 Arguments:
-  client-queue-names                     Queues to consume messages from
+  client-queue-names                     要从中消费消息的队列
 
 Options:
-      --message-limit=MESSAGE-LIMIT      Consume n messages and exit
-      --time-limit=TIME-LIMIT            Consume messages during this time
-      --memory-limit=MEMORY-LIMIT        Consume messages until process reaches this memory limit in MB
-      --niceness=NICENESS                Set process niceness
-      --setup-broker                     Creates queues, topics, exchanges, binding etc on broker side.
-      --receive-timeout=RECEIVE-TIMEOUT  The time in milliseconds queue consumer waits for a message.
-      --logger[=LOGGER]                  A logger to be used. Could be "default", "null", "stdout". [default: "default"]
-      --skip[=SKIP]                      Queues to skip consumption of messages from (multiple values allowed)
-  -c, --client[=CLIENT]                  The client to consume messages from. [default: "default"]
-  -h, --help                             Display this help message
-  -q, --quiet                            Do not output any message
-  -V, --version                          Display this application version
-      --ansi                             Force ANSI output
-      --no-ansi                          Disable ANSI output
-  -n, --no-interaction                   Do not ask any interactive question
-  -e, --env=ENV                          The Environment name. [default: "test"]
-      --no-debug                         Switches off debug mode.
-  -v|vv|vvv, --verbose                   Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+      --message-limit=MESSAGE-LIMIT      消费n条消息并退出
+      --time-limit=TIME-LIMIT            限制消费消息的时间
+      --memory-limit=MEMORY-LIMIT        消费消息，直到进程达到此内存限制（MB）。
+      --niceness=NICENESS                设置进程精度
+      --setup-broker                     在代理端创建队列、主题、交换、绑定等。
+      --receive-timeout=RECEIVE-TIMEOUT  队列消费者等待消息的时间（毫秒）
+      --logger[=LOGGER]                  要使用的日志器。可以是"default"、"null"、"stdout"。[default: "default"]
+      --skip[=SKIP]                      要跳过的消息消费队列（允许多个值）
+  -c, --client[=CLIENT]                  要消费消息的客户端。[default: "default"]
+  -h, --help                             显示帮助信息
+  -q, --quiet                            不要输出任何消息
+  -V, --version                          显示应用版本
+      --ansi                             强制ANSI输出
+      --no-ansi                          禁用ANSI输出
+  -n, --no-interaction                   不要问任何互动问题
+  -e, --env=ENV                          环境名称。[default: "test"]
+      --no-debug                         关闭调试模式
+  -v|vv|vvv, --verbose                   增加消息的详细程度：1表示正常输出，2表示更详细的输出，3表示调试。
 
 Help:
-  A client's worker that processes messages. By default it connects to default queue. It select an appropriate message processor based on a message headers
+  处理消息的客户端worker。默认情况下，它连接到默认队列。它根据消息标头选择适当的消息处理器。
 ```
 
 ## enqueue:produce
@@ -61,25 +60,24 @@ Usage:
   enqueue:produce [options] [--] <message>
 
 Arguments:
-  message                  A message
+  message                  消息
 
 Options:
-  -c, --client[=CLIENT]    The client to send messages to. [default: "default"]
-      --topic[=TOPIC]      The topic to send a message to
-      --command[=COMMAND]  The command to send a message to
-  -h, --help               Display this help message
-  -q, --quiet              Do not output any message
-  -V, --version            Display this application version
-      --ansi               Force ANSI output
-      --no-ansi            Disable ANSI output
-  -n, --no-interaction     Do not ask any interactive question
-  -e, --env=ENV            The Environment name. [default: "test"]
-      --no-debug           Switches off debug mode.
-  -v|vv|vvv, --verbose     Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+  -c, --client[=CLIENT]    要向其发送消息的客户端。[default: "default"]
+      --topic[=TOPIC]      要向其发送消息的主题
+      --command[=COMMAND]  要向其发送消息的命令
+  -h, --help               显示帮助信息
+  -q, --quiet              不要输出任何消息
+  -V, --version            显示应用版本
+      --ansi               强制ANSI输出
+      --no-ansi            禁用ANSI输出
+  -n, --no-interaction     不要问任何互动问题
+  -e, --env=ENV            环境名称。[default: "test"]
+      --no-debug           关闭调试模式
+  -v|vv|vvv, --verbose     增加消息的详细程度：1表示正常输出，2表示更详细的输出，3表示调试。
 
 Help:
-  Sends an event to the topic
-
+  发送事件到主题
 ```
 
 ## enqueue:setup-broker
@@ -91,19 +89,19 @@ Usage:
   enq:sb
 
 Options:
-  -c, --client[=CLIENT]  The client to consume messages from. [default: "default"]
-  -h, --help             Display this help message
-  -q, --quiet            Do not output any message
-  -V, --version          Display this application version
-      --ansi             Force ANSI output
-      --no-ansi          Disable ANSI output
-  -n, --no-interaction   Do not ask any interactive question
-  -e, --env=ENV          The Environment name. [default: "test"]
-      --no-debug         Switches off debug mode.
-  -v|vv|vvv, --verbose   Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+  -c, --client[=CLIENT]  要从中消费消息的客户端。 [default: "default"]
+  -h, --help             显示帮助信息
+  -q, --quiet            不要输出任何消息
+  -V, --version          显示应用版本
+      --ansi             强制ANSI输出
+      --no-ansi          禁用ANSI输出
+  -n, --no-interaction   不要问任何互动问题
+  -e, --env=ENV          环境名称。[default: "test"]
+      --no-debug         关闭调试模式
+  -v|vv|vvv, --verbose   增加消息的详细程度：1表示正常输出，2表示更详细的输出，3表示调试。
 
 Help:
-  Setup broker. Configure the broker, creates queues, topics and so on.
+  安装代理。配置代理、创建队列、主题等。
 ```
 
 ## enqueue:routes
@@ -115,20 +113,20 @@ Usage:
   debug:enqueue:routes
 
 Options:
-      --show-route-options  Adds ability to hide options.
-  -c, --client[=CLIENT]     The client to consume messages from. [default: "default"]
-  -h, --help                Display this help message
-  -q, --quiet               Do not output any message
-  -V, --version             Display this application version
-      --ansi                Force ANSI output
-      --no-ansi             Disable ANSI output
-  -n, --no-interaction      Do not ask any interactive question
-  -e, --env=ENV             The Environment name. [default: "test"]
-      --no-debug            Switches off debug mode.
-  -v|vv|vvv, --verbose      Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+      --show-route-options  显示隐藏的选项
+  -c, --client[=CLIENT]     要从中消费消息的客户端。[default: "default"]
+  -h, --help                显示帮助信息
+  -q, --quiet               不要输出任何消息
+  -V, --version             显示应用版本
+      --ansi                强制ANSI输出
+      --no-ansi             禁用ANSI输出
+  -n, --no-interaction      不要问任何互动问题
+  -e, --env=ENV             环境名称。[default: "test"]
+      --no-debug            关闭调试模式
+  -v|vv|vvv, --verbose      增加消息的详细程度：1表示正常输出，2表示更详细的输出，3表示调试。
 
 Help:
-  A command lists all registered routes.
+  命令将列出所有已注册的路由。
 ```
 
 ## enqueue:transport:consume
@@ -139,29 +137,29 @@ Usage:
   enqueue:transport:consume [options] [--] <processor> [<queues>]...
 
 Arguments:
-  processor                              A message processor.
-  queues                                 A queue to consume from
+  processor                              消息处理器
+  queues                                 要从中消费的队列
 
 Options:
-      --message-limit=MESSAGE-LIMIT      Consume n messages and exit
-      --time-limit=TIME-LIMIT            Consume messages during this time
-      --memory-limit=MEMORY-LIMIT        Consume messages until process reaches this memory limit in MB
-      --niceness=NICENESS                Set process niceness
-      --receive-timeout=RECEIVE-TIMEOUT  The time in milliseconds queue consumer waits for a message.
-      --logger[=LOGGER]                  A logger to be used. Could be "default", "null", "stdout". [default: "default"]
-  -t, --transport[=TRANSPORT]            The transport to consume messages from. [default: "default"]
-  -h, --help                             Display this help message
-  -q, --quiet                            Do not output any message
-  -V, --version                          Display this application version
-      --ansi                             Force ANSI output
-      --no-ansi                          Disable ANSI output
-  -n, --no-interaction                   Do not ask any interactive question
-  -e, --env=ENV                          The Environment name. [default: "test"]
-      --no-debug                         Switches off debug mode.
-  -v|vv|vvv, --verbose                   Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+      --message-limit=MESSAGE-LIMIT      消费n条消息并退出
+      --time-limit=TIME-LIMIT            限制消费消息的时间
+      --memory-limit=MEMORY-LIMIT        消费消息，直到进程达到此内存限制（MB）。
+      --niceness=NICENESS                设置进程精度
+      --receive-timeout=RECEIVE-TIMEOUT  队列消费者等待消息的时间（毫秒）
+      --logger[=LOGGER]                  要使用的日志器。可以是"default"、"null"、"stdout"。[default: "default"]
+  -t, --transport[=TRANSPORT]            要从中使用消息的传输。[default: "default"]
+  -h, --help                             显示帮助信息
+  -q, --quiet                            不要输出任何消息
+  -V, --version                          显示应用版本
+      --ansi                             强制ANSI输出
+      --no-ansi                          禁用ANSI输出
+  -n, --no-interaction                   不要问任何互动问题
+  -e, --env=ENV                          环境名称。[default: "test"]
+      --no-debug                         关闭调试模式
+  -v|vv|vvv, --verbose                   增加消息的详细程度：1表示正常输出，2表示更详细的输出，3表示调试。
 
 Help:
-  A worker that consumes message from a broker. To use this broker you have to explicitly set a queue to consume from and a message processor service
+  消费来自代理的消息的worker。要使用此代理，必须显式设置要从中消费的队列和消息处理器服务
 ```
 
-[back to index](index.md)
+[返回目录](index.md)

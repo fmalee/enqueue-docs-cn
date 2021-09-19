@@ -6,28 +6,27 @@ nav_order: 5
 ---
 {% include support.md %}
 
-# Message processor
+# 消息处理器
 
-A processor is responsible for processing consumed messages.
-Message processors and usage examples described in [consumption/message_processor](../consumption/message_processor.md)
-Here we just show how to register a message processor service to enqueue.
+处理器负责处理已消费的消息。
+在[消费/消息处理器](../consumption/message_processor.md)中已描述了消息处理器和使用示例，这里我们只展示如何注册一个Enqueue的消息处理器服务。
 
-* Transport:
+* 传输:
 
-  * [Register a transport processor](#register-a-transport-processor)
+  * [注册传输处理器](#注册传输处理器)
 
-* Client:
+* 客户端:
 
-  * [Register a topic subscriber processor](#register-a-topic-subscriber-processor)
-  * [Register a command subscriber processor](#register-a-command-subscriber-processor)
-  * [Register a custom processor](#register-a-custom-processor)
+  * [注册主题订阅器处理器](#注册主题订阅器处理器)
+  * [注册命令订阅器处理器](#注册命令订阅器处理器)
+  * [注册自定义处理器](#注册自定义处理器)
 
-## Register a topic subscriber processor
+## 注册主题订阅器处理器
 
-There is a `TopicSubscriberInterface` interface (like [EventSubscriberInterface](https://github.com/symfony/symfony/blob/master/src/Symfony/Component/EventDispatcher/EventSubscriberInterface.php)).
-It is handy to subscribe on event messages.
-Check interface description for more possible ways to configure it.
-It allows to keep subscription and processing logic in one place.
+这里有一个 `TopicSubscriberInterface` 接口（如 [EventSubscriberInterface](https://github.com/symfony/symfony/blob/master/src/Symfony/Component/EventDispatcher/EventSubscriberInterface.php)）。
+订阅事件消息很方便。
+检查接口描述以获取更多可能的配置方式。
+它允许将订阅和处理逻辑保持在一个地方。
 
 ```php
 <?php
@@ -45,7 +44,7 @@ class SayHelloProcessor implements Processor, TopicSubscriberInterface
 }
 ```
 
-Tag the service in the container with `enqueue.topic_subscriber` tag:
+容器中用 `enqueue.topic_subscriber` 标签来标记该服务：
 
 ```yaml
 # config/services.yml
@@ -55,16 +54,16 @@ services:
     tags:
         - { name: 'enqueue.topic_subscriber' }
 
-        # registers to no default client
+        # 注册到非默认客户端
         - { name: 'enqueue.topic_subscriber', client: 'foo' }
 ```
 
-## Register a command subscriber processor
+## 注册命令订阅器处理器
 
-There is a `CommandSubscriberInterface` interface.
-It is handy to register a command processor.
-Check interface description for more possible ways to configure it.
-It allows to keep subscription and processing logic in one place.
+这里有一个 `CommandSubscriberInterface` 接口。
+注册命令处理器很方便。
+检查接口描述以获取更多可能的配置方式。
+它允许将订阅和处理逻辑保持在一个地方。
 
 ```php
 <?php
@@ -82,7 +81,7 @@ class SendEmailProcessor implements Processor, CommandSubscriberInterface
 }
 ```
 
-Tag the service in the container with `enqueue.command_subscriber` tag:
+用 `enqueue.command_subscriber` 标签标记容器中的服务：
 
 ```yaml
 # config/services.yml
@@ -92,15 +91,15 @@ services:
     tags:
         - { name: 'enqueue.command_subscriber' }
 
-        # registers to no default client
+        # 注册到非默认客户端
         - { name: 'enqueue.command_subscriber', client: 'foo' }
 ```
 
-There is a possibility to register a command processor which works exclusively on the queue (no other processors bound to it).
-In this case you can send messages without setting any message properties at all.
-It might be handy if you want to process messages that are sent by another application.
+可以注册一个在特定队列（没有其他处理器绑定到它）上工作的命令处理器。
+在这种情况下，您可以在不设置任何消息属性的情况下发送消息。
+如果您想处理由另一个应用发送的消息，它应该会很方便。
 
-Here's a configuration example:
+下面是一个配置示例：
 
 ```php
 <?php
@@ -121,13 +120,13 @@ class SendEmailProcessor implements Processor, CommandSubscriberInterface
 }
 ```
 
-The service has to be tagged with `enqueue.command_subscriber` tag.
+该服务必须使用 `enqueue.command_subscriber`标签进行标记。
 
-# Register a custom processor
+# 注册自定义处理器
 
-You could register a processor that does not implement neither `CommandSubscriberInterface` not `TopicSubscriberInterface`.
-There is a tag `enqueue.processor` for it. You must define either `topic` or `command` tag attribute.
-It is possible to define a client you would like to register the processor to. By default, it is registered to default client (first configured or named `default` one ).
+您可以注册一个既没有实现 `CommandSubscriberInterface` 也没有实现 `TopicSubscriberInterface` 的处理器。
+它有一个专用的 `enqueue.processor` 标签，但您必须定义 `topic` 或 `command` 其中一个标签属性。
+可以定义您想要向其注册处理器的客户端。默认情况下，它注册到默认客户端（命名为 `default` 的配置或第一个配置）。
 
 ```yaml
 # src/AppBundle/Resources/services.yml
@@ -135,28 +134,28 @@ It is possible to define a client you would like to register the processor to. B
 services:
   AppBundle\Async\SayHelloProcessor:
     tags:
-        # registers as topic processor
+        # 注册为主题处理器
         - { name: 'enqueue.processor', topic: 'aTopic' }
-        # registers as command processor
+        # 注册为命令处理器
         - { name: 'enqueue.processor', command: 'aCommand' }
 
-        # registers to no default client
+        # 注册到非默认客户端
         - { name: 'enqueue.processor', command: 'aCommand', client: 'foo' }
 ```
 
-The tag has some additional options:
+该标签有一些额外的选项：
 
 * queue
 * prefix_queue
 * processor
 * exclusive
 
-You could add your own attributes. They will be accessible through `Route::getOption` later.
+您可以添加自己的属性。稍后将可以通过 `Route::getOption` 访问它们。
 
-# Register a transport processor
+# 注册传输处理器
 
-If you want to use a processor with `enqueue:transport:consume` it should be tagged `enqueue.transport.processor`.
-It is possible to define a transport you would like to register the processor to. By default, it is registered to default transport (first configured or named `default` one ).
+如果你想拥有一个使用 `enqueue:transport:consume` 的处理器，它应该被标记为 `enqueue.transport.processor`。
+可以给您的处理器定义一个指定的传输。默认情况下，它注册到默认传输（命名为 `default` 的配置或第一个配置）。
 
 ```yaml
 # config/services.yml
@@ -166,18 +165,18 @@ services:
     tags:
         - { name: 'enqueue.transport.processor', processor: 'say_hello' }
 
-        # registers to no default transport
+        # 注册到非默认传输
         - { name: 'enqueue.processor', transport: 'foo' }
 ```
 
-The tag has some additional options:
+该标签有一些额外的选项：
 
 * processor
 
-Now you can run a command and tell it to consume from a given queue and process messages with given processor:
+现在您可以运行一个命令并告诉它从给定的队列中消费并使用给定的处理器处理消息：
 
 ```bash
 $ ./bin/console enqueue:transport:consume say_hello foo_queue -vvv
 ```
 
-[back to index](index.md)
+[返回目录](index.md)

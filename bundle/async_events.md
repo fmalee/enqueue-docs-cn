@@ -6,25 +6,25 @@ nav_order: 6
 ---
 {% include support.md %}
 
-# Async events
+# 异步事件
 
-The EnqueueBundle allows you to dispatch events asynchronously.
-Behind the scene it replaces your listener with one that sends a message to MQ.
-The message contains the event object.
-The consumer, once it receives the message, restores the event and dispatches it to only async listeners.
+EnqueueBundle 允许您异步调度事件。
+在幕后，它将您的监听器替换为向 MQ 发送消息的监听器。
+该消息包含事件对象。
+消费者一旦收到消息，就会恢复该事件并将其调度给异步监听器。
 
-Async listeners benefits:
+异步监听器的好处：
 
-* Reduces response time. Work is deferred to consumer processes.
-* Better fault tolerance. Bugs in async listener do not affect user. Messages will wait till you fix bugs.
-* Better scaling. Add more consumers to meet the load.
+* 减少响应时间。工作被推迟到消费者进程。
+* 更好的容错能力。异步监听器中的错误不会影响用户。消息将等到您修复错误为止。
+* 更好的弹性。添加更多消费者以满足负载。
 
-_**Note**: Prior to Symfony 3.0, events contain `eventDispatcher` and the default php serializer transformer is unable to serialize the object. A transformer should be registered for every async event. Read the [event transformer](#event-transformer)._
+_**注意**：在 Symfony 3.0 之前，事件会包含 `eventDispatcher`，并且默认的 php 序列化转换器无法序列化对象。每个异步事件都应该注册一个转换器。阅读[事件转换器](#事件转换器)。_
 
-## Configuration
+## 配置
 
-Symfony events are currently processed synchronously, enabling the async configuration for EnqueueBundle causes tagged listeners to defer action to a consumer asynchronously.
-If you already [installed the bundle](quick_tour.md#install), then enable `async_events`.
+Symfony 事件当前是同步处理的，启用 EnqueueBundle 的异步配置会导致标记的监听器异步的延迟对消费者的操作。
+如果您已经[安装了该包](quick_tour.md#install)，则启用 `async_events`。
 
 ```yaml
 # app/config/config.yml
@@ -33,13 +33,13 @@ enqueue:
     default:
         async_events:
             enabled: true
-            # if you'd like to send send messages onTerminate use spool_producer (it further reduces response time):
+            # 如果您想使用终端上发送消息，请使用spool_producer（它进一步缩短了响应时间）:
             # spool_producer: true
 ```
 
-## Usage
+## 用例
 
-To make your listener async you have add `async: true` attribute to the tag `kernel.event_listener`, like this:
+为了使您的监听器异步，您必须向 `kernel.event_listener` 标签添加 `async: true` 属性，如下所示：
 
 ```yaml
 # app/config/config.yml
@@ -51,7 +51,7 @@ services:
             - { name: 'kernel.event_listener', async: true, event: 'foo', method: 'onEvent' }
 ```
 
-or to `kernel.event_subscriber`:
+或注册到 `kernel.event_subscriber`：
 
 ```yaml
 # app/config/config.yml
@@ -63,11 +63,11 @@ services:
             - { name: 'kernel.event_subscriber', async: true }
 ```
 
-That's basically it. The rest of the doc describes advanced features.
+基本上就是这样。文档的其余部分将描述高级功能。
 
-## Advanced Usage.
+## 高级用例
 
-You can also add an async listener directly and register a custom message processor for it:
+您还可以直接添加异步监听器并为其注册自定义消息处理器：
 
 ```yaml
 # app/config/config.yml
@@ -82,11 +82,11 @@ services:
 ```
 
 
-## Event transformer
+## 事件转换器
 
-The bundle uses [php serializer](https://github.com/php-enqueue/enqueue-dev/blob/master/pkg/enqueue-bundle/Events/PhpSerializerEventTransformer.php) transformer by default to pass events through MQ.
-You can write a transformer for each event type by implementing the `Enqueue\AsyncEventDispatcher\EventTransformer` interface.
-Consider the next example. It shows how to send an event that contains Doctrine entity as a subject
+默认情况下，bundle 使用[php 序列化](https://github.com/php-enqueue/enqueue-dev/blob/master/pkg/enqueue-bundle/Events/PhpSerializerEventTransformer.php)转换器来通过 MQ 传递事件。
+您可以通过实现 `Enqueue\AsyncEventDispatcher\EventTransformer` 接口来为每种事件类型编写转换器。
+考虑下一个例子。它展示了如何发送包含 Doctrine 实体作为主题的事件：
 
 ```php
 <?php
@@ -157,7 +157,7 @@ class FooEventTransformer implements EventTransformer
 }
 ```
 
-and register it:
+并注册它：
 
 ```yaml
 # app/config/config.yml
@@ -170,7 +170,8 @@ services:
             - {name: 'enqueue.event_transformer', eventName: 'foo' }
 ```
 
-The `eventName` attribute accepts a regexp. You can do next `eventName: '/foo\..*?/'`.
-It uses this transformer for all event with the name beginning with `foo.`
+该 `eventName` 属性接受正则表达式。
+你可以做使用`eventName: '/foo\..*?/'`。
+它将此转换器用于名称以 `foo.` 开头的所有事件。
 
-[back to index](index.md)
+[返回目录](index.md)

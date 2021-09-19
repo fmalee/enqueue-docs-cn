@@ -6,34 +6,34 @@ nav_order: 2
 ---
 {% include support.md %}
 
-# Config reference
+# 配置参考
 
-You can get this info by running `./bin/console config:dump-reference enqueue` command.
+您可以通过运行 `./bin/console config:dump-reference enqueue` 命令来获取这些信息。
 
 ```yaml
-# Default configuration for extension with alias: "enqueue"
+# 别名为“enqueue”的扩展的默认配置
 enqueue:
 
-    # Prototype
+    # 原型
     key:
 
-        # The transport option could accept a string DSN, an array with DSN key, or null. It accept extra options. To find out what option you can set, look at connection factory constructor docblock.
-        transport:            # Required
+        # 传输选项可以接受字符串DSN、带有DSN密钥的数组或null。它接受额外的选项。要了解可以设置什么选项，请查看连接工厂的构造函数的文档块。
+        transport:            # 必须
 
-            # The MQ broker DSN. These schemes are supported: "file", "amqp", "amqps", "db2", "ibm-db2", "mssql", "sqlsrv", "mysql", "mysql2", "pgsql", "postgres", "sqlite", "sqlite3", "null", "gearman", "beanstalk", "kafka", "rdkafka", "redis", "rediss", "stomp", "sqs", "gps", "mongodb", "wamp", "ws", to use these "file", "amqp", "amqps", "db2", "ibm-db2", "mssql", "sqlsrv", "mysql", "mysql2", "pgsql", "postgres", "sqlite", "sqlite3", "null", "gearman", "beanstalk", "kafka", "rdkafka", "redis", "rediss", "stomp", "sqs", "gps", "mongodb", "wamp", "ws" you have to install a package.
-            dsn:                  ~ # Required
+            # MQ代理的DSN。支持一下模式："file"、"amqp"、"amqps"、"db2"、"ibm-db2"、"mssql"、"sqlsrv"、"mysql"、"mysql2"、"pgsql"、"postgres"、"sqlite"、"sqlite3"、"null"、"gearman"、"beanstalk"、"kafka"、"rdkafka"、"redis"、"rediss"、"stomp"、"sqs"、"gps"、"mongodb"、"wamp"、"ws"。为了使用"file",、"amqp"、"amqps"、"db2"、"ibm-db2"、"mssql"、"sqlsrv"、"mysql"、"mysql2"、"pgsql"、"postgres"、"sqlite"、"sqlite3"、"null"、"gearman"、"beanstalk"、"kafka"、"rdkafka"、"redis"、"rediss"、"stomp"、"sqs"、"gps"、"mongodb"、"wamp"、"ws"，你必须安装一个包。
+            dsn:                  ~ # 必须
 
-            # The connection factory class should implement "Interop\Queue\ConnectionFactory" interface
+            # 实现了 Interop\Queue\ConnectionFactory 接口的连接工厂类
             connection_factory_class: ~
 
-            # The factory class should implement "Enqueue\ConnectionFactoryFactoryInterface" interface
+            # 实现了 Enqueue\ConnectionFactoryFactoryInterface 接口的工厂类
             factory_service:      ~
 
-            # The factory service should be a class that implements "Enqueue\ConnectionFactoryFactoryInterface" interface
+            # 实现了 Enqueue\ConnectionFactoryFactoryInterface 接口的工厂服务类
             factory_class:        ~
         consumption:
 
-            # the time in milliseconds queue consumer waits for a message (100 ms by default)
+            # 队列消费者等待一个消息的时间（毫秒），默认为100毫秒。
             receive_timeout:      10000
         client:
             traceable_producer:   true
@@ -46,19 +46,19 @@ enqueue:
             redelivered_delay_time: 0
             default_queue:        default
 
-            # The array contains driver specific options
+            # 包含驱动特定选项的数组
             driver_options:       []
 
-        # The "monitoring" option could accept a string DSN, an array with DSN key, or null. It accept extra options. To find out what option you can set, look at stats storage constructor doc block.
+        # 监视选项可以接受字符串DSN、带有DSN密钥的数组或null。它接受额外的选项。要了解可以设置什么选项，请查看stats storage构造函数的文档块。
         monitoring:
 
-            # The stats storage DSN. These schemes are supported: "wamp", "ws", "influxdb".
-            dsn:                  ~ # Required
+            # 统计数据存储DSN。支持这些方案：“wamp”、“ws”、“XDB”。
+            dsn:                  ~ # 必须
 
-            # The factory class should implement "Enqueue\Monitoring\StatsStorageFactory" interface
+            # 实现了 Enqueue\Monitoring\StatsStorageFactory 接口的工厂类
             storage_factory_service: ~
 
-            # The factory service should be a class that implements "Enqueue\Monitoring\StatsStorageFactory" interface
+            # 实现了 Enqueue\Monitoring\StatsStorageFactory 接口的工厂服务类
             storage_factory_class: ~
         async_commands:
             enabled:              false
@@ -80,4 +80,4 @@ enqueue:
             reply_extension:      true
 ```
 
-[back to index](index.md)
+[返回目录](index.md)

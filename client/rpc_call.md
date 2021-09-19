@@ -6,18 +6,18 @@ nav_order: 5
 ---
 {% include support.md %}
 
-# Client. RPC call
+# RPC调用
 
-The client's [quick tour](quick_tour.md) describes how to get the client object.
-Here we'll show you how to use Enqueue Client to perform a [RPC call](https://en.wikipedia.org/wiki/Remote_procedure_call).
-You can do it by defining a command which returns something.
+客户端的[快速指南](quick_tour.md)介绍了如何获取客户端对象。
+这里我们将向您展示如何使用 Enqueue Client 来执行[RPC 调用](https://en.wikipedia.org/wiki/Remote_procedure_call)。
+您可以通过定义一个返回某些内容的命令来实现。
 
-## The consumer side
+## 消费端
 
-On the consumer side we have to register a command processor which computes the result and send it back to the sender.
-Pay attention that you have to add reply extension. It won't work without it.
+在消费端，我们必须注册一个命令处理器，它计算结果并将其发送回发送者。
+请注意，您必须添加回复扩展。没有它就行不通。
 
-Of course it is possible to implement rpc server side based on transport classes only. That would require a bit more work to do.
+当然，也可以仅基于传输类来实现 RPC 服务器端。这需要做更多的工作。
 
 ```php
 <?php
@@ -43,11 +43,9 @@ $client->bindCommand('square', function (Message $message, Context $context) use
 $client->consume(new ChainExtension([new ReplyExtension()]));
 ```
 
-[back to index](../index.md)
+## 发送端
 
-## The sender side
-
-On the sender's side we need a client which send a command and wait for reply messages.
+在发送端，我们需要一个发送命令并等待回复消息的客户端。
 
 ```php
 <?php
@@ -55,10 +53,10 @@ use Enqueue\SimpleClient\SimpleClient;
 
 $client = new SimpleClient('amqp:');
 
-echo $client->sendCommand('square', 5, true)->receive(5000 /* 5 sec */)->getBody();
+echo $client->sendCommand('square', 5, true)->receive(5000 /* 5秒 */)->getBody();
 ```
 
-You can perform several requests asynchronously with `sendCommand` and ask for replays later.
+您可以使用 `sendCommand` 异步执行多个请求，并稍后要求回复。
 
 ```php
 <?php
@@ -84,3 +82,6 @@ while ($promises) {
     }
 }
 ```
+
+[返回目录](../index.md)
+

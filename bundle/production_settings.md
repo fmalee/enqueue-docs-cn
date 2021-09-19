@@ -6,20 +6,19 @@ nav_order: 10
 ---
 {% include support.md %}
 
-# Production settings
+# 生产设置
 
 ## Supervisord
 
-As you may read in [quick tour](quick_tour.md) you have to run `enqueue:consume` in order to process messages
-The php process is not designed to work for a long time. So it has to quit periodically.
-Or, the command may exit because of error or exception.
-Something has to bring it back and continue message consumption.
-We advise you to use [Supervisord](http://supervisord.org/) for that.
-It starts processes and keep an eye on them while they are working.
+正如您在[快速指南](quick_tour.md)中所读到的那样，您必须运行 `enqueue:consume` 才能处理消息。
+ PHP进程并不是为长时间工作而设计的，所以它必须定期退出。
+或者，该命令可能因错误或异常而退出。
+必须有东西把它带回并继续消息的消费。
+为此，我们建议您使用 [Supervisord](http://supervisord.org/)。
+它会启动进程，并在它们工作时密切关注。
 
-
-Here an example of supervisord configuration.
-It runs four instances of `enqueue:consume` command.
+这里是一个 Supervisord 配置的示例。
+它同时运行四个 `enqueue:consume` 命令实例。
 
 ```ini
 [program:pf_message_consumer]
@@ -33,6 +32,6 @@ user=apache
 redirect_stderr=true
 ```
 
-_**Note**: Pay attention to `--time-limit` it tells the command to exit after 5 minutes._
+_**注意**：`--time-limit` 是在告诉命令要在 5分钟后退出。_
 
-[back to index](index.md)
+[返回目录](index.md)

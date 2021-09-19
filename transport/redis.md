@@ -6,64 +6,64 @@ nav_order: 3
 ---
 {% include support.md %}
 
-# Redis transport
+# Redis 传输
 
-The transport uses [Redis](https://redis.io/) as a message broker.
-It creates a collection (a queue or topic) there. Pushes messages to the tail of the collection and pops from the head.
-The transport works with [phpredis](https://github.com/phpredis/phpredis) php extension or [predis](https://github.com/nrk/predis) library.
-Make sure you installed either of them
+本传输使用[Redis](https://redis.io/)作为消息代理。
+它将在那里创建一个集合（队列或主题）。将消息推送到集合的尾部并从头部弹出。
+本传输可以运行于 [phpredis](https://github.com/phpredis/phpredis) PHP扩展或[predis](https://github.com/nrk/predis)库。
+确保您安装了其中任何一个。
 
-Features:
-* Configure with DSN string
-* Delay strategies out of the box
-* Recovery&Redelivery support
-* Expiration support
-* Delaying support
-* Interchangeable with other Queue Interop implementations
-* Supports Subscription consumer
+特性：
+* 使用 DSN 字符串配置
+* 开箱即用的延迟策略
+* Recovery&Redelivery support恢复和重新交付支持
+* 限期支持
+* 延迟支持
+* 可与其他队列互操作实现互换
+* 支持订阅消费者
 
-Parts:
-* [Installation](#installation)
-* [Create context](#create-context)
-* [Send message to topic](#send-message-to-topic)
-* [Send message to queue](#send-message-to-queue)
-* [Send expiration message](#send-expiration-message)
-* [Send delayed message](#send-delayed-message)
-* [Consume message](#consume-message)
-* [Delete queue (purge messages)](#delete-queue-purge-messages)
-* [Delete topic (purge messages)](#delete-topic-purge-messages)
-* [Connect Heroku Redis](#connect-heroku-redis)
+目录：
+* [安装](#安装)
+* [创建上下文](#创建上下文)
+* [发送消息到主题](#发送消息到主题)
+* [发送消息到队列](#发送消息到队列)
+* [发送限期消息](#发送限期消息)
+* [发送延迟消息](#发送延迟消息)
+* [消费消息](#消费消息)
+* [删除队列（清除消息）](#删除队列（清除消息）)
+* [删除主题（清除消息）](#删除主题（清除消息）)
+* [连接Heroku Redis](#连接Heroku Redis)
 
-## Installation
+## 安装
 
-* With php redis extension:
+* 使用 php redis 扩展：
 
 ```bash
 $ apt-get install php-redis
 $ composer require enqueue/redis
 ```
 
-* With predis library:
+* 使用 predis 库：
 
 ```bash
 $ composer require enqueue/redis predis/predis:^1
 ```
 
-## Create context
+## 创建上下文
 
-* With php redis extension:
+* 使用 php redis 扩展：
 
 ```php
 <?php
 use Enqueue\Redis\RedisConnectionFactory;
 
-// connects to localhost
+// 连接到localhost
 $factory = new RedisConnectionFactory();
 
-// same as above
+// 同上
 $factory = new RedisConnectionFactory('redis:');
 
-// same as above
+// 同上
 $factory = new RedisConnectionFactory([]);
 
 // connect to Redis at example.com port 1000 using phpredis extension
@@ -73,12 +73,12 @@ $factory = new RedisConnectionFactory([
     'scheme_extensions' => ['phpredis'],
 ]);
 
-// same as above but given as DSN string
+// 同上，但是使用了DSN字符串。
 $factory = new RedisConnectionFactory('redis+phpredis://example.com:1000');
 
 $context = $factory->createContext();
 
-// if you have enqueue/enqueue library installed you can use a factory to build context from DSN
+// 如果已安装了 enqueue/enqueue 库，则可以使用工厂从DSN构建上下文。
 $context = (new \Enqueue\ConnectionFactoryFactory())->create('redis:')->createContext();
 
 // pass redis instance directly
@@ -91,7 +91,7 @@ $factory = new RedisConnectionFactory('rediss+predis://user:pass@host/0');
 $factory = new RedisConnectionFactory($redis);
 ```
 
-* With predis library:
+* 使用 predis 库：
 
 ```php
 <?php
@@ -106,9 +106,9 @@ $connectionFactory = new RedisConnectionFactory([
 $context = $connectionFactory->createContext();
 ```
 
-* With predis and custom [options](https://github.com/nrk/predis/wiki/Client-Options):
+* 使用 predis 和自定义[选项](https://github.com/nrk/predis/wiki/Client-Options):
 
-It gives you more control over vendor specific features.
+它可以使您更好地控制供应商的特定功能。
 
 ```php
 <?php
@@ -128,7 +128,7 @@ $redis = new PRedis($config);
 $factory = new RedisConnectionFactory($redis);
 ```
 
-## Send message to topic
+## 发送消息到主题
 
 ```php
 <?php
@@ -140,7 +140,7 @@ $message = $context->createMessage('Hello world!');
 $context->createProducer()->send($fooTopic, $message);
 ```
 
-## Send message to queue
+## 发送消息到队列
 
 ```php
 <?php
@@ -152,7 +152,7 @@ $message = $context->createMessage('Hello world!');
 $context->createProducer()->send($fooQueue, $message);
 ```
 
-## Send expiration message
+## 发送限期消息
 
 ```php
 <?php
@@ -162,13 +162,12 @@ $context->createProducer()->send($fooQueue, $message);
 $message = $context->createMessage('Hello world!');
 
 $context->createProducer()
-    ->setTimeToLive(60000) // 60 sec
-    //
+    ->setTimeToLive(60000) // 60秒
     ->send($fooQueue, $message)
 ;
 ```
 
-## Send delayed message
+## 发送延迟消息
 
 ```php
 <?php
@@ -178,13 +177,12 @@ $context->createProducer()
 $message = $context->createMessage('Hello world!');
 
 $context->createProducer()
-    ->setDeliveryDelay(5000) // 5 sec
-
+    ->setDeliveryDelay(5000) // 5秒
     ->send($fooQueue, $message)
 ;
 ````
 
-## Consume message:
+## 消费消息：
 
 ```php
 <?php
@@ -195,13 +193,13 @@ $consumer = $context->createConsumer($fooQueue);
 
 $message = $consumer->receive();
 
-// process a message
+// 处理消息
 
 $consumer->acknowledge($message);
 //$consumer->reject($message);
 ```
 
-## Delete queue (purge messages):
+## 删除队列（清除消息）：
 
 ```php
 <?php
@@ -212,7 +210,7 @@ $fooQueue = $context->createQueue('aQueue');
 $context->deleteQueue($fooQueue);
 ```
 
-## Delete topic (purge messages):
+## 删除主题（清除消息）：
 
 ```php
 <?php
@@ -223,10 +221,10 @@ $fooTopic = $context->createTopic('aTopic');
 $context->deleteTopic($fooTopic);
 ```
 
-## Connect Heroku Redis
+## 连接 Heroku Redis
 
-[Heroku Redis](https://devcenter.heroku.com/articles/heroku-redis) describes how to setup Redis instance on Heroku.
-To use it with Enqueue Redis you have to pass REDIS_URL to RedisConnectionFactory constructor.
+[Heroku Redis](https://devcenter.heroku.com/articles/heroku-redis)描述了如何在 Heroku 上设置 Redis 实例。
+要将它与 Enqueue Redis 一起使用，您必须将 REDIS_URL 传递给 RedisConnectionFactory 构造函数。
 
 ```php
 <?php
@@ -236,4 +234,4 @@ To use it with Enqueue Redis you have to pass REDIS_URL to RedisConnectionFactor
 $connection = new \Enqueue\Redis\RedisConnectionFactory(getenv('REDIS_URL'));
 ```
 
-[back to index](../index.md)
+[返回目录](../index.md)

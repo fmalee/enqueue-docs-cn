@@ -6,26 +6,27 @@ nav_order: 3
 ---
 {% include support.md %}
 
-# Google Pub Sub transport
+# Google Pub Sub 传输
 
-A transport for [Google Pub Sub](https://cloud.google.com/pubsub/docs/) cloud MQ.
-It uses internally official google sdk library [google/cloud-pubsub](https://packagist.org/packages/google/cloud-pubsub)
+[Google Pub Sub](https://cloud.google.com/pubsub/docs/) 云 MQ 的传输。
+它使用内部 google sdk 官方库 [google/cloud-pubsub](https://packagist.org/packages/google/cloud-pubsub)。
 
-* [Installation](#installation)
-* [Create context](#create-context)
-* [Send message to topic](#send-message-to-topic)
-* [Consume message](#consume-message)
+- [安装](https://php-enqueue.github.io/transport/gps/#installation)
 
-## Installation
+* [安装](#安装)
+* [创建上下文](#创建上下文)
+* [发送消息到主题](#发送消息到主题)
+* [消费消息](#消费消息)
+
+## 安装
 
 ```bash
 $ composer require enqueue/gps
 ```
 
-## Create context
+## 创建上下文
 
-To enable the Google Cloud Pub/Sub Emulator, set the `PUBSUB_EMULATOR_HOST` environment variable.
-There is a handy docker container [google/cloud-sdk](https://hub.docker.com/r/google/cloud-sdk/).
+要启用 Google Cloud Pub/Sub Emulator，请设置 `PUBSUB_EMULATOR_HOST` 环境变量。这里有一个方便的 docker 容器 [google/cloud-sdk](https://hub.docker.com/r/google/cloud-sdk/)。
 
 ```php
 <?php
@@ -35,20 +36,20 @@ putenv('PUBSUB_EMULATOR_HOST=http://localhost:8900');
 
 $connectionFactory = new GpsConnectionFactory();
 
-// save as above
+// 同上
 $connectionFactory = new GpsConnectionFactory('gps:');
 
 $context = $connectionFactory->createContext();
 
-// if you have enqueue/enqueue library installed you can use a factory to build context from DSN
+// 如果已安装了 enqueue/enqueue 库，则可以使用工厂从DSN构建上下文。
 $context = (new \Enqueue\ConnectionFactoryFactory())->create('gps:')->createContext();
 ```
 
-## Send message to topic
+## 发送消息到主题
 
-Before you can send message you have to declare a topic.
-The operation creates a topic on a broker side.
-Google allows messages to be sent only to topic.
+在发送消息之前，您必须声明一个主题。
+该操作在代理端创建一个主题。
+Google 只允许将消息发送到主题。
 
 ```php
 <?php
@@ -62,10 +63,10 @@ $context->declareTopic($fooTopic);
 $context->createProducer()->send($fooTopic, $message);
 ```
 
-## Consume message:
+## 消费消息
 
-Before you can consume message you have to subscribe a queue to the topic.
-Google does not allow consuming message from the topic directly.
+在您使用消息之前，您必须将一个队列订阅到主题。
+Google 不允许直接使用来自主题的消息。
 
 ```php
 <?php
@@ -79,10 +80,10 @@ $context->subscribe($fooTopic, $fooQueue);
 $consumer = $context->createConsumer($fooQueue);
 $message = $consumer->receive();
 
-// process a message
+// 处理消息
 
 $consumer->acknowledge($message);
 // $consumer->reject($message);
 ```
 
-[back to index](../index.md)
+[返回目录](../index.md)

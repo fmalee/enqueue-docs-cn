@@ -5,18 +5,18 @@ nav_order: 90
 ---
 {% include support.md %}
 
-## Pull request to readonly repo.
+## 拉请求到只读仓库
 
-Thanks for your pull request! We love contributions.
+感谢您的拉取请求！我们喜欢贡献。
 
-However, this repository is what we call a "subtree split": a read-only copy of one directory of the main enqueue-dev repository. It is used by Composer to allow developers to depend on specific Enqueue package.
+然而，这个仓库就是我们所说的“子树拆分”：主 enqueue-dev 仓库的一个目录的只读副本。Composer 使用它来允许开发人员依赖特定的 Enqueue 包。
 
-If you want to contribute, you should instead open a pull request on the main repository:
+如果你想贡献，你应该在主仓库上打开一个拉取请求：
 
 https://github.com/php-enqueue/enqueue-dev
 
-Read the contribution guide
+阅读贡献指南
 
 https://github.com/php-enqueue/enqueue-dev/blob/master/docs/contribution.md
 
-Thank you for your contribution!
+感谢您的贡献！

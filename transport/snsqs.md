@@ -6,32 +6,29 @@ nav_order: 3
 ---
 {% include support.md %}
 
-# Amazon SNS-SQS transport
+# Amazon SNS-SQS 传输
 
-Utilize two Amazon services [SNS-SQS](https://docs.aws.amazon.com/sns/latest/dg/sns-sqs-as-subscriber.html) to
-implement [Publish-Subscribe](https://www.enterpriseintegrationpatterns.com/patterns/messaging/PublishSubscribeChannel.html)
-enterprise integration pattern. As opposed to single SQS transport this adds ability to use [MessageBus](https://www.enterpriseintegrationpatterns.com/patterns/messaging/MessageBus.html)
-with enqueue.
+利用两个 Amazon 的 [SNS-SQS](https://docs.aws.amazon.com/sns/latest/dg/sns-sqs-as-subscriber.html)服务来实现[发布-订阅](https://www.enterpriseintegrationpatterns.com/patterns/messaging/PublishSubscribeChannel.html)企业集成模式。与单个 SQS 传输相反，这增加了将[MessageBus](https://www.enterpriseintegrationpatterns.com/patterns/messaging/MessageBus.html)与队列一起使用的能力。
 
-A transport for [Amazon SQS](https://aws.amazon.com/sqs/) broker.
-It uses internally official [aws sdk library](https://packagist.org/packages/aws/aws-sdk-php)
+[Amazon SQS](https://aws.amazon.com/sqs/)代理的传输。
+它在内部使用官方[aws sdk 库](https://packagist.org/packages/aws/aws-sdk-php)。
 
-* [Installation](#installation)
-* [Create context](#create-context)
-* [Declare topic, queue and bind them together](#declare-topic-queue-and-bind-them-together)
-* [Send message to topic](#send-message-to-topic)
-* [Send message to queue](#send-message-to-queue)
-* [Consume message](#consume-message)
-* [Purge queue messages](#purge-queue-messages)
-* [Queue from another AWS account](#queue-from-another-aws-account)
+* [安装](#安装)
+* [创建上下文](#创建上下文)
+* [声明主题、队列并互相绑定](#声明主题、队列并互相绑定)
+* [发送消息到主题](#发送消息到主题)
+* [发送消息到队列](#发送消息到队列)
+* [消费消息](#消费消息)
+* [清除队列消息](#清除队列消息)
+* [来自另一个 AWS 账户的队列](#来自另一个-AWS-账户的队列)
 
-## Installation
+## 安装
 
 ```bash
 $ composer require enqueue/snsqs
 ```
 
-## Create context
+## 创建上下文
 
 ```php
 <?php
@@ -42,26 +39,25 @@ $factory = new SnsQsConnectionFactory([
     'secret' => 'aSecret',
     'region' => 'aRegion',
 
-    // or you can segregate options using prefixes "sns_", "sqs_"
-    'key' => 'aKey',              // common option for both SNS and SQS
-    'sns_region' => 'aSnsRegion', // SNS transport option
-    'sqs_region' => 'aSqsRegion', // SQS transport option
+    // 或者，您可以使用前缀“sns”、“sqs”来分隔选项
+    'key' => 'aKey',              // SNS 和 SQS 的通用选项
+    'sns_region' => 'aSnsRegion', // SNS 传输选项
+    'sqs_region' => 'aSqsRegion', // SQS 传输选项
 ]);
 
-// same as above but given as DSN string. You may need to url encode secret if it contains special char (like +)
+// 同上，但是使用了DSN字符串。。如果secret包含特殊字符（如+），则可能需要对其进行url编码。
 $factory = new SnsQsConnectionFactory('snsqs:?key=aKey&secret=aSecret&region=aRegion');
 
 $context = $factory->createContext();
 
-// if you have enqueue/enqueue library installed you can use a factory to build context from DSN
+// 如果已安装了 enqueue/enqueue 库，则可以使用工厂从DSN构建上下文。
 $context = (new \Enqueue\ConnectionFactoryFactory())->create('snsqs:')->createContext();
 ```
 
-## Declare topic, queue and bind them together
+## 声明主题、队列并互相绑定
 
-Declare topic, queue operation creates a topic, queue on a broker side.
-Bind creates connection between topic and queue. You publish message to
-the topic and topic sends message to each queue connected to the topic.
+声明主题、队列操作在代理端创建主题、队列。
+绑定会在主题和队列之间创建连接。您将消息发布到主题，主题将消息发送到连接到该主题的每个队列。
 
 
 ```php
@@ -80,13 +76,13 @@ $context->declareQueue($out2Queue);
 $context->bind($inTopic, $out1Queue);
 $context->bind($inTopic, $out2Queue);
 
-// to remove topic/queue use deleteTopic/deleteQueue method
+// 要删除主题/队列，请使用deleteTopic/deleteQueue方法
 //$context->deleteTopic($inTopic);
 //$context->deleteQueue($out1Queue);
 //$context->unbind(inTopic, $out1Queue);
 ```
 
-## Send message to topic
+## 发送消息到主题
 
 ```php
 <?php
@@ -98,9 +94,9 @@ $message = $context->createMessage('Hello world!');
 $context->createProducer()->send($inTopic, $message);
 ```
 
-## Send message to queue
+## 发送消息到队列
 
-You can bypass topic and publish message directly to the queue
+您可以绕过主题并将消息直接发布到队列
 
 ```php
 <?php
@@ -113,7 +109,7 @@ $context->createProducer()->send($fooQueue, $message);
 ```
 
 
-## Consume message:
+## 消费消息
 
 ```php
 <?php
@@ -124,13 +120,13 @@ $consumer = $context->createConsumer($out1Queue);
 
 $message = $consumer->receive();
 
-// process a message
+// 处理消息
 
 $consumer->acknowledge($message);
 // $consumer->reject($message);
 ```
 
-## Purge queue messages:
+## 清除队列消息
 
 ```php
 <?php
@@ -141,29 +137,28 @@ $fooQueue = $context->createQueue('foo');
 $context->purgeQueue($fooQueue);
 ```
 
-## Queue from another AWS account
+## 来自另一个 AWS 账户的队列
 
-SQS allows to use queues from another account. You could set it globally for all queues via option `queue_owner_aws_account_id` or
-per queue using `SnsQsQueue::setQueueOwnerAWSAccountId` method.
+SNSQS 允许使用来自另一个帐户的队列。您可以通过 `queue_owner_aws_account_id` 选项或每个队列使用 `SnsQsQueue::setQueueOwnerAWSAccountId` 方法来为全局设置所有队列。
 
 ```php
 <?php
 use Enqueue\SnsQs\SnsQsConnectionFactory;
 
-// globally for all queues
+// 全局配置所有队列
 $factory = new SnsQsConnectionFactory('snsqs:?sqs_queue_owner_aws_account_id=awsAccountId');
 
 $context = (new SnsQsConnectionFactory('snsqs:'))->createContext();
 
-// per queue.
+// 每个队列
 $queue = $context->createQueue('foo');
 $queue->setQueueOwnerAWSAccountId('awsAccountId');
 ```
 
-## Multi region examples
+## 多区域示例
 
-Enqueue SNSQS provides a generic multi-region support. This enables users to specify which AWS Region to send a command to by setting region on SnsQsQueue.
-If not specified the default region is used.
+Enqueue SNSQS 提供通用的多区域支持。这使用户能够通过在 SnsQsQueue 上设置区域来指定将命令发送到哪个 AWS 区域。
+如果未指定，则使用默认区域。
 
 ```php
 <?php
@@ -174,8 +169,8 @@ $context = (new SnsQsConnectionFactory('snsqs:?region=eu-west-2'))->createContex
 $queue = $context->createQueue('foo');
 $queue->setRegion('us-west-2');
 
-// the request goes to US West (Oregon) Region
+// 请求发送到US West (Oregon)区域
 $context->declareQueue($queue);
 ```
 
-[back to index](../index.md)
+[返回目录](../index.md)

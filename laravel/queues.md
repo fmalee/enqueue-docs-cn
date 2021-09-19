@@ -6,14 +6,14 @@ nav_order: 2
 ---
 {% include support.md %}
 
-# Laravel Queue. Quick tour.
+# Laravel 队列
 
-The [LaravelQueue](https://github.com/php-enqueue/laravel-queue) package allows to use [queue-interop](https://github.com/queue-interop/queue-interop) compatible transports [the Laravel way](https://laravel.com/docs/5.4/queues).
-I suppose you already [installed and configured](quick_tour.md) the package so let's look what you have to do to make queue work.
+[LaravelQueue](https://github.com/php-enqueue/laravel-queue) 包允许以[Laravel方式](https://laravel.com/docs/5.4/queues)来使用于队列交互兼容的传输。
+我想你应该已经[安装并配置](quick_tour.md)好了这个包，所以让我们看看你必须做什么才能使队列工作。
 
-## Configure
+## 配置
 
-You have to add a connector to `config/queues.php` file. The driver must be `interop`.
+您必须向 `config/queues.php` 文件添加连接器。驱动必须是 `interop`。
 
 ```php
 <?php
@@ -31,13 +31,13 @@ return [
 ];
 ```
 
-Here's a [full list](../transport) of supported transports.
+这是支持的传输的[完整列表](../transport)。
 
-## Usage
+## 用例
 
-Same as standard [Laravel Queues](https://laravel.com/docs/5.4/queues)
+与标准[Laravel 队列](https://laravel.com/docs/5.4/queues)相同。
 
-Send message example:
+发送消息示例：
 
 ```php
 <?php
@@ -47,13 +47,13 @@ $job = (new \App\Jobs\EnqueueTest())->onConnection('interop');
 dispatch($job);
 ```
 
-Consume messages:
+消费消息：
 
 ```bash
 $ php artisan queue:work interop
 ```
 
-## Amqp interop
+## Amqp交互
 
 ```php
 <?php
@@ -61,21 +61,21 @@ $ php artisan queue:work interop
 // config/queue.php
 
 return [
-    // uncomment to set it as default
+    // 取消注释以将其设置为默认值
     // 'default' => env('QUEUE_DRIVER', 'interop'),
 
     'connections' => [
         'interop' => [
             'driver' => 'interop',
 
-            // connects to localhost
+            // 连接到localhost
             'dsn' => 'amqp:', //
 
-            // could be "rabbitmq_dlx", "rabbitmq_delay_plugin", instance of DelayStrategy interface or null
+            // 可以是“rabbitmq_dlx”、“rabbitmq_delay_plugin”、DelayStrategy接口实例或null。
             // 'delay_strategy' => 'rabbitmq_dlx'
         ],
     ],
 ];
 ```
 
-[back to index](../index.md)
+[返回目录](../index.md)

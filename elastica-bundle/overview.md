@@ -7,9 +7,9 @@ nav_order: 4
 
 # Enqueue Elastica Bundle
 
-`EnqueueElasticaBundle` provides extra features for `FOSElasticaBundle` such as:
+`EnqueueElasticaBundle` 为 `FOSElasticaBundle` 提供额外的功能，例如：
 
-* [Speed up populate command.](https://github.com/FriendsOfSymfony/FOSElasticaBundle/blob/master/doc/cookbook/speed-up-populate-command.md)
-* [Doctrine queue listener.](https://github.com/FriendsOfSymfony/FOSElasticaBundle/blob/master/doc/cookbook/doctrine-queue-listener.md)
+* [加速填充命令](https://github.com/FriendsOfSymfony/FOSElasticaBundle/blob/master/doc/cookbook/speed-up-populate-command.md)
+* [Doctrine队列监听器](https://github.com/FriendsOfSymfony/FOSElasticaBundle/blob/master/doc/cookbook/doctrine-queue-listener.md)
 
-[back to index](../index.md)
+[返回目录](../index.md)

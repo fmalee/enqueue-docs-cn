@@ -6,23 +6,23 @@ nav_order: 1
 ---
 {% include support.md %}
 
-# Laravel Queue. Quick tour.
+# 快速指南
 
-The [enqueue/laravel-queue](https://github.com/php-enqueue/laravel-queue) is message queue bridge for Enqueue. You can use all transports built on top of [queue-interop](https://github.com/queue-interop/queue-interop) including [all supported](https://github.com/php-enqueue/enqueue-dev/tree/master/docs/transport) by Enqueue.
+[enqueue/laravel-queue](https://github.com/php-enqueue/laravel-queue) 是用于Enqueue的消息队列桥接。您可以使用建立在 [queue-interop](https://github.com/queue-interop/queue-interop) 之上的所有传输，包括Enqueue[支持](../transport/index.md)的所有传输。
 
-The package allows you to use queue interop transport the [laravel way](https://github.com/php-enqueue/enqueue-dev/blob/master/docs/laravel/queues.md) as well as integrates the [enqueue simple client](https://github.com/php-enqueue/enqueue-dev/blob/master/docs/laravel/quick_tour.md#enqueue-simple-client).
+该包允许您以[laravel的方式](queues.md)来使用队列交互传输，并集成 [Enqueue简单客户端](#Enqueue简单客户端)。
 
-**NOTE:** The part of this code was originally proposed as a PR to [laravel/framework#20148](https://github.com/laravel/framework/pull/20148). It was closed without much explanations, so I decided to open source it as a stand alone package.
+**注意**： 此代码的一部分最初是作为[laravel/framework#20148](https://github.com/laravel/framework/pull/20148)的 PR 提出的。它在没有太多解释的情况下被关闭，所以我决定将它作为一个独立的包开源。
 
-## Install
+## 安装
 
-You have to install `enqueue/laravel-queue` packages and one of the [supported transports](https://github.com/php-enqueue/enqueue-dev/tree/master/docs/transport).
+您必须安装 `enqueue/laravel-queue` 包和[受支持的传输之一](../transport/index.md)。
 
 ```bash
 $ composer require enqueue/laravel-queue enqueue/fs
 ```
 
-## Register service provider
+## 注册服务提供器
 
 ```php
 <?php
@@ -36,21 +36,20 @@ return [
 ];
 ```
 
-## Laravel queues
+## Laravel队列
 
-At this stage you are already able to use [laravel queues](queues.md).
+在这个阶段，你已经可以使用[laravel 队列](queues.md)了。
 
-## Enqueue Simple client
+## Enqueue简单客户端
 
-If you want to use [enqueue/simple-client](https://github.com/php-enqueue/simple-client) in your Laravel application you have perform additional steps .
-You have to install the client library, in addition to what you've already installed:
+如果你想在你的 Laravel 应用中使用 [enqueue/simple-client](https://github.com/php-enqueue/simple-client)，你还需要执行额外的步骤。除了已安装的内容外，您还必须安装客户端库：
 
 ```bash
 $ composer require enqueue/simple-client
 ```
 
-Create `config/enqueue.php` file and put a client configuration there:
-Here's an example of what it might look like:
+创建 `config/enqueue.php` 文件并将客户端配置放在那里。
+这是它的示例：
 
 ```php
 <?php
@@ -71,7 +70,7 @@ return [
 ];
 ```
 
-Register processor:
+注册处理器：
 
 ```php
 <?php
@@ -81,7 +80,7 @@ use Interop\Queue\Processor;
 
 $app->resolving(SimpleClient::class, function (SimpleClient $client, $app) {
     $client->bindTopic('enqueue_test', function(Message $message) {
-        // do stuff here
+        // 在这里做事
 
         return Processor::ACK;
     });
@@ -91,7 +90,7 @@ $app->resolving(SimpleClient::class, function (SimpleClient $client, $app) {
 
 ```
 
-Send message:
+发送信息：
 
 ```php
 <?php
@@ -103,10 +102,10 @@ $client = \App::make(SimpleClient::class);
 $client->sendEvent('enqueue_test', 'The message');
 ```
 
-Consume messages:
+消费消息：
 
 ```bash
 $ php artisan enqueue:consume -vvv --setup-broker
 ```
 
-[back to index](../index.md)
+[返回目录](../index.md)

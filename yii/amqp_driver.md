@@ -6,37 +6,37 @@ nav_order: 1
 ---
 {% include support.md %}
 
-# Yii2Queue. AMQP Interop driver
+# Yii2Queue：AMQP Interop 驱动
 
-_**Note:** This a copy of [AMQP Interop doc](https://github.com/yiisoft/yii2-queue/blob/master/docs/guide/driver-amqp-interop.md) from the yiisoft/yii2-queue [repository](https://github.com/yiisoft/yii2-queue)._
+_**注意**：这是来自 yiisoft/yii2-queue [仓库](https://github.com/yiisoft/yii2-queue)的 [AMQP Interop 文档](https://github.com/yiisoft/yii2-queue/blob/master/docs/guide/driver-amqp-interop.md) 的副本。_
 
 
-The driver works with RabbitMQ queues.
+该驱动与 RabbitMQ 队列一起使用。
 
-In order for it to work you should add any [amqp interop](https://github.com/queue-interop/queue-interop#amqp-interop) compatible transport to your project, for example `enqueue/amqp-lib` package.
+为了使其正常工作，您应该将任何与 [amqp interop](https://github.com/queue-interop/queue-interop#amqp-interop) 兼容的传输添加到您的项目中，例如 `enqueue/amqp-lib` 包。
 
-Advantages:
+特性：
 
-* It would work with any amqp interop compatible transports, such as
+* 它适用于与 amqp interop 兼容的任何传输，例如
 
-    * [enqueue/amqp-ext](https://github.com/php-enqueue/amqp-ext) based on [PHP amqp extension](https://github.com/pdezwart/php-amqp)
-    * [enqueue/amqp-lib](https://github.com/php-enqueue/amqp-lib) based on [php-amqplib/php-amqplib](https://github.com/php-amqplib/php-amqplib)
-    * [enqueue/amqp-bunny](https://github.com/php-enqueue/amqp-bunny) based on [bunny](https://github.com/jakubkulhan/bunny)
+    * 基于 [PHP amqp extension](https://github.com/pdezwart/php-amqp) 的 [enqueue/amqp-ext](https://github.com/php-enqueue/amqp-ext)
+    * 基于 [php-amqplib/php-amqplib](https://github.com/php-amqplib/php-amqplib) 的 [enqueue/amqp-lib](https://github.com/php-enqueue/amqp-lib)
+    * 基于 [bunny](https://github.com/jakubkulhan/bunny) 的 [enqueue/amqp-bunny](https://github.com/php-enqueue/amqp-bunny)
 
-* Supports priorities
-* Supports delays
-* Supports ttr
-* Supports attempts
-* Contains new options like: vhost, connection_timeout, qos_prefetch_count and so on.
-* Supports Secure (SSL) AMQP connections.
-* An ability to set DSN like: amqp:, amqps: or amqp://user:pass@localhost:1000/vhost
+* 支持权重
+* 支持延迟
+* 支持 ttr
+* 支持尝试
+* 包含新选项，例如：vhost、connection_timeout、qos_prefetch_count 等。
+* 支持安全 (SSL) AMQP 连接。
+* 设置 DSN 的能力，如：amqp:、amqps: 或 amqp://user:pass@localhost:1000/vhost。
 
-Configuration example:
+配置示例：
 
 ```php
 return [
     'bootstrap' => [
-        'queue', // The component registers own console commands
+        'queue', // 该组件注册自己的控制台命令
     ],
     'components' => [
         'queue' => [
@@ -47,33 +47,31 @@ return [
             'queueName' => 'queue',
             'driver' => yii\queue\amqp_interop\Queue::ENQUEUE_AMQP_LIB,
 
-            // or
+            // 或
             'dsn' => 'amqp://guest:guest@localhost:5672/%2F',
 
-            // or, same as above
+            // 或，同上
             'dsn' => 'amqp:',
         ],
     ],
 ];
 ```
 
-Console
+控制台
 -------
 
-Console is used to listen and process queued tasks.
+控制台用于监听和处理已队列的任务。
 
 ```sh
-yii queue/listen
+$ yii queue/listen
 ```
 
-`listen` command launches a daemon which infinitely queries the queue. If there are new tasks
-they're immediately obtained and executed. This method is most efficient when command is properly
-daemonized via supervisor.
+`listen`命令启动一个守护进程，它无限地查询队列。如果有新任务，它们会立即获取并执行。当命令通过supervisor守护时，此方法最有效。
 
-`listen` command has options:
+`listen` 命令的选项：
 
-- `--verbose`, `-v`: print executing statuses into console.
-- `--isolate`: verbose mode of a job execute. If enabled, execute result of each job will be printed.
-- `--color`: highlighting for verbose mode.
+- `--verbose`、`-v`：将执行状态打印到控制台。
+- `--isolate`：作业执行的冗余模式。如果启用，将打印每个作业的执行结果。
+- `--color`：高亮冗余模式。
 
-[back to index](../index.md)
+[返回目录](../index.md)

@@ -6,12 +6,12 @@ nav_order: 4
 ---
 {% include support.md %}
 
-# Message producer
+# 消息生产者
 
-You can choose how to send messages either using a transport directly or with the client.
-Transport gives you the access to all transport specific features so you can tune things where the client provides you with easy to use abstraction.
+您可以直接使用一个传输来发送消息，或是使用客户端。
+传输使您可以访问所有特定于传输的功能，因此，您可以在客户端为您提供的易于使用的抽象的地方进行参数调整。
 
-## Transport
+## 传输
 
 ```php
 <?php
@@ -27,17 +27,16 @@ $context->createProducer()->send(
 );
 ```
 
-## Client
+## 客户端
 
-The client is shipped with two types of producers. The first one sends messages immediately
-where another one (it is called spool producer) collects them in memory and sends them `onTerminate` event (the response is already sent).
+客户端附带两种类型的生产者。第一个立即发送消息，另一个（称为假脱机生产者）在内存中收集它们并发送 `onTerminate` 事件（响应已经发送）。
 
-The producer has two types on send methods:
+生产者在发送方法上有两种类型：
 
-* `sendEvent` - Message is sent to topic and many consumers can subscribe to it. It is "fire and forget" strategy. The event could be sent to "message bus" to other applications.
-* `sendCommand` - Message is to ONE exact consumer. It could be used as "fire and forget" or as RPC. The command message is always sent in scope of current application.
+* `sendEvent` - 消息发送到主题，许多消费者可以订阅它。这是“即发即忘”的策略。事件可以发送到“消息总线”后到达其他应用。
+* `sendCommand` - 消息是给一个确切的消费者。它可以用作“即发即忘”或 RPC。命令消息始终在当前应用范围内发送。
 
-### Send event
+### 发送事件
 
 ```php
 <?php
@@ -50,21 +49,20 @@ use Enqueue\Client\SpoolProducer;
 /** @var \Enqueue\Client\ProducerInterface $producer */
 $producer = $container->get(ProducerInterface::class);
 
-// message is being sent right now
+// 正在发送消息
 $producer->sendEvent('a_topic', 'Hello there!');
-
 
 /** @var \Enqueue\Client\SpoolProducer $spoolProducer */
 $spoolProducer = $container->get(SpoolProducer::class);
 
-// message is being sent on console.terminate or kernel.terminate event
+// 消息正在 console.terminate 或 kernel.terminate 事件上发送
 $spoolProducer->sendEvent('a_topic', 'Hello there!');
 
-// you could send queued messages manually by calling flush method
+// 您可以通过调用flush方法来手动发送排队消息
 $spoolProducer->flush();
 ```
 
-### Send command
+### 发送命令
 
 ```php
 <?php
@@ -77,20 +75,19 @@ use Enqueue\Client\SpoolProducer;
 /** @var \Enqueue\Client\ProducerInterface $producer */
 $producer = $container->get(ProducerInterface::class);
 
-// message is being sent right now, we use it as RPC
+// RPC消息正在发送，我们将其用作RPC
 $promise = $producer->sendCommand('a_processor_name', 'Hello there!', $needReply = true);
 
 $replyMessage = $promise->receive();
 
-
 /** @var \Enqueue\Client\SpoolProducer $spoolProducer */
 $spoolProducer = $container->get(SpoolProducer::class);
 
-// message is being sent on console.terminate or kernel.terminate event
+// 消息正在 console.terminate 或 kernel.terminate 事件上发送
 $spoolProducer->sendCommand('a_processor_name', 'Hello there!');
 
-// you could send queued messages manually by calling flush method
+// 您可以通过调用flush方法来手动发送排队消息
 $spoolProducer->flush();
 ```
 
-[back to index](index.md)
+[返回目录](index.md)

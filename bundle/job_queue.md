@@ -6,29 +6,28 @@ nav_order: 8
 ---
 {% include support.md %}
 
-# Jobs
+# 作业
 
-Use jobs when your message flow has several steps(tasks) which run one after another.
-Also jobs guaranty that job is unique i.e. you cant start new job with same name
-until previous job has finished.
+当您的消息流具有多个一个接一个运行的步骤（任务）时，请使用作业。
+作业也可以保证该作业是独一无二的，即在上一份作业完成之前，您不能开始同名的新作业。
 
-* [Installation](#installation)
-* [Unique job](#unique-job)
-* [Sub jobs](#sub-jobs)
-* [Dependent Job](#dependent-job)
+* [安装](#安装)
+* [唯一性作业](#唯一性作业)
+* [子作业](#子作业)
+* [依赖性作业](#依赖性作业)
 
-## Installation
+## 安装
 
-The easiest way to install Enqueue's job queues is to by requiring a `enqueue/job-queue-pack` pack.
-It installs installs everything you need. It also configures everything for you If you are on Symfony Flex.
+安装 Enqueue 作业队列的最简单方法是请求一个 `enqueue/job-queue-pack` 包。
+它会安装好您需要的一切。如果您使用 Symfony Flex，它还可以为您配置好所有东西。
 
 ```bash
 $ composer require enqueue/job-queue-pack=^0.8
 ```
 
-_**Note:** As long as you are on Symfony Flex you are done. If not, keep reading the installation chapter._
+_**注意**：只要您使用 Symfony Flex，你就完成安装了。如果没有，请继续阅读安装章节。_
 
-* Register installed bundles
+* 注册已安装的包
 
 ```php
 <?php
@@ -50,23 +49,23 @@ class AppKernel extends Kernel
 }
 ````
 
-* Configure installed bundles:
+* 配置已安装的包：
 
 ```yaml
 # app/config/config.yml
 
 enqueue:
     default:
-        # plus basic bundle configuration
+        # 添加基础的包配置
 
         job: true
         
-        # adds bundle's default Job entity mapping to application's entity manager.
-        # set it to false when using your own mapped entities for jobs.
+        # 将包的默认作业实体映射添加到应用的实体管理器。
+        # 要将自己的映射实体用于作业时，请将其设置为false。
         default_mapping: true
 
 doctrine:
-    # plus basic bundle configuration
+    # 添加基础的包配置
 
     orm:
         mappings:
@@ -78,20 +77,19 @@ doctrine:
 
 ```
 
-* Run doctrine schema update command
+* 运行doctrine schema更新命令：
 
 ```bash
 $ bin/console doctrine:schema:update
 ```
 
-## Unique job
+## 唯一性作业
 
-Guarantee that there is only one job with such name running at a time.
-For example you have a task that builds a search index.
-It takes quite a lot of time and you don't want another instance of same task working at the same time.
-Here's how to do it:
+确保一次只运行一个具有此名称的作业。
+例如，您有一个构建搜索索引的任务。
+这需要相当多的时间，而且您不希望同一任务的另一个实例同时工作。这是如何做到的：
 
-* Write a job processor class:
+* 编写一个作业处理器类：
 
 ```php
 <?php
@@ -122,9 +120,9 @@ class SearchReindexProcessor implements Processor, CommandSubscriberInterface
             $message->getMessageId(),
             'search:index:reindex',
             function (JobRunner $runner, Job $job) use ($data) {
-                // do your job
+                // 完成你的作业
 
-                return true; // if you want to ACK message or false to REJECT
+                return true; // ACK 该消息，false则为 REJECT
             }
         );
 
@@ -138,7 +136,7 @@ class SearchReindexProcessor implements Processor, CommandSubscriberInterface
 }
 ```
 
-* Register it
+* 注册它
 
 ```yaml
 services:
@@ -149,7 +147,7 @@ services:
         - { name: 'enqueue.command_subscriber' }
 ```
 
-* Schedule command
+* 调度命令
 
 ```php
 <?php
@@ -163,9 +161,9 @@ $producer = $container->get(ProducerInterface::class);
 $producer->sendCommand('search_reindex');
 ```
 
-## Sub jobs
+## 子作业
 
-Run several sub jobs in parallel. The steps are the same as we described above.
+并行运行多个子作业。步骤与我们上面的描述相同。
 
 ```php
 <?php
@@ -197,10 +195,10 @@ class Step1Processor implements Processor
             $message->getMessageId(),
             'search:index:reindex',
             function (JobRunner $runner, Job $job) use ($data) {
-                // for example first step generates tasks for step two
+                // 例如，第一步为第二步生成任务
 
                 foreach ($entities as $entity) {
-                    // every job name must be unique
+                    // 每个作业名称必须是唯一的
                     $jobName = 'search:index:index-single-entity:' . $entity->getId();
                     $runner->createDelayed(
                         $jobName,
@@ -212,7 +210,7 @@ class Step1Processor implements Processor
                     });
                 }
 
-                return true; // if you want to ACK message or false to REJECT
+                return true; // ACK 该消息，false则为 REJECT
             }
         );
 
@@ -234,9 +232,9 @@ class Step2Processor implements Processor
         $result = $this->jobRunner->runDelayed(
             $data['jobId'],
             function (JobRunner $runner, Job $job) use ($data) {
-                // do your job
+                // 完成你的作业
 
-                return true; // if you want to ACK message or false to REJECT
+                return true; // ACK 该消息，false则为 REJECT
             }
         );
 
@@ -245,11 +243,10 @@ class Step2Processor implements Processor
 }
 ```
 
-## Dependent Job
+## 依赖性作业
 
-Use dependent job when your job flow has several steps but you want to send new message
-just after all steps are finished.
-The steps are the same as we described above.
+当您的作业流程有多个步骤，但您想在所有步骤完成后立即发送新消息时，请使用依赖性作业。
+步骤与我们上面的描述相同。
 
 ```php
 <?php
@@ -281,17 +278,17 @@ class ReindexProcessor implements Processor
             $message->getMessageId(),
             'search:index:reindex',
             function (JobRunner $runner, Job $job) use ($data) {
-                // register two dependent jobs
-                // next messages will be sent to queue when that job and all children are finished
+                // 注册两个依赖性作业
+                // 将在该作业和所有子作业都完成时发送下一条消息到队列
                 $context = $this->dependentJob->createDependentJobContext($job->getRootJob());
                 $context->addDependentJob('topic1', 'message1');
                 $context->addDependentJob('topic2', 'message2');
 
                 $this->dependentJob->saveDependentJob($context);
 
-                // do your job
+                // 完成你的作业
 
-                return true; // if you want to ACK message or false to REJECT
+                return true; // ACK 该消息，false则为 REJECT
             }
         );
 
@@ -300,4 +297,4 @@ class ReindexProcessor implements Processor
 }
 ```
 
-[back to index](index.md)
+[返回目录](index.md)

@@ -6,40 +6,40 @@ nav_order: 3
 ---
 {% include support.md %}
 
-# Beanstalk (Pheanstalk) transport
+# Beanstalk (Pheanstalk) 传输
 
-The transport uses [Beanstalkd](http://kr.github.io/beanstalkd/) job manager.
-The transport uses [Pheanstalk](https://github.com/pda/pheanstalk) library internally.
+本传输使用 [Beanstalkd](http://kr.github.io/beanstalkd/) 作业管理器。
+传输在内部使用 [Pheanstalk](https://github.com/pda/pheanstalk) 库。
 
-* [Installation](#installation)
-* [Create context](#create-context)
-* [Send message to topic](#send-message-to-topic)
-* [Send message to queue](#send-message-to-queue)
-* [Consume message](#consume-message)
+* [安装](#安装)
+* [创建上下文](#创建上下文)
+* [发送消息到主题](#发送消息到主题)
+* [发送消息到队列](#发送消息到队列)
+* [消费消息](#消费消息)
 
-## Installation
+## 安装
 
 ```bash
 $ composer require enqueue/pheanstalk
 ```
 
 
-## Create context
+## 创建上下文
 
 ```php
 <?php
 use Enqueue\Pheanstalk\PheanstalkConnectionFactory;
 
-// connects to localhost:11300
+// 连接到localhost:11300
 $factory = new PheanstalkConnectionFactory();
 
-// same as above
+// 同上
 $factory = new PheanstalkConnectionFactory('beanstalk:');
 
-// connects to example host and port 5555
+// 连接到端口为5555的example主机
 $factory = new PheanstalkConnectionFactory('beanstalk://example:5555');
 
-// same as above but configured by array
+// 同上，但由数组配置
 $factory = new PheanstalkConnectionFactory([
     'host' => 'example',
     'port' => 5555
@@ -47,11 +47,11 @@ $factory = new PheanstalkConnectionFactory([
 
 $context = $factory->createContext();
 
-// if you have enqueue/enqueue library installed you can use a factory to build context from DSN
+// 如果已安装了 enqueue/enqueue 库，则可以使用工厂从DSN构建上下文。
 $context = (new \Enqueue\ConnectionFactoryFactory())->create('beanstalk:')->createContext();
 ```
 
-## Send message to topic
+## 发送消息到主题
 
 ```php
 <?php
@@ -63,7 +63,7 @@ $message = $context->createMessage('Hello world!');
 $context->createProducer()->send($fooTopic, $message);
 ```
 
-## Send message to queue
+## 发送消息到队列
 
 ```php
 <?php
@@ -75,7 +75,7 @@ $message = $context->createMessage('Hello world!');
 $context->createProducer()->send($fooQueue, $message);
 ```
 
-## Consume message:
+## 消费消息
 
 ```php
 <?php
@@ -84,14 +84,14 @@ $context->createProducer()->send($fooQueue, $message);
 $fooQueue = $context->createQueue('aQueue');
 $consumer = $context->createConsumer($fooQueue);
 
-$message = $consumer->receive(2000); // wait for 2 seconds
+$message = $consumer->receive(2000); // 等待2秒
 
-$message = $consumer->receiveNoWait(); // fetch message or return null immediately
+$message = $consumer->receiveNoWait(); // 获取消息或立即返回null
 
-// process a message
+// 处理消息
 
 $consumer->acknowledge($message);
 // $consumer->reject($message);
 ```
 
-[back to index](../index.md)
+[返回目录](../index.md)

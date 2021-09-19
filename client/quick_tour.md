@@ -6,25 +6,25 @@ nav_order: 1
 ---
 {% include support.md %}
 
-# Simple client. Quick tour.
+# 简单客户端指南
 
-The simple client library takes Enqueue client classes and Symfony components and makes an easy to use client facade.
-It reduces the boiler plate code you have to write to start using the Enqueue client features.
+简单客户端库采用 Enqueue 客户端类和 Symfony 组件，并制作了一个易于使用的客户端门面（facade）。
+它减少了开始使用 Enqueue 客户端功能时必须编写的样板代码。
 
-* [Install](#install)
-* [Configure](#configure)
-* [Producer message](#produce-message)
-* [Consume messages](#consume-messages)
+* [安装](#安装)
+* [配置](#配置)
+* [生产消息](#生产消息)
+* [消费消息](#消费消息)
 
-## Install
+## 安装
 
 ```bash
 $ composer require enqueue/simple-client enqueue/amqp-ext
 ```
 
-## Configure
+## 配置
 
-The code below shows how to use simple client with AMQP transport. There are other [supported brokers](supported_brokers.md).
+下面的代码展示了如何将简单客户端与 AMQP 传输一起使用。还有其他[受支持的代理](supported_brokers.md)。
 
 ```php
 <?php
@@ -35,17 +35,17 @@ include __DIR__.'/vendor/autoload.php';
 $client = new SimpleClient('amqp:');
 ```
 
-## Produce message
+## 生产消息
 
-There two types of message a client can produce: events and commands.
-Events are used to notify others about something, in other words it is an implementation of [publish-subscribe pattern](https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern), sometimes called "fire-and-forget" too.
-With events there is no way to get a reply as a producer is not aware of any subscribed consumers.
-Commands are used to request a job to be done. It is an implementation of one-to-one messaging pattern.
-A producer can request a reply from the consumer though it is up to the consumer whether send it or not.
+客户端可以生成两种类型的消息：事件和命令。
+事件用于通知其他人某些事，换句话说，它是[发布订阅模式](https://en.wikipedia.org/wiki/Publish–subscribe_pattern)的实现，有时也称为“即发即忘”。
+对于事件，无法获得回复，因为生产者不知道任何已订阅的消费者。
+命令用于请求完成一项作业。它是一对一消息传递模式的实现。
+生产者可以向消费者请求回复，尽管回复与否取决于消费者。
 
-Commands work inside the app [scope](message_examples.md#scope) where events work inside the app scope as well as on [message bus](message_bus.md) scope.
+命令在应用[范围内](message_examples.md#scope)工作，而事件在应用以及[消息总线](message_bus.md)范围内工作。
 
-Send event examples:
+发送事件示例：
 
 ```php
 <?php
@@ -56,11 +56,11 @@ $client->setupBroker();
 
 $client->sendEvent('user_updated', 'aMessageData');
 
-// or an array
+// 或一个数组
 
 $client->sendEvent('order_price_calculated', ['foo', 'bar']);
 
-// or an json serializable object
+// 或一个JsonSerializable对象
 $client->sendEvent('user_activated', new class() implements \JsonSerializable {
     public function jsonSerialize() {
         return ['foo', 'bar'];
@@ -68,7 +68,7 @@ $client->sendEvent('user_activated', new class() implements \JsonSerializable {
 });
 ```
 
-Send command examples:
+发送命令示例：
 
 ```php
 <?php
@@ -77,17 +77,17 @@ Send command examples:
 
 $client->setupBroker();
 
-// accepts same type of arguments as sendEvent method
+// 接受与sendEvent方法相同类型的参数
 $client->sendCommand('calculate_statistics', 'aMessageData');
 
 $reply = $client->sendCommand('build_category_tree', 'aMessageData', true);
 
-$replyMessage = $reply->receive(5000); // wait for reply for 5 seconds
+$replyMessage = $reply->receive(5000); // 等待回复5秒钟
 
 $replyMessage->getBody();
 ```
 
-## Consume messages
+## 消费消息
 
 ```php
 <?php
@@ -98,7 +98,7 @@ use Interop\Queue\Processor;
 /** @var \Enqueue\SimpleClient\SimpleClient $client */
 
 $client->bindTopic('a_bar_topic', function(Message $psrMessage) {
-    // processing logic here
+    // 处理逻辑
 
     return Processor::ACK;
 });
@@ -106,7 +106,7 @@ $client->bindTopic('a_bar_topic', function(Message $psrMessage) {
 $client->consume();
 ```
 
-## Cli commands
+## Cli命令
 
 ```php
 #!/usr/bin/env php
@@ -136,16 +136,17 @@ $application->add(new SimpleConsumeCommand(
 $application->run();
 ```
 
-and run to see what is there:
+然后运行一下看看那里有什么：
 
 ```bash
 $ php bin/enqueue.php
 ```
 
-or consume messages
+或消费消息：
 
 ```bash
 $ php bin/enqueue.php enqueue:consume -vvv --setup-broker
 ```
 
-[back to index](../index.md)
+[返回目录](../index.md)
+

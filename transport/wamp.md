@@ -6,38 +6,38 @@ nav_order: 3
 ---
 {% include support.md %}
 
-# Web Application Messaging Protocol (WAMP) Transport
+# Web Application Messaging Protocol (WAMP) 传输
 
-A transport for [Web Application Messaging Protocol](https://wamp-proto.org/).
-WAMP is an open standard WebSocket subprotocol.
-It uses internally Thruway PHP library [thruway/client](https://github.com/thruway/client)
+应用于[Web应用消息传递协议](https://wamp-proto.org/)的传输。
+WAMP 是一个开放标准的 WebSocket 子协议。
+它在内部使用 Thruway 的 [thruway/client](https://github.com/thruway/client) PHP库。
 
-* [Installation](#installation)
-* [Start the WAMP router](#start-the-wamp-router)
-* [Create context](#create-context)
-* [Consume message](#consume-message)
-* [Subscription consumer](#subscription-consumer)
-* [Send message to topic](#send-message-to-topic)
+* [安装](#安装)
+* [启动WAMP路由](#启动WAMP路由)
+* [创建上下文](#创建上下文)
+* [消费消息](#消费消息)
+* [订阅消费者](#订阅消费者)
+* [发送消息到主题](#发送消息到主题)
 
-## Installation
+## 安装
 
 ```bash
 $ composer require enqueue/wamp
 ```
 
-## Start the WAMP router
+## 启动WAMP路由
 
-You can get a WAMP router with [Thruway](https://github.com/voryx/Thruway):
+您可以通过[Thruway](https://github.com/voryx/Thruway)获得 WAMP 路由器：
 
 ```bash
 $ composer require voryx/thruway
 $ php vendor/voryx/thruway/Examples/SimpleWsRouter.php
 ```
 
-Thruway is now running on 127.0.0.1 port 9090
+Thruway 现在在 127.0.0.1:9090 上运行
 
 
-## Create context
+## 创建上下文
 
 ```php
 <?php
@@ -45,7 +45,7 @@ use Enqueue\Wamp\WampConnectionFactory;
 
 $connectionFactory = new WampConnectionFactory();
 
-// same as above
+// 同上
 $connectionFactory = new WampConnectionFactory('wamp:');
 $connectionFactory = new WampConnectionFactory('ws:');
 $connectionFactory = new WampConnectionFactory('wamp://127.0.0.1:9090');
@@ -53,9 +53,9 @@ $connectionFactory = new WampConnectionFactory('wamp://127.0.0.1:9090');
 $context = $connectionFactory->createContext();
 ```
 
-## Consume message:
+## 消费消息
 
-Start message consumer before send message to the topic
+在向主题发送消息之前启动消息消费者
 
 ```php
 <?php
@@ -67,12 +67,12 @@ $consumer = $context->createConsumer($fooQueue);
 
 while (true) {
     if ($message = $consumer->receive()) {
-        // process a message
+        // 处理消息
     }
 }
 ```
 
-## Subscription consumer
+## 订阅消费者
 
 ```php
 <?php
@@ -88,20 +88,20 @@ $barConsumer = $context->createConsumer($barQueue);
 
 $subscriptionConsumer = $context->createSubscriptionConsumer();
 $subscriptionConsumer->subscribe($fooConsumer, function(Message $message, Consumer $consumer) {
-    // process message
+    // 处理消息
 
     return true;
 });
 $subscriptionConsumer->subscribe($barConsumer, function(Message $message, Consumer $consumer) {
-    // process message
+    // 处理消息
 
     return true;
 });
 
-$subscriptionConsumer->consume(2000); // 2 sec
+$subscriptionConsumer->consume(2000); // 2秒
 ```
 
-## Send message to topic
+## 发送消息到主题
 
 ```php
 <?php
@@ -113,4 +113,4 @@ $message = $context->createMessage('Hello world!');
 $context->createProducer()->send($fooTopic, $message);
 ```
 
-[back to index](../index.md)
+[返回目录](../index.md)

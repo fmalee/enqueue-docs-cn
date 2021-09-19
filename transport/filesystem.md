@@ -6,49 +6,49 @@ nav_order: 3
 ---
 {% include support.md %}
 
-# Filesystem transport
+# Filesystem 传输
 
-Use files on local filesystem as queues.
-It creates a file per queue\topic.
-A message is a line inside the file.
-**Limitations** It works only in auto ack mode hence If consumer crashes the message is lost. Local by nature therefor messages are not visible on other servers.
+使用本地文件系统上的文件作为队列。
+它为每个队列\主题创建一个文件。
+消息是文件内的一行。
+**限制**：它只在自动确认模式下工作，因此如果消费者崩溃，消息就会丢失。本地消息在其他服务器上是不可见的。
 
-* [Installation](#installation)
-* [Create context](#create-context)
-* [Send message to topic](#send-message-to-topic)
-* [Send message to queue](#send-message-to-queue)
-* [Send expiration message](#send-expiration-message)
-* [Consume message](#consume-message)
-* [Purge queue messages](#purge-queue-messages)
+* [安装](#安装)
+* [创建上下文](#创建上下文)
+* [发送消息到主题](#发送消息到主题)
+* [发送消息到队列](#发送消息到队列)
+* [发送限期消息](#发送限期消息)
+* [消费消息](#消费消息)
+* [清除队列消息](#清除队列消息)
 
-## Installation
+## 安装
 
 ```bash
 $ composer require enqueue/fs
 ```
 
-## Create context
+## 创建上下文
 
 ```php
 <?php
 use Enqueue\Fs\FsConnectionFactory;
 
-// stores messages in /tmp/enqueue folder
+// 将消息存储在/tmp/enqueue文件夹中
 $connectionFactory = new FsConnectionFactory();
 
-// same as above
+// 同上
 $connectionFactory = new FsConnectionFactory('file:');
 
-// stores in custom folder
+// 存储在自动以文件夹中
 $connectionFactory = new FsConnectionFactory('/path/to/queue/dir');
 
-// same as above
+// 同上
 $connectionFactory = new FsConnectionFactory('file:///path/to/queue/dir');
 
-// with options
+// 使用选项
 $connectionFactory = new FsConnectionFactory('file:///path/to/queue/dir?pre_fetch_count=1');
 
-// as an array
+// 作为数组
 $connectionFactory = new FsConnectionFactory([
     'path' => '/path/to/queue/dir',
     'pre_fetch_count' => 1,
@@ -56,11 +56,11 @@ $connectionFactory = new FsConnectionFactory([
 
 $context = $connectionFactory->createContext();
 
-// if you have enqueue/enqueue library installed you can use a factory to build context from DSN
+// 如果已安装enqueue/enqueue库，则可以使用工厂从DSN构建上下文
 $context = (new \Enqueue\ConnectionFactoryFactory())->create('file:')->createContext();
 ```
 
-## Send message to topic
+## 发送消息到主题
 
 ```php
 <?php
@@ -72,7 +72,7 @@ $message = $context->createMessage('Hello world!');
 $context->createProducer()->send($fooTopic, $message);
 ```
 
-## Send message to queue
+## 发送消息到队列
 
 ```php
 <?php
@@ -84,7 +84,7 @@ $message = $context->createMessage('Hello world!');
 $context->createProducer()->send($fooQueue, $message);
 ```
 
-## Send expiration message
+## 发送限期消息
 
 ```php
 <?php
@@ -94,13 +94,12 @@ $fooQueue = $context->createQueue('aQueue');
 $message = $context->createMessage('Hello world!');
 
 $context->createProducer()
-    ->setTimeToLive(60000) // 60 sec
-    //
+    ->setTimeToLive(60000) // 60秒
     ->send($fooQueue, $message)
 ;
 ```
 
-## Consume message:
+## 消费消息
 
 ```php
 <?php
@@ -111,13 +110,13 @@ $consumer = $context->createConsumer($fooQueue);
 
 $message = $consumer->receive();
 
-// process a message
+// 处理消息
 
 $consumer->acknowledge($message);
 // $consumer->reject($message);
 ```
 
-## Purge queue messages:
+## 清除队列消息：
 
 ```php
 <?php
@@ -128,4 +127,4 @@ $fooQueue = $context->createQueue('aQueue');
 $context->purge($fooQueue);
 ```
 
-[back to index](../index.md)
+[返回目录](../index.md)

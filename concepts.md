@@ -4,85 +4,85 @@ title: Key concepts
 nav_order: 1
 ---
 
-# Key concepts
+# 关键概念
 
-If you are new to queuing system, there are some key concepts to understand to make the most of this lib.
+如果您不熟悉队列系统，则需要了解一些关键概念以充分利用本库。
 
-The library consist of several components. The components could be used independently or as integral part.
+本库由几个组件组成。这些组件可以独立使用或作为整体的部分使用。
 
-## Components
+## 组件
 
-### Transport
+### 传输
 
-The transport is the underlying vendor-specific library that provides the queuing features: a way for programs to create, send, read messages.
-Based on [queue interop](https://github.com/queue-interop/queue-interop) interfaces. Use transport directly if you need full control or access to vendor specific features.
+传输是特定于供应商的底层库，提供队列功能：一种编程化创建、发送和读取消息的方式。
+它基于 [queue interop](https://github.com/queue-interop/queue-interop) 接口。如果需要完全控制或访问特定于供应商的功能，请直接使用传输。
 
-The most famous transports are [RabbitMQ](transport/amqp_lib.md), [Amazon SQS](transport/sqs.md), [Redis](transport/redis.md), [Filesystem](transport/filesystem.md).
+最著名的传输是 [RabbitMQ](transport/amqp_lib.md)、[Amazon SQS](transport/sqs.md)、[Redis](transport/redis.md)、[Filesystem](transport/filesystem.md)。
 
-- *connection factory* creates a connection to the vendor service with vendor-specific config.
-- *context* provides the Producer, the Consumer and helps create Messages. It is the most commonly used object and an implementation of [abstract factory](https://en.wikipedia.org/wiki/Abstract_factory_pattern) pattern.
-- *destination* is a concept of a destination to which messages can be sent. Choose queue or topic. Destination represents broker state so expect to see same names at broker side.
-- *queue* is a named destination to which messages can be sent to. Messages accumulate on queues until they are retrieved by programs (called consumers) that service those queues.
-- *topic* implements [publish and subscribe](https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern) semantics. When you publish a message it goes to all the subscribers that are interested - so zero to many subscribers will receive a copy of the message. Some brokers do not support Pub\Sub.
-- *message* describes data sent to (or received from) a destination. It has a body, headers and properties.
-- *producer* sends a message to the destination. The producer implements vendor-specific logic and is in charge of converting messages between Enqueue and vendor-specific message format.
-- *consumer* fetches a message from a destination. The consumer implements vendor-specific logic and is in charge of converting messages between vendor-specific message format and Enqueue.
-- *subscription consumer* provides a way to consume messages from several destinations simultaneously. Some brokers do not support this feature.
-- *processor* is an optional concept useful for sharing message processing logic. Vendor independent. Implements your business logic.
+- *连接工厂* （connection factory）使用特定于供应商的配置来创建连到供应商服务的连接
+- *上下文*（context）提供生产者、消费者并帮助创建消息。它是最常用的对象，也是[抽象工厂](https://en.wikipedia.org/wiki/Abstract_factory_pattern)模式的一种实现。
+- *目的地* （destination）是消息可以发送到的地点的概念。选择队列或主题。目的地代表代理状态，因此希望在代理端看到相同的名称。
+- *队列*（queue）是一个已命名目的地，消息可以发送到该目的地。消息在队列上累积，直到服务于这些队列的程序（称为消费者）检索到消息为止。
+- *话题*（topic）实现[发布和订阅](https://en.wikipedia.org/wiki/Publish–subscribe_pattern)语义。当您发布消息时，它会被发送给所有感兴趣的订阅者 - 因此零到多个订阅者将收到该消息的副本。一些代理不支持 Pub\Sub。
+- *消息*（message）用于描述发送到（或接收自）目的地的数据。它由正文、标头和属性组成。
+- *消费者*（producer）向目的地发送消息。生产者实现特定于供应商的逻辑，并负责在Enqueue和特定于供应商的消息格式之间转换消息。
+- *消费者*（consumer）从目的地获取消息。消费者实现特定于供应商的逻辑，并负责在特定于供应商的消息格式和Enqueue之间转换消息。
+- *订阅消费者*（subscription consumer）提供了一种同时消费来自多个目的地的消息的方法。某些代理不支持此功能。
+- *处理器*（processor）是用于共享消息处理逻辑的可选概念。独立于供应商。实现您自己的业务逻辑。
 
-Additional terms we might refer to:
-- *receive and delete delivery*: the queue deletes the message when it's fetched by consumer. If processing fails, then the message is lost and won't be processed again. This is called _at most once_ processing.
-- *peek and lock delivery*: the queue locks for a short amount of time a message when it's fetched by consumer, making it invisible to other consumers, in order to prevent duplicate processing and message lost. If there is no acknowledgment before the lock times out, failure is assumed and then the message is made visible again in the queue for another try. This is called _at least once_ processing.
-- *an explicit acknowledgement*: the queue locks a message when it's fetched by consumer, making it invisible to other consumers, in order to prevent duplicate processing and message lost. If there is no explicit acknowledgment received before the connection is closed, failure is assumed and then the message is made visible again in the queue for another try. This is called _at least once_ processing.
-- *message delivery delay*: messages are sent to the queue but won't be visible right away to consumers to fetch them. You may need it to plan an action at a specific time.
-- *message expiration*: messages could be dropped of a queue within some period of time without processing. You may need it to not process stale messages. Some transports do not support the feature.
-- *message priority*: message could be sent with higher priority, therefor being consumed faster. It violates first in first out concept and should be used with precautions. Some transports do not support the feature.
-- *first in first out*: messages are processed in the same order than they have entered the queue.
+我们可能会参考的其他术语：
+- *接收以及删除投递（receive and delete delivery）*：当消费者获取到消息时，队列将删除该消息。如果处理失败，则消息将丢失，不会再次处理。这称为_仅一次_处理。
+- *窥视和锁定投递（peek and lock delivery）*：当消息被消费者获取时，队列会在短时间内锁定该消息，使其对其他消费者不可见，以防止重复处理以及消息丢失。如果在锁定超时之前没有确认，则假定失败，然后该消息在队列中再次可见，以供消费者再次尝试。这称为*至少一次*处理。
+- *显式确认（an explicit acknowledgement）*：队列在消费者获取消息时锁定消息，使其对其他消费者不可见，以防止重复处理和消息丢失。如果在连接关闭之前没有收到明确的确认，则假定失败，然后消息在队列中再次可见，以供再次尝试。这称为*至少一次*处理。
+- *消息投递延迟（message delivery delay）*： 消息被发送到队列，但消费者无法立即看到以获取它们。您可能需要它在特定时间执行一项动作。
+- *（消息限期）message expiration*：消息可以在一段时间内从队列中删除而不进行处理。您可能需要它以便不处理过时的消息。某些传输不支持此功能。
+- *消息权重*：消息可以以更高的优先级发送，因此被消费得更快。它违反了先进先出的概念，应谨慎使用。某些传输不支持该功能。
+- *先进先出*：消息的处理顺序与它们进入队列的顺序相同。
 
-Lifecycle
+生命周期
 
-A queuing system is divided in two main parts: producing and consuming.
-The [transport section of the Quick Start](quick_tour.md#transport) shows some code example for both parts.
+队列系统分为两个主要部分：生产和消费。
+传输部分的[快速指南](quick_tour.md#transport)展示了两个部分的一些代码示例。
 
-Producing part
-1. The application creates a Context with a Connection factory
-2. The Context helps the application to create a Message
-3. The application gets a Producer from the Context
-4. The application uses the Producer to send the Message to the queue
+生产部分
+1. 应用创建一个带有**连接工厂**的**上下文**
+2. **上下文**帮助应用创建**消息**
+3. 应用从**上下文**中获取**生产者**
+4. 应用使用**生产者**将**消息**发送到队列
 
-Consuming part
-1. The application gets a Consumer from the Context
-2. The Consumer receives Messages from the queue
-3. The Consumer uses a Processor to process a Message
-4. The Processor returns a status (like `Interop\Queue\Processor::ACK`) to the Consumer
-5. The Consumer requeues or removes the Message from the queue depending on the Processor returned status
+消费部分
+1. 应用从**上下文**中获取**消费者**
+2. **消费者**从队列接收**消息**
+3. **消费者**使用**处理器**来处理**消息**
+4. **处理器**向**消费者**返回状态（如 `Interop\Queue\Processor::ACK`）
+5. **消费者**根据**处理器**返回的状态将**消息**重新入队或从队列中删除
 
-### Consumption
+### 消费
 
-The consumption component is based on top of transport.
-The most important class is [QueueConsumer](https://github.com/php-enqueue/enqueue-dev/blob/master/pkg/enqueue/Consumption/QueueConsumer.php).
-Could be used with any queue interop compatible transport.
-It provides extension points which could be ad-hoc into processing flow. You can register [existing extensions](consumption/extensions.md) or write a custom one.
+消费组件基于传输之上的。
+最重要的类是 [QueueConsumer](https://github.com/php-enqueue/enqueue-dev/blob/master/pkg/enqueue/Consumption/QueueConsumer.php)。
+可以与任何兼容queue interop的传输一起使用。
+它提供了可以临时进入进程流的扩展点。您可以注册[现有扩展](consumption/extensions.md)，或编写自定义扩展。
 
-### Client
+### 客户端
 
-Enqueue Client is designed for as simple as possible developer experience.
-It provides high-level, very opinionated API.
-It manages all transport differences internally and even emulate missing features (like publish-subscribe).
-Please note: Client has own logic for naming transport destinations. Expect a different transport queue\topic name from the Client topic, command name. The prefix behavior could be disabled.
+Enqueue Client 旨在提供尽可能简单的开发体验。
+它提供了高级别的、非常优雅的 API。
+它在内部管理所有传输的差异，甚至会模拟那些缺失的功能（如发布-订阅）。
+请注意：客户端有自己的命名传输目的地的逻辑。其期望有一个与_客户端_主题、命令名称不同的_传输_队列\主题名称。可以禁用前缀行为。
 
-- *Topic:* Send a message to the topic when you want to notify several subscribers that something has happened. There is no way to get subscriber results. Uses the router internally to deliver messages.
-- *Command:* guarantees that there is exactly one command processor\subscriber. Optionally, you can get a result. If there is no command subscriber an exception is thrown.
-- *Router:* copy a message sent to the topic and duplicate it for every subscriber and send.
-- *Driver* contains vendor specific logic.
-- *Producer* is responsible for sending messages to the topic or command. It has nothing to do with transport's producer.
-- *Message* contains data to be sent. Please note that on consumer side you have to deal with transport message.
-- *Consumption:* rely on consumption component.
+- *主题（Topic）*：当您想通知多个订阅器发生了某些事情时，请向主题发送消息。它无法获得订阅器结果（result）。在内部使用路由器来投递消息。
+- *命令（Command）*：保证只有一个命令处理器\订阅器。然后，您可以从中获得结果。如果没有命令订阅器，则抛出异常。
+- *路由（Router）*：复制要发送到主题的消息，并为每个订阅器生成该消息的副本，然后发送它。
+- *驱动（Driver）*：包含特定于供应商的逻辑。
+- *生产者（Producer）*：负责向主题或命令发送消息。它与运输的生产者无关。
+- *消息（Message）*：包含要发送的数据。请注意，在消费者端，您必须处理传输的消息。
+- *消费（Consumption）*：依赖于消费组件。
 
-## How to use Enqueue?
+## 如何使用Enqueue？
 
-There are different ways to use Enqueue: both reduce the boiler plate code you have to write to start using the Enqueue feature.
-- as a [Client](client/quick_tour.md): relies on a [DSN](client/supported_brokers.md) to connect
-- as a [Symfony Bundle](bundle/index.md): recommended if you are using the Symfony framework
+有多种使用 Enqueue 的方法：这两种方法都可以减少开始使用 Enqueue 功能时必须编写的样板代码。
+- 作为[客户端](client/quick_tour.md)：依赖 [DSN](client/supported_brokers.md) 进行连接。
+- 作为[Symfony Bundle](bun[返回目录](../index.md))：如果您使用的是 Symfony 框架，则推荐使用它。
 
-[back to index](index.md)
+[返回目录](index.md)

@@ -11,4 +11,4 @@ nav_order: 3
 SNS documentation is under construction.
 See: [#769](https://github.com/php-enqueue/enqueue-dev/issues/769)
 
-[back to index](../index.md)
+[返回目录](../index.md)

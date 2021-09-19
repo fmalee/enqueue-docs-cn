@@ -6,15 +6,15 @@ nav_order: 11
 ---
 {% include support.md %}
 
-# Debugging
+# 调试
 
-## Profiler
+## 分析器
 
-It may be useful to see what messages were sent during a http request.
-The bundle provides a collector for Symfony [profiler](http://symfony.com/doc/current/profiler.html).
-The extension collects all sent messages
+查看在HTTP请求期间发送的消息可能很有用。该扩展程序收集所有发送的消息
+本包为 Symfony[分析器](http://symfony.com/doc/current/profiler.html) 提供了一个收集器。
+该扩展会收集所有发送的消息
 
-To enable profiler
+启用分析器
 
 ```yaml
 # app/config/config_dev.yml
@@ -25,7 +25,7 @@ enqueue:
             traceable_producer: true
 ```
 
-Now suppose you have this code in an action:
+现在假设你在一个动作中有这个代码：
 
 ```php
 <?php
@@ -57,24 +57,24 @@ class DefaultController extends Controller
 
 ```
 
-For this action you may see something like this in the profiler:
+对于此操作，您可能会在分析器中看到如下内容：
 
- ![Symfony profiler](../images/symfony_profiler.png)
+![Symfony分析器](../images/symfony_profiler.png)
 
-## Queues and topics available
+## 可用的队列和主题
 
-There are two console commands `./bin/console enqueue:queues` and `./bin/console enqueue:topics`.
-They are here to help you to learn more about existing topics and queues.
+有两个控制台命令：`./bin/console enqueue:queues` 和 `./bin/console enqueue:topics`。
+它们在这里帮助您了解有关现有主题和队列的更多信息。
 
-Here's the result:
+结果如下：
 
-![Cli debug commands](../images/cli_debug_commands.png)
+![Cli调试命令](../images/cli_debug_commands.png)
 
-## Consume command verbosity
+## 消费命令冗余度
 
-By default the commands `enqueue:consume` or `enqueue:transport:consume` does not output anything.
-You can add `-vvv` to see more information.
+默认情况下，`enqueue:consume` 或 `enqueue:transport:consume` 命令不输出任何内容。
+您可以添加 `-vvv` 以查看更多信息。
 
-![Consume command verbosity](../images/consume_command_verbosity.png)
+![消费命令冗余度](../images/consume_command_verbosity.png)
 
-[back to index](index.md)
+[返回目录](index.md)
