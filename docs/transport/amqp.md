@@ -1,7 +1,7 @@
 ---
 layout: default
 title: AMQP
-parent: Transports
+parent: 传输
 nav_order: 3
 ---
 {% include support.md %}
@@ -279,4 +279,4 @@ $queue = $context->createQueue('aQueue');
 $context->purgeQueue($queue);
 ```
 
-[返回目录](../index.md)
+[返回首页](../index.md)

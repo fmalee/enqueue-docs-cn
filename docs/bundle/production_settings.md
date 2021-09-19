@@ -1,7 +1,7 @@
 ---
 layout: default
 parent: "Symfony bundle"
-title: Production settings
+title: 生产设置
 nav_order: 10
 ---
 {% include support.md %}
@@ -34,4 +34,4 @@ redirect_stderr=true
 
 _**注意**：`--time-limit` 是在告诉命令要在 5分钟后退出。_
 
-[返回目录](index.md)
+[返回首页](index.md)

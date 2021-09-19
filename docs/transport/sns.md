@@ -1,14 +1,14 @@
 ---
 layout: default
 title: Amazon SNS
-parent: Transports
+parent: 传输
 nav_order: 3
 ---
 {% include support.md %}
 
-# Amazon SNS transport
+# Amazon SNS 传输
 
-SNS documentation is under construction.
-See: [#769](https://github.com/php-enqueue/enqueue-dev/issues/769)
+SNS文档正在构建中……
+查看：[#769](https://github.com/php-enqueue/enqueue-dev/issues/769)
 
-[返回目录](../index.md)
+[返回首页](../index.md)

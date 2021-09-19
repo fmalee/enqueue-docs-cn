@@ -1,7 +1,7 @@
 ---
 layout: default
-parent: Consumption
-title: Extensions
+parent: 消费
+title: 扩展
 ---
 {% include support.md %}
 
@@ -72,4 +72,4 @@ title: Extensions
 Enqueue QueueConsumer 有一个 ConsumerMonitoringExtension 扩展。
 它可以为你收集已消费消息和消费者统计信息，并将它们发送到 Grafana、InfluxDB 或 Datadog。
 
-[返回目录](../index.md)
+[返回首页](../index.md)

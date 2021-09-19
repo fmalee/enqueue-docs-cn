@@ -1,12 +1,12 @@
 ---
 layout: default
 parent: Magento
-title: CLI commands
+title: CLI命令
 nav_order: 2
 ---
 {% include support.md %}
 
-# Cli命令
+# CLI命令
 
 本enqueue Magento 扩展提供了几个命令。
 最有用的一个是连接到代理并处理消息的 `enqueue:consume`。
@@ -149,5 +149,5 @@ Help:
   A command shows all available topics and some information about them.
 ```
 
-[返回目录](../index.md)
+[返回首页](../index.md)
 

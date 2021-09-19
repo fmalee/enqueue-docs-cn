@@ -1,7 +1,7 @@
 ---
 layout: default
-parent: Job Queue
-title: Run sub job
+parent: 作业队列
+title: 运行子作业
 nav_order: 2
 ---
 {% include support.md %}
@@ -67,4 +67,4 @@ class SubJobProcessor implements Processor
 }
 ```
 
-[返回目录](../index.md)
+[返回首页](../index.md)

@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "Null"
-parent: Transports
+parent: 传输
 nav_order: 3
 ---
 {% include support.md %}
@@ -32,4 +32,4 @@ $connectionFactory = new NullConnectionFactory();
 $context = $connectionFactory->createContext();
 ```
 
-[返回目录](../index.md)
+[返回首页](../index.md)

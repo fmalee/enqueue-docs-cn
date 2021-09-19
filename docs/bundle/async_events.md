@@ -1,7 +1,7 @@
 ---
 layout: default
 parent: "Symfony bundle"
-title: Async events
+title: 异步事件
 nav_order: 6
 ---
 {% include support.md %}
@@ -174,4 +174,4 @@ services:
 你可以做使用`eventName: '/foo\..*?/'`。
 它将此转换器用于名称以 `foo.` 开头的所有事件。
 
-[返回目录](index.md)
+[返回首页](index.md)

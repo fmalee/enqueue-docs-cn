@@ -1,7 +1,7 @@
 ---
 layout: default
-parent: Client
-title: Extensions
+parent: 客户端
+title: 扩展
 nav_order: 6
 ---
 {% include support.md %}
@@ -50,4 +50,4 @@ services:
 
 您可以使用数字来添加 `priority` 属性。设置的值越高，调用扩展的时间就越早。
 
-[返回目录](../index.md)
+[返回首页](../index.md)

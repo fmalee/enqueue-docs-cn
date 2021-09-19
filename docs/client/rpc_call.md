@@ -1,7 +1,7 @@
 ---
 layout: default
-parent: Client
-title: RPC call
+parent: 客户端
+title: RPC调用
 nav_order: 5
 ---
 {% include support.md %}
@@ -83,5 +83,5 @@ while ($promises) {
 }
 ```
 
-[返回目录](../index.md)
+[返回首页](../index.md)
 

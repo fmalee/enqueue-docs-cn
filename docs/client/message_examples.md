@@ -1,7 +1,7 @@
 ---
 layout: default
-parent: Client
-title: Message examples
+parent: 客户端
+title: 消息示例
 nav_order: 2
 ---
 {% include support.md %}
@@ -111,5 +111,5 @@ $message->setContentType('text/plain');
 $producer->sendEvent('aTopic', $message);
 ```
 
-[返回目录](../index.md)
+[返回首页](../index.md)
 

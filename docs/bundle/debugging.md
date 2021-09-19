@@ -1,7 +1,7 @@
 ---
 layout: default
 parent: "Symfony bundle"
-title: Debugging
+title: 调试
 nav_order: 11
 ---
 {% include support.md %}
@@ -77,4 +77,4 @@ class DefaultController extends Controller
 
 ![消费命令冗余度](../images/consume_command_verbosity.png)
 
-[返回目录](index.md)
+[返回首页](index.md)

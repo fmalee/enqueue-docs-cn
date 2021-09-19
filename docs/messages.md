@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Messages
+title: 留言
 nav_order: 90
 ---
 {% include support.md %}

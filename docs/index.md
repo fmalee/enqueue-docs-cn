@@ -3,7 +3,7 @@
 # To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 
 layout: default
-title: Index
+title: 首页
 nav_order: 0
 ---
 
@@ -40,7 +40,7 @@ nav_order: 0
 * [作业队列](#job-queue)
     - [运行唯一性作业](job_queue/run_unique_job.md)
     - [运行子作业](job_queue/run_sub_job.md)
-* [Symfony Bundle](bun[返回目录](../index.md))
+* [Symfony Bundle](bundle/index.md)
     - [快速指南](bundle/quick_tour.md)
     - [配置参考](bundle/config_reference.md)
     - [Cli命令](bundle/cli_commands.md)
@@ -63,7 +63,7 @@ nav_order: 0
     - [快速指南](magento2/quick_tour.md)
     - [Cli命令](magento2/cli_commands.md)
 * [Yii](#yii)
-    - [AMQP交互驱动](yii/amqp_driver.md)
+    - [AMQP Interop 驱动](yii/amqp_driver.md)
 * [EnqueueElasticaBundle 概述](elastica-bundle/overview.md)
 * [DSN解析器](dsn.md)
 * [监控](monitoring.md)

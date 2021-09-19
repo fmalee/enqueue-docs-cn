@@ -1,7 +1,7 @@
 ---
 layout: default
 parent: "Symfony bundle"
-title: Quick tour
+title: 快速指南
 nav_order: 1
 ---
 {% include support.md %}
@@ -158,4 +158,4 @@ $ ./bin/console enqueue:consume --setup-broker --client="some_other_transport" -
 
 _**注意**: 添加 `-vvv` 以了解在您消费消息时发生了什么，那里有很多有价值的调试信息。_
 
-[返回目录](index.md)
+[返回首页](index.md)

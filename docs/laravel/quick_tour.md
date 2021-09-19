@@ -1,7 +1,7 @@
 ---
 layout: default
 parent: Laravel
-title: Quick tour
+title: 快速指南
 nav_order: 1
 ---
 {% include support.md %}
@@ -108,4 +108,4 @@ $client->sendEvent('enqueue_test', 'The message');
 $ php artisan enqueue:consume -vvv --setup-broker
 ```
 
-[返回目录](../index.md)
+[返回首页](../index.md)

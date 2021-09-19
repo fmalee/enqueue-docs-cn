@@ -1,7 +1,7 @@
 ---
 layout: default
 parent: "Symfony bundle"
-title: Async commands
+title: 异步命令
 nav_order: 7
 ---
 {% include support.md %}
@@ -74,4 +74,4 @@ if ($replyMessage = $promise->receive(5000)) {
 }
 ```
 
-[返回目录](index.md)
+[返回首页](index.md)

@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Contribution
+title: 贡献
 nav_order: 99
 ---
 
@@ -50,4 +50,4 @@ composer install
 
 * 如果你得到 `rabbitmqssl: forward host lookup failed: Unknown host, wait for service rabbitmqssl:5671`，请执行 `docker-compose down`。
 
-[返回目录](index.md)
+[返回首页](index.md)

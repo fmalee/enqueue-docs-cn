@@ -1,12 +1,12 @@
 ---
 layout: default
 parent: "Symfony bundle"
-title: Job queue
+title: 作业队列
 nav_order: 8
 ---
 {% include support.md %}
 
-# 作业
+# 作业队列
 
 当您的消息流具有多个一个接一个运行的步骤（任务）时，请使用作业。
 作业也可以保证该作业是独一无二的，即在上一份作业完成之前，您不能开始同名的新作业。
@@ -297,4 +297,4 @@ class ReindexProcessor implements Processor
 }
 ```
 
-[返回目录](index.md)
+[返回首页](index.md)

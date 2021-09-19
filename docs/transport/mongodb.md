@@ -1,7 +1,7 @@
 ---
 layout: default
 title: MongoDB
-parent: Transports
+parent: 传输
 nav_order: 3
 ---
 {% include support.md %}
@@ -181,4 +181,4 @@ $subscriptionConsumer->subscribe($barConsumer, function(Message $message, Consum
 $subscriptionConsumer->consume(2000); // 2秒
 ```
 
-[返回目录](../index.md)
+[返回首页](../index.md)

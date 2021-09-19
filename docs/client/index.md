@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Client
+title: 客户端
 nav_order: 4
 has_children: true
 permalink: /client

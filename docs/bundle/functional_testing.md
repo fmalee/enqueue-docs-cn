@@ -1,7 +1,7 @@
 ---
 layout: default
 parent: "Symfony bundle"
-title: Functional testing
+title: 功能测试
 nav_order: 12
 ---
 {% include support.md %}
@@ -86,4 +86,4 @@ class FooTest extends WebTestCase
 }
 ```
 
-[返回目录](index.md)
+[返回首页](index.md)

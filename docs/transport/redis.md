@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Redis
-parent: Transports
+parent: 传输
 nav_order: 3
 ---
 {% include support.md %}
@@ -234,4 +234,4 @@ $context->deleteTopic($fooTopic);
 $connection = new \Enqueue\Redis\RedisConnectionFactory(getenv('REDIS_URL'));
 ```
 
-[返回目录](../index.md)
+[返回首页](../index.md)

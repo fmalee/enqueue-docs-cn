@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Monitoring
+title: 监控
 nav_order: 95
 ---
 
@@ -338,4 +338,4 @@ enqueue:
     client: ~
 ```
 
-[返回目录](index.md)
+[返回首页](index.md)

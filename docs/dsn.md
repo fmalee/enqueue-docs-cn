@@ -1,6 +1,6 @@
 ---
 layout: default
-title: DSN Parser
+title: DSN 解析器
 nav_order: 92
 ---
 {% include support.md %}
@@ -120,4 +120,4 @@ $dsn = Dsn::parseFirst('mysql:?connection_timeout=notInt');
 $dsn->getDecimal('connection_timeout'); // 在这里抛出异常
 ```
 
-[返回目录](index.md)
+[返回首页](index.md)

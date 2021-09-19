@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Kafka
-parent: Transports
+parent: 传输
 nav_order: 3
 ---
 
@@ -183,4 +183,4 @@ enqueue:
         client: ~
 ```
 
-[返回目录](index.md)
+[返回首页](index.md)

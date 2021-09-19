@@ -1,7 +1,7 @@
 ---
 layout: default
 parent: Laravel
-title: Queues
+title: 队列
 nav_order: 2
 ---
 {% include support.md %}
@@ -78,4 +78,4 @@ return [
 ];
 ```
 
-[返回目录](../index.md)
+[返回首页](../index.md)

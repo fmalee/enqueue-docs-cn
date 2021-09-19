@@ -1,12 +1,12 @@
 ---
 layout: default
 parent: "Symfony bundle"
-title: CLI commands
+title: CLI命令
 nav_order: 3
 ---
 {% include support.md %}
 
-# Cli命令
+# CLI命令
 
 EnqueueBundle 提供了几个命令。
 最有用的一个 `enqueue:consume` 连接到代理并处理消息。其他命令在调试（如`enqueue:topics`）或部署（如`enqueue:setup-broker`）期间可能很有用。
@@ -162,4 +162,4 @@ Help:
   消费来自代理的消息的worker。要使用此代理，必须显式设置要从中消费的队列和消息处理器服务
 ```
 
-[返回目录](index.md)
+[返回首页](index.md)

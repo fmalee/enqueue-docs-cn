@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Quick tour
+title: 快速指南
 nav_order: 2
 ---
 {% include support.md %}
@@ -284,7 +284,7 @@ $ app.php consume
 
 有一个工具可以跟踪已发送/已消费的消息以及消费器性能。[在这里](monitoring.md)阅读更多。
 
-[返回目录](index.md)
+[返回首页](index.md)
 
 ## Symfony
 

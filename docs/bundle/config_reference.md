@@ -1,7 +1,7 @@
 ---
 layout: default
 parent: "Symfony bundle"
-title: Config reference
+title: 配置参考
 nav_order: 2
 ---
 {% include support.md %}
@@ -80,4 +80,4 @@ enqueue:
             reply_extension:      true
 ```
 
-[返回目录](index.md)
+[返回首页](index.md)

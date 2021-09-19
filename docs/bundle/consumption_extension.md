@@ -1,7 +1,7 @@
 ---
 layout: default
 parent: "Symfony bundle"
-title: Consumption extension
+title: 消费扩展
 nav_order: 9
 ---
 {% include support.md %}
@@ -50,4 +50,4 @@ services:
             - { name: 'enqueue.consumption.extension', priority: 10, client: 'all' }
 ```
 
-[返回目录](index.md)
+[返回首页](index.md)

@@ -1,7 +1,7 @@
 ---
 layout: default
-parent: Job Queue
-title: Run unique job
+parent: 作业队列
+title: 运行唯一性作业
 nav_order: 1
 ---
 {% include support.md %}
@@ -43,4 +43,4 @@ class UniqueJobProcessor implements Processor
 }
 ```
 
-[返回目录](../index.md)
+[返回首页](../index.md)

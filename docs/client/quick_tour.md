@@ -1,7 +1,7 @@
 ---
 layout: default
-parent: Client
-title: Quick tour
+parent: 客户端
+title: 快速指南
 nav_order: 1
 ---
 {% include support.md %}
@@ -148,5 +148,5 @@ $ php bin/enqueue.php
 $ php bin/enqueue.php enqueue:consume -vvv --setup-broker
 ```
 
-[返回目录](../index.md)
+[返回首页](../index.md)
 

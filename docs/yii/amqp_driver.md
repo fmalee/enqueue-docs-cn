@@ -1,7 +1,7 @@
 ---
 layout: default
 parent: Yii
-title: AMQP Interop driver
+title: AMQP Interop 驱动
 nav_order: 1
 ---
 {% include support.md %}
@@ -74,4 +74,4 @@ $ yii queue/listen
 - `--isolate`：作业执行的冗余模式。如果启用，将打印每个作业的执行结果。
 - `--color`：高亮冗余模式。
 
-[返回目录](../index.md)
+[返回首页](../index.md)

@@ -1,7 +1,7 @@
 ---
 layout: default
 title: AMQP Lib
-parent: Transports
+parent: 传输
 nav_order: 3
 ---
 {% include support.md %}
@@ -344,4 +344,4 @@ Error: Uncaught PhpAmqpLib\Exception\AMQPRuntimeException: Invalid frame type 65
 PHP Fatal error: Uncaught exception 'PhpAmqpLib\Exception\AMQPRuntimeException' with message 'Broken pipe or closed connection' in /some/path/vendor/php-amqplib/php-amqplib/PhpAmqpLib/Wire/IO/StreamIO.php:190
 ```
 
-[返回目录](../index.md)
+[返回首页](../index.md)

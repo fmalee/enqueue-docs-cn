@@ -1,7 +1,7 @@
 ---
 layout: default
-parent: Client
-title: Supported brokers
+parent: 客户端
+title: 代理支持
 nav_order: 3
 ---
 {% include support.md %}
@@ -50,4 +50,4 @@ nav_order: 3
 * \*\* 如果在代理端手动配置了主题（交换），则可能。
 * \*\*\* 如果安装了 RabbitMQ 管理插件，则可行。
 
-[返回目录](../index.md)
+[返回首页](../index.md)

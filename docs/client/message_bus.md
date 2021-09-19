@@ -1,7 +1,7 @@
 ---
 layout: default
-parent: Client
-title: Message bus
+parent: 客户端
+title: 消息总线
 nav_order: 4
 ---
 {% include support.md %}
@@ -21,4 +21,4 @@ nav_order: 4
 * 发送到消息总线主题的消息必须有一个 `enqueue.topic_name` 标头。
 * 一旦收到消息，它就可以在内部进行路由。`enqueue.topic_name` 标头将会派上用场。
 
-[返回目录](../index.md)
+[返回首页](../index.md)

@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Key concepts
+title: 关键概念
 nav_order: 1
 ---
 
@@ -83,6 +83,6 @@ Enqueue Client 旨在提供尽可能简单的开发体验。
 
 有多种使用 Enqueue 的方法：这两种方法都可以减少开始使用 Enqueue 功能时必须编写的样板代码。
 - 作为[客户端](client/quick_tour.md)：依赖 [DSN](client/supported_brokers.md) 进行连接。
-- 作为[Symfony Bundle](bun[返回目录](../index.md))：如果您使用的是 Symfony 框架，则推荐使用它。
+- 作为[Symfony Bundle](bundle/index.md)：如果您使用的是 Symfony 框架，则推荐使用它。
 
-[返回目录](index.md)
+[返回首页](index.md)

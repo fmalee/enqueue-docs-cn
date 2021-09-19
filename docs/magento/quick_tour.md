@@ -1,7 +1,7 @@
 ---
 layout: default
 parent: Magento
-title: Quick tour
+title: 快速指南
 nav_order: 1
 ---
 {% include support.md %}
@@ -96,4 +96,4 @@ class Acme_Module_Helper_Async_Foo implements Processor
 $ php shell/enqueue.php enqueue:consume -vvv --setup-broker
 ```
 
-[返回目录](../index.md)
+[返回首页](../index.md)
