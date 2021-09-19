@@ -105,8 +105,3 @@ docker run -p 4000:4000 --rm --volume="${PWD}/docs:/srv/jekyll" -it jekyll/jekyl
 ```
 一旦构建完成，文档将可从 http://localhost:4000/ 访问，并在更改时自动重建。
 
-## 翻译
-
-- 文档来源：https://github.com/php-enqueue/enqueue-dev/tree/master/docs
-- 同步进度：[3731d696da04475e0ee4944a932b06ddd50a4c63](https://github.com/php-enqueue/enqueue-dev/commit/3731d696da04475e0ee4944a932b06ddd50a4c63)
-- 翻译次数：1
