@@ -63,8 +63,10 @@ class DefaultController extends Controller
 
 ## 可用的队列和主题
 
-有两个控制台命令：`./bin/console enqueue:queues` 和 `./bin/console enqueue:topics`。
+~~有两个控制台命令：`./bin/console enqueue:queues` 和 `./bin/console enqueue:topics`。~~
 它们在这里帮助您了解有关现有主题和队列的更多信息。
+
+> `enqueue:queues` 和 `enqueue:topics` 两个命令已整合为 `enqueue:routes`。两年了，官方都没更新文档。-- 译者注
 
 结果如下：
 
