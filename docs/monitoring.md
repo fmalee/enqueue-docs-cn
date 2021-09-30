@@ -28,10 +28,10 @@ Enqueue 提供了一个监控消息队列的工具。
 * [追踪消费的消息](#追踪消费的消息)
 * [追踪消费者指标](#追踪消费者指标)
 * [消费扩展](#消费扩展)
-* [Enqueue队列扩展](#enqueue队列扩展)
+* [Enqueue客户端扩展](#enqueue客户端扩展)
 * [InfluxDB存储](#influxdb存储)
 * [Datadog存储](#datadog存储)
-* [WAMP（Web Socket Messaging Protocol）存储](#wamp（web-socket-messaging-protocol）存储)
+* [WAMP（Web Socket Messaging Protocol）存储](#wampweb-socket-messaging-protocol存储)
 * [Symfony应用](#symfony应用)
 
 ## 安装
