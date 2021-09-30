@@ -49,12 +49,12 @@ use Enqueue\Monitoring\GenericStatsStorageFactory;
 
 $statsStorage = (new GenericStatsStorageFactory())->create('influxdb://127.0.0.1:8086?db=foo');
 $statsStorage->pushSentMessageStats(new SentMessageStats(
-    (int) (microtime(true) * 1000), // timestamp
-    'queue_name', // queue
+    (int) (microtime(true) * 1000), // 时间戳
+    'queue_name', // 队列
     'aMessageId',
     'aCorrelationId',
-    [], // headers
-    []  // properties
+    [], // 标头
+    []  // 属性
 ));
 ```
 
@@ -93,19 +93,19 @@ use Enqueue\Monitoring\GenericStatsStorageFactory;
 
 $receivedAt = (int) (microtime(true) * 1000);
 
-// heavy processing here.
+// 繁重的逻辑处理
 
 $statsStorage = (new GenericStatsStorageFactory())->create('influxdb://127.0.0.1:8086?db=foo');
 $statsStorage->pushConsumedMessageStats(new ConsumedMessageStats(
     'consumerId',
-    (int) (microtime(true) * 1000), // now
+    (int) (microtime(true) * 1000), // 此时
     $receivedAt,
     'aQueue',
     'aMessageId',
     'aCorrelationId',
-    [], // headers
-    [], // properties
-    false, // redelivered or not
+    [], // 标头
+    [], // 属性
+    false, // 是否已接收到
     ConsumedMessageStats::STATUS_ACK
 ));
 ```
@@ -124,18 +124,18 @@ $queue = $context->createQueue('foo');
 
 $consumer = $context->createConsumer($queue);
 
-$consumerId = uniqid('consumer-id', true); // we suggest using UUID here
+$consumerId = uniqid('consumer-id', true); // 我们建议在这里使用UUID
 if ($message = $consumer->receiveNoWait()) {
     $receivedAt = (int) (microtime(true) * 1000);
 
-    // heavy processing here.
+    // 繁重的逻辑处理
 
     $consumer->acknowledge($message);
 
     $statsStorage = (new GenericStatsStorageFactory())->create('influxdb://127.0.0.1:8086?db=foo');
     $statsStorage->pushConsumedMessageStats(new ConsumedMessageStats(
         $consumerId,
-        (int) (microtime(true) * 1000), // now
+        (int) (microtime(true) * 1000), // 此时
         $receivedAt,
         $queue->getQueueName(),
         $message->getMessageId(),
@@ -164,17 +164,17 @@ $startedAt = (int) (microtime(true) * 1000);
 $statsStorage = (new GenericStatsStorageFactory())->create('influxdb://127.0.0.1:8086?db=foo');
 $statsStorage->pushConsumerStats(new ConsumerStats(
     'consumerId',
-    (int) (microtime(true) * 1000), // now
+    (int) (microtime(true) * 1000), // 此时
     $startedAt,
-    null, // finished at
-    true, // is started?
-    false, // is finished?
-    false, // is failed
-    ['foo'], // consume from queues
-    123, // received messages
-    120, // acknowledged messages
-    1, // rejected messages
-    1, // requeued messages
+    null, // 完成时间
+    true, // 已开始？
+    false, // 已完成？
+    false, // 已失败？
+    ['foo'], // 消费的队列
+    123, // 已接收的消息数量
+    120, // 已认可（acknowledged）的消息数量
+    1, // 已拒绝的消息数量
+    1, // 重新入队的消息数量
     memory_get_usage(true),
     sys_getloadavg()[0]
 ));
@@ -201,9 +201,9 @@ $queueConsumer = new QueueConsumer($context, new ChainExtension([
     new ConsumerMonitoringExtension($statsStorage)
 ]));
 
-// bind
+// 绑定...
 
-// consume
+// 消费...
 ```
 
 ## Enqueue客户端扩展
@@ -271,8 +271,8 @@ $statsStorage = (new GenericStatsStorageFactory())->create('datadog://127.0.0.1:
 ```
 *   'host' => '127.0.0.1',
 *   'port' => '8125',
-*   'batched' => true, // performance boost
-*   'global_tags' => '', // should contain keys and values
+*   'batched' => true, // 性能提升
+*   'global_tags' => '', // 需要包含键和值
 *   'metric.messages.sent' => 'enqueue.messages.sent',
 *   'metric.messages.consumed' => 'enqueue.messages.consumed',
 *   'metric.messages.redelivered' => 'enqueue.messages.redelivered',
