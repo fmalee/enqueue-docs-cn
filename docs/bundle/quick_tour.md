@@ -120,7 +120,7 @@ class FooProcessor implements Processor, TopicSubscriberInterface
         echo $message->getBody();
 
         return self::ACK;
-        // return self::REJECT; // 当消息已近损坏时
+        // return self::REJECT; // 当消息已经损坏时
         // return self::REQUEUE; // 消息正常，但您希望推迟处理
     }
 

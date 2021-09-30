@@ -9,7 +9,7 @@ nav_order: 2
 
 * [传输](#传输)
 * [消费](#消费)
-* [Remote Procedure Call (RPC)](#remote-procedure-call-rpc)
+* [远程过程调用（RPC）](#远程过程调用（RPC）)
 * [客户端](#客户端)
 * [Cli命令](#Cli命令)
 * [监控](#监控)
@@ -97,7 +97,7 @@ $queueConsumer->consume();
 
 有很多[扩展](consumption/extensions.md)可用。
 这里是如何添加它们的示例。
-`SignalExtension`提供进程信号的支持，例如，无论何时发送 SIGTERM，它都将得到正确管理。
+`SignalExtension` 提供进程信号的支持，例如，无论何时发送 SIGTERM，它都将得到正确管理。
 `LimitConsumptionTimeExtension` 将在给定时间后中断消费。
 
 ```php
@@ -115,7 +115,7 @@ $queueConsumer = new QueueConsumer($context, new ChainExtension([
 ]));
 ```
 
-## Remote Procedure Call (RPC)
+## 远程过程调用（RPC）
 
 这里有一个 RPC 组件可以让您轻松地通过 MQ 发送 RPC 请求。
 这是您发送 RPC 消息并等待回复消息的方法。
@@ -208,7 +208,7 @@ use Enqueue\Client\Config;
 use Enqueue\Consumption\Extension\ReplyExtension;
 use Enqueue\Consumption\Result;
 
-// composer require enqueue/amqp-ext # or enqueue/amqp-bunny or enqueue/amqp-lib
+// composer require enqueue/amqp-ext # 或 enqueue/amqp-bunny 或 enqueue/amqp-lib
 $client = new SimpleClient('amqp:');
 
 // composer require enqueue/fs
@@ -242,7 +242,7 @@ $client->consume([new ReplyExtension()]);
 
 [在此处](client/quick_tour.md#produce-message)阅读有关事件和命令的更多信息。
 
-## Cli命令
+## CLI命令
 
 该库提供了开箱即用的方便的命令。
 它建立在 [Symfony Console 组件](http://symfony.com/doc/current/components/console.html)之上。

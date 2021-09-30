@@ -22,59 +22,59 @@ nav_order: 2
 
 ```
 php bin/magento enqueue:consume --help
-Usage:
+用法：
   enqueue:consume [options] [--] [<client-queue-names>]...
   enq:c
 
-Arguments:
-  client-queue-names                     Queues to consume messages from
+参数：
+  client-queue-names                     要从中消费消息的队列
 
-Options:
-      --message-limit=MESSAGE-LIMIT      Consume n messages and exit
-      --time-limit=TIME-LIMIT            Consume messages during this time
-      --memory-limit=MEMORY-LIMIT        Consume messages until process reaches this memory limit in MB
-      --setup-broker                     Creates queues, topics, exchanges, binding etc on broker side.
-      --idle-timeout=IDLE-TIMEOUT        The time in milliseconds queue consumer idle if no message has been received.
-      --receive-timeout=RECEIVE-TIMEOUT  The time in milliseconds queue consumer waits for a message.
-      --skip[=SKIP]                      Queues to skip consumption of messages from (multiple values allowed)
-  -h, --help                             Display this help message
-  -q, --quiet                            Do not output any message
-  -V, --version                          Display this application version
-      --ansi                             Force ANSI output
-      --no-ansi                          Disable ANSI output
-  -n, --no-interaction                   Do not ask any interactive question
-  -e, --env=ENV                          The environment name [default: "test"]
-      --no-debug                         Switches off debug mode
-  -v|vv|vvv, --verbose                   Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+选项：
+      --message-limit=MESSAGE-LIMIT      消费N条消息并退出
+      --time-limit=TIME-LIMIT            限制消费消息的时间
+      --memory-limit=MEMORY-LIMIT        消费消息，直到进程达到此内存限制（MB）。
+      --setup-broker                     在代理端创建队列、主题、交换、绑定等。
+      --idle-timeout=IDLE-TIMEOUT        如果未收到消息时，队列消费者空闲的时间（毫秒）。
+      --receive-timeout=RECEIVE-TIMEOUT  队列消费者等待消息的时间（毫秒）
+      --skip[=SKIP]                      要跳过的消息消费队列（允许多个值）
+  -h, --help                             显示帮助信息
+  -q, --quiet                            不要输出任何消息
+  -V, --version                          显示应用版本
+      --ansi                             强制ANSI输出
+      --no-ansi                          禁用ANSI输出
+  -n, --no-interaction                   不要问任何互动问题
+  -e, --env=ENV                          环境名称。[默认："test"]
+      --no-debug                         关闭调试模式
+  -v|vv|vvv, --verbose                   增加消息的详细程度：1表示正常输出，2表示更详细的输出，3表示调试。
 
-Help:
-  A client's worker that processes messages. By default it connects to default queue. It select an appropriate message processor based on a message headers
+帮助：
+  处理消息的客户端worker。默认情况下，它连接到默认队列。它根据消息标头选择适当的消息处理器。
 ```
 
 ## enqueue:produce
 
 ```
 php bin/magento enqueue:produce --help
-Usage:
+用法：
   enqueue:produce <topic> <message>
   enq:p
 
-Arguments:
-  topic                 A topic to send message to
-  message               A message to send
+参数：
+  topic                 指定消息发送的主题
+  message               指定要发送的消息
 
-Options:
-  -h, --help            Display this help message
-  -q, --quiet           Do not output any message
-  -V, --version         Display this application version
-      --ansi            Force ANSI output
-      --no-ansi         Disable ANSI output
-  -n, --no-interaction  Do not ask any interactive question
-  -e, --env=ENV         The environment name [default: "dev"]
-      --no-debug        Switches off debug mode
-  -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+选项：
+  -h, --help            显示帮助信息
+  -q, --quiet           不要输出任何消息
+  -V, --version         显示应用版本
+      --ansi            强制ANSI输出
+      --no-ansi         禁用ANSI输出
+  -n, --no-interaction  不要问任何互动问题
+  -e, --env=ENV         环境名称。[默认："dev"]
+      --no-debug        关闭调试模式
+  -v|vv|vvv, --verbose  增加消息的详细程度：1表示正常输出，2表示更详细的输出，3表示调试。
 
-Help:
+帮助：
   A command to send a message to topic
 ```
 
@@ -82,22 +82,22 @@ Help:
 
 ```
 php bin/magento enqueue:setup-broker --help
-Usage:
+用法：
   enqueue:setup-broker
   enq:sb
 
-Options:
-  -h, --help            Display this help message
-  -q, --quiet           Do not output any message
-  -V, --version         Display this application version
-      --ansi            Force ANSI output
-      --no-ansi         Disable ANSI output
-  -n, --no-interaction  Do not ask any interactive question
-  -e, --env=ENV         The environment name [default: "dev"]
-      --no-debug        Switches off debug mode
-  -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+选项：
+  -h, --help            显示帮助信息
+  -q, --quiet           不要输出任何消息
+  -V, --version         显示应用版本
+      --ansi            强制ANSI输出
+      --no-ansi         禁用ANSI输出
+  -n, --no-interaction  不要问任何互动问题
+  -e, --env=ENV         环境名称。[默认："dev"]
+      --no-debug        关闭调试模式
+  -v|vv|vvv, --verbose  增加消息的详细程度：1表示正常输出，2表示更详细的输出，3表示调试。
 
-Help:
+帮助：
   Creates all required queues
 ```
 
@@ -105,48 +105,48 @@ Help:
 
 ```
 php bin/magento enqueue:queues --help
-Usage:
+用法：
   enqueue:queues
   enq:m:q
   debug:enqueue:queues
 
-Options:
-  -h, --help            Display this help message
-  -q, --quiet           Do not output any message
-  -V, --version         Display this application version
-      --ansi            Force ANSI output
-      --no-ansi         Disable ANSI output
-  -n, --no-interaction  Do not ask any interactive question
-  -e, --env=ENV         The environment name [default: "dev"]
-      --no-debug        Switches off debug mode
-  -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+选项：
+  -h, --help            显示帮助信息
+  -q, --quiet           不要输出任何消息
+  -V, --version         显示应用版本
+      --ansi            强制ANSI输出
+      --no-ansi         禁用ANSI输出
+  -n, --no-interaction  不要问任何互动问题
+  -e, --env=ENV         环境名称。[默认："dev"]
+      --no-debug        关闭调试模式
+  -v|vv|vvv, --verbose  增加消息的详细程度：1表示正常输出，2表示更详细的输出，3表示调试。
 
-Help:
-  A command shows all available queues and some information about them.
+帮助：
+  命令将显示所有可用的队列以及有关这些队列的一些信息。
 ```
 
 ## enqueue:topics
 
 ```
 php bin/magento enqueue:topics --help
-Usage:
+用法：
   enqueue:topics
   enq:m:t
   debug:enqueue:topics
 
-Options:
-  -h, --help            Display this help message
-  -q, --quiet           Do not output any message
-  -V, --version         Display this application version
-      --ansi            Force ANSI output
-      --no-ansi         Disable ANSI output
-  -n, --no-interaction  Do not ask any interactive question
-  -e, --env=ENV         The environment name [default: "dev"]
-      --no-debug        Switches off debug mode
-  -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+选项：
+  -h, --help            显示帮助信息
+  -q, --quiet           不要输出任何消息
+  -V, --version         显示应用版本
+      --ansi            强制ANSI输出
+      --no-ansi         禁用ANSI输出
+  -n, --no-interaction  不要问任何互动问题
+  -e, --env=ENV         环境名称。[默认："dev"]
+      --no-debug        关闭调试模式
+  -v|vv|vvv, --verbose  增加消息的详细程度：1表示正常输出，2表示更详细的输出，3表示调试。
 
-Help:
-  A command shows all available topics and some information about them.
+帮助：
+  命令将显示所有可用的主题以及有关这些主题的一些信息。
 ```
 
 [返回首页](../index.md#magento2)

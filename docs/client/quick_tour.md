@@ -57,7 +57,6 @@ $client->setupBroker();
 $client->sendEvent('user_updated', 'aMessageData');
 
 // 或一个数组
-
 $client->sendEvent('order_price_calculated', ['foo', 'bar']);
 
 // 或一个JsonSerializable对象

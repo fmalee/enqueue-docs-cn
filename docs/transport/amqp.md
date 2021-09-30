@@ -113,7 +113,7 @@ $fooQueue = $context->createQueue('foo');
 $fooQueue->addFlag(AmqpQueue::FLAG_DURABLE);
 $context->declareQueue($fooQueue);
 
-// to remove queue use delete queue method
+// 要删除队列，请使用删除队列方法。
 //$context->deleteQueue($fooQueue);
 ```
 
